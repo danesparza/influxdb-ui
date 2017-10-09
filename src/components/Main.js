@@ -51,14 +51,32 @@ class Main extends Component {
                   <div className="col text-right">
                     <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                       <DropdownToggle caret>
-                        Dropdown
+                        Query templates
                       </DropdownToggle>
                       <DropdownMenu>
-                        <DropdownItem header>Header</DropdownItem>
-                        <DropdownItem disabled>Action</DropdownItem>
-                        <DropdownItem>Another Action</DropdownItem>
+                        <DropdownItem>Show databases</DropdownItem>
+                        <DropdownItem>Create database</DropdownItem>
+                        <DropdownItem>Drop database</DropdownItem>
                         <DropdownItem divider />
-                        <DropdownItem>Another Action</DropdownItem>
+                        <DropdownItem>Show measurements</DropdownItem>
+                        <DropdownItem>Show tag keys</DropdownItem>
+                        <DropdownItem>Show tag values</DropdownItem>
+                        <DropdownItem divider />
+                        <DropdownItem>Show retention policies</DropdownItem>
+                        <DropdownItem>Create retention policy</DropdownItem>
+                        <DropdownItem>Drop retention policy</DropdownItem>
+                        <DropdownItem divider />
+                        <DropdownItem>Show continuous queries</DropdownItem>
+                        <DropdownItem>Create continuous query</DropdownItem>
+                        <DropdownItem>Drop continuous query</DropdownItem>
+                        <DropdownItem divider />
+                        <DropdownItem>Show users</DropdownItem>
+                        <DropdownItem>Create user</DropdownItem>
+                        <DropdownItem>Create admin user</DropdownItem>
+                        <DropdownItem>Drop user</DropdownItem>
+                        <DropdownItem divider />
+                        <DropdownItem>Show stats</DropdownItem>
+                        <DropdownItem>Show diagnostics</DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
                   </div>
