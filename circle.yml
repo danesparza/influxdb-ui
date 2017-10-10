@@ -1,0 +1,19 @@
+machine:
+  node:
+    version: 6
+dependencies:
+  pre:
+    # Our Github release maker
+    - go get github.com/tcnksm/ghr
+  override:    
+    # Execute the build process
+    - npm install -g yarn
+    - yarn
+    - yarn build
+
+    # Build our dashboard zip file
+    - echo "{\"version\":$CIRCLE_BUILD_NUM}" >> build/build.json
+    - cd build; zip -r9 $CIRCLE_ARTIFACTS/influxdb-ui.zip .
+test:
+  override:
+    - yarn test
