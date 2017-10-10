@@ -22,8 +22,11 @@ class Main extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      dropdownOpen: false,     
-    };    
+      dropdownOpen: false,
+      queryText: ""    
+    };
+
+    this._onQueryChange = this._onQueryChange.bind(this);
   }
 
   toggle() {
@@ -43,7 +46,7 @@ class Main extends Component {
                 <div className="col">
                   <div id="influxQuery" className="input-group">
                     <span className="input-group-addon" id="basic-addon1">Query:</span>
-                    <input autoFocus type="text" className="form-control" aria-label="Influx query" aria-describedby="basic-addon1"/>
+                    <input autoFocus type="text" id="txtQuery" value={this.state.queryText} onChange={this._onQueryChange} className="form-control" aria-label="Influx query" aria-describedby="basic-addon1"/>
                   </div>
                 </div>
               </div>
@@ -54,9 +57,9 @@ class Main extends Component {
                         Query templates
                       </DropdownToggle>
                       <DropdownMenu>
-                        <DropdownItem>Show databases</DropdownItem>
-                        <DropdownItem>Create database</DropdownItem>
-                        <DropdownItem>Drop database</DropdownItem>
+                        <DropdownItem onClick={this.showDatabasesText}>Show databases</DropdownItem>
+                        <DropdownItem onClick={this.createDatabaseText}>Create database</DropdownItem>
+                        <DropdownItem onClick={this.dropDatabasesText}>Drop database</DropdownItem>
                         <DropdownItem divider />
                         <DropdownItem>Show measurements</DropdownItem>
                         <DropdownItem>Show tag keys</DropdownItem>
@@ -86,6 +89,33 @@ class Main extends Component {
         </div>
     );
   }
+
+  _onQueryChange(e) {
+    this.setState({
+      queryText: e.target.value
+    });
+  }
+
+  //  Show databases
+  showDatabasesText = () => {
+    this.setState({
+      queryText: "SHOW DATABASES"
+    });
+  };
+
+  //  Create database
+  createDatabaseText = () => {
+    this.setState({
+      queryText: `CREATE DATABASE "db_name"`
+    });
+  };
+
+  //  Drop database
+  dropDatabasesText = () => {
+    this.setState({
+      queryText: `DROP DATABASE "db_name"`
+    });
+  };
 }
 
 export default Main;
