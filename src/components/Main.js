@@ -11,6 +11,9 @@ import {
 //  Components
 import Navbar from './NavBar';
 
+//  Actions
+import InfluxAPI from '../utils/InfluxAPI';
+
 //  Stylesheets & images
 import './../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -44,12 +47,15 @@ class Main extends Component {
             <Container>
               <div className="row">
                 <div className="col">
-                  <div id="influxQuery" className="input-group">
-                    <span className="input-group-addon" id="basic-addon1">Query:</span>
-                    <input autoFocus type="text" id="txtQuery" value={this.state.queryText} onChange={this._onQueryChange} className="form-control" aria-label="Influx query" aria-describedby="basic-addon1"/>
-                  </div>
+                  <form onSubmit={this._onQuerySubmit}>
+                    <div id="influxQuery" className="input-group">
+                      <span className="input-group-addon" id="basic-addon1">Query:</span>
+                      <input autoFocus type="text" id="txtQuery" value={this.state.queryText} onChange={this._onQueryChange} className="form-control" aria-label="Influx query" aria-describedby="basic-addon1"/>
+                    </div>
+                  </form>
                 </div>
               </div>
+
               <div className="row">
                   <div className="col text-right">
                     <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
@@ -61,9 +67,9 @@ class Main extends Component {
                         <DropdownItem onClick={this.createDatabaseText}>Create database</DropdownItem>
                         <DropdownItem onClick={this.dropDatabasesText}>Drop database</DropdownItem>
                         <DropdownItem divider />
-                        <DropdownItem>Show measurements</DropdownItem>
-                        <DropdownItem>Show tag keys</DropdownItem>
-                        <DropdownItem>Show tag values</DropdownItem>
+                        <DropdownItem onClick={this.showMeasurementsText}>Show measurements</DropdownItem>
+                        <DropdownItem onClick={this.showTagKeysText}>Show tag keys</DropdownItem>
+                        <DropdownItem onClick={this.showTagValuesText}>Show tag values</DropdownItem>
                         <DropdownItem divider />
                         <DropdownItem>Show retention policies</DropdownItem>
                         <DropdownItem>Create retention policy</DropdownItem>
@@ -116,6 +122,34 @@ class Main extends Component {
       queryText: `DROP DATABASE "db_name"`
     });
   };
+
+  //  Show measurements
+  showMeasurementsText = () => {
+    this.setState({
+      queryText: "SHOW MEASUREMENTS"
+    });
+  };
+
+  //  Show tag keys
+  showTagKeysText = () => {
+    this.setState({
+      queryText: `SHOW TAG KEYS FROM "measurement_name"`
+    });
+  };
+
+  //  Show tag values
+  showTagValuesText = () => {
+    this.setState({
+      queryText: `SHOW TAG VALUES FROM "measurement_name" WITH KEY = "tag_key"`
+    });
+  };
+
+  _onQuerySubmit= (e) => {
+    e.preventDefault();
+    console.log("Submitting query..." + this.state.queryText);
+
+    InfluxAPI.getQueryResults("telegraf", this.state.queryText);
+  }
 }
 
 export default Main;
