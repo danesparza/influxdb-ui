@@ -33,7 +33,7 @@ class NavBar extends Component {
   render() {
     
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light d-print-none">
         <NavbarBrand href="/#/">InfluxDB UI</NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>

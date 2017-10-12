@@ -72,7 +72,7 @@ class Main extends Component {
               </div>
 
               <div className="row">
-                  <div className="col text-right">
+                  <div className="col text-right d-print-none">
                     <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                       <DropdownToggle caret>
                         Query templates
