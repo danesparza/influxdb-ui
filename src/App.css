@@ -5,3 +5,14 @@
 #queryResults{
   margin: 20px 0;
 }
+
+.settings-group{
+  background: white;
+  box-shadow: 0 2px 1px 1px #c1c1c1;
+  padding: 10px;
+  margin-bottom: 45px;
+}
+
+.settings-actions{
+  margin-bottom: 20px;
+}
