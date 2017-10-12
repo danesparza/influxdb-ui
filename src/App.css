@@ -1,3 +1,7 @@
 #influxQuery{
   margin: 25px 0 5px;
 }
+
+#queryResults{
+  margin: 20px 0;
+}

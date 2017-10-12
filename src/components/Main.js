@@ -1,7 +1,6 @@
 //  React
 import React, { Component } from 'react';
 import {
-  Container,
   Dropdown, 
   DropdownToggle, 
   DropdownMenu, 
@@ -10,6 +9,8 @@ import {
 
 //  Components
 import Navbar from './NavBar';
+import QueryResultList from './QueryResultList';
+import QueryErrorDisplay from './QueryErrorDisplay';
 
 //  Utilities
 import InfluxAPI from '../utils/InfluxAPI';
@@ -29,7 +30,9 @@ class Main extends Component {
     this.state = {
       dropdownOpen: false,
       queryText: "",
-      QueryResults: QueryDataStore.getQueryResults()
+      QueryHasError: false,
+      QueryResults: QueryDataStore.getQueryResults(),
+      QueryError: QueryDataStore.getQueryError()
     };
   }
 
@@ -55,7 +58,7 @@ class Main extends Component {
         <div>
             <Navbar {...this.props} />
 
-            <Container>
+            <div className="container-fluid">
               <div className="row">
                 <div className="col">
                   <form onSubmit={this._onQuerySubmit}>
@@ -102,7 +105,16 @@ class Main extends Component {
                   </div>
               </div>
 
-            </Container> 
+              <div className="row">
+                <div className="col">
+                  <div id="queryResults">
+                    <QueryErrorDisplay haserror={this.state.QueryHasError} error={this.state.QueryError} />
+                    <QueryResultList results={this.state.QueryResults} />
+                  </div>
+                </div>
+              </div>
+
+            </div> 
         </div>
     );
   }
@@ -268,7 +280,9 @@ class Main extends Component {
   //  Data changed:
   _onChange = () => {
     this.setState({
-      QueryResults: QueryDataStore.getQueryResults()
+      QueryHasError: QueryDataStore.hasError(),
+      QueryResults: QueryDataStore.getQueryResults(),
+      QueryError: QueryDataStore.getQueryError()
     });
   }
 

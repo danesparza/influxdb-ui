@@ -5,7 +5,7 @@ class InfluxAPI {
     
         constructor(){
             //  Setup the base API url
-            this.baseURL = "http://chile.lan:8086";
+            this.baseURL = "http://cdldtscapp1:8086";
         }
     
         // Executes a query and gets the results
@@ -27,11 +27,6 @@ class InfluxAPI {
             })
             .then(
                 function (response) {
-                    if (response.status !== 200) {
-                        console.log('Looks like there was a problem. Status Code: ' + response.status);
-                        return;
-                    }
-    
                     // Receive system state
                     response.json().then(function (data) {
                         //  Pass data to the action

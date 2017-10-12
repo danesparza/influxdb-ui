@@ -8,21 +8,58 @@ class QueryDataStore extends Store {
     super(AppDispatcher);
 
     //  The query results
-    this.queryresults = [];
+    this.results = [];
+    
+    //  The error
+    this.error = null;
   }
 
   //  Get the query results
   getQueryResults() {
-    return this.queryresults;
+    return this.results;
+  }
+
+  //  Get the error information:
+  getQueryError() {
+    return this.error;
+  }
+
+  //  Return 'true' if there is an error:
+  hasError() {
+    let retval = false;
+
+    if(this.error !== null){
+      retval = true;
+    }
+
+    return retval;
   }
 
   __onDispatch(action) {
     switch (action.actionType) {
       case ActionTypes.RECEIVE_QUERY_RESULTS:
         
-        //  Set the query results
-        console.log(action);
-        this.queryresults = action.queryresults;
+        //  Reset the internal state:
+        this.error = null;
+        this.results = [];
+
+        //  Log the action data:
+        //  console.log(action);
+
+        //  Try to set the query results
+        try{
+          if(action.queryresults.results) {
+            this.results = action.queryresults.results;
+          }          
+        } catch(e){/* No op */}
+
+        //  Try to set the error
+        try{
+          if(action.queryresults.error) {
+            this.error = action.queryresults.error;
+          }
+        } catch(e){/* No op */}
+
         this.__emitChange();
         break;
 
