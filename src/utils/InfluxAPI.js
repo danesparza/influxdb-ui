@@ -1,9 +1,11 @@
+//  Actions
+import QueryActions from '../actions/QueryActions';
 
 class InfluxAPI {
     
         constructor(){
             //  Setup the base API url
-            this.baseURL = "http://cdldtscapp1:8086";
+            this.baseURL = "http://chile.lan:8086";
         }
     
         // Executes a query and gets the results
@@ -14,18 +16,14 @@ class InfluxAPI {
                 return; 
             }
             
-            let url = `${this.baseURL}/query?q=${query}&db=${database}`;
-            
-            let apiHeaders = new Headers({
-                "Content-Type": "application/json; charset=UTF-8",
-                "Accept": "*/*",
-            });
-    
+            //  Encode and Interpolate the values
+            let url = `${this.baseURL}/query?q=${encodeURIComponent(query)}&db=${database}`;
+            url = url.replace(/%20/g, "+");
+
             fetch(url, 
             {
                 mode: 'cors',
-                method: 'get',
-                headers: apiHeaders
+                method: 'get'
             })
             .then(
                 function (response) {
@@ -36,8 +34,8 @@ class InfluxAPI {
     
                     // Receive system state
                     response.json().then(function (data) {
-                        //  Pass data to an action
-                        console.log(data);                						
+                        //  Pass data to the action
+                        QueryActions.receiveQueryResults(data);               						
                     });
                 }
             )

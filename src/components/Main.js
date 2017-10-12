@@ -11,8 +11,11 @@ import {
 //  Components
 import Navbar from './NavBar';
 
-//  Actions
+//  Utilities
 import InfluxAPI from '../utils/InfluxAPI';
+
+//  Stores
+import QueryDataStore from '../stores/QueryDataStore';
 
 //  Stylesheets & images
 import './../App.css';
@@ -25,7 +28,8 @@ class Main extends Component {
 
     this.state = {
       dropdownOpen: false,
-      queryText: ""    
+      queryText: "",
+      QueryResults: QueryDataStore.getQueryResults()
     };
   }
 
@@ -33,6 +37,16 @@ class Main extends Component {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
     });
+  }
+
+  componentDidMount(){    
+      //  Add store listeners ... and notify ME of changes
+      this.queryDataListener = QueryDataStore.addListener(this._onChange);
+  }
+
+  componentWillUnmount() {
+      //  Remove store listeners
+      this.queryDataListener.remove();
   }
 
   render() {
@@ -243,11 +257,19 @@ class Main extends Component {
     this.focusQueryInput();
   };
 
+  //  Form submission (or 'enter' press in the query field)
   _onQuerySubmit= (e) => {
     e.preventDefault();
     console.log("Submitting query..." + this.state.queryText);
 
     InfluxAPI.getQueryResults("telegraf", this.state.queryText);
+  }
+
+  //  Data changed:
+  _onChange = () => {
+    this.setState({
+      QueryResults: QueryDataStore.getQueryResults()
+    });
   }
 
   //  Focus input on the query textbox
