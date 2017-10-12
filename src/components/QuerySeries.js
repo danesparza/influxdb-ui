@@ -8,6 +8,12 @@ class QuerySeries extends Component {
 
   render() {
     let seriesName = this.props.series.name;
+    
+    //  Set datarows if we have them:
+    let datarows = [];
+    if(this.props.series.values){
+        datarows = this.props.series.values;
+    }
 
     //  Display series information:
     return (
@@ -16,13 +22,13 @@ class QuerySeries extends Component {
             <table className="table table-striped table-sm">
                 <thead className="thead-inverse">
                     <tr>
-                        {this.props.series.columns.map(function(col) {
-                            return <th key={col}>{col}</th>;
+                        {this.props.series.columns.map(function(col, index) {
+                            return <th key={index}>{col}</th>;
                         })}
                     </tr>
                 </thead>
                 <tbody>
-                {this.props.series.values.map(function(datarow, index) {
+                {datarows.map(function(datarow, index) {
                     return <QuerySeriesDataRow key={seriesName + "-" + index} datarow={datarow} />;
                 })}
                 </tbody>

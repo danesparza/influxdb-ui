@@ -25,9 +25,7 @@ class App extends Component {
     super();
     this.state = {
       location: getHash(window.location.hash),
-      systemState:{},
-      activityItems: [],
-      mostRecentActivity: {}
+      systemState:{}
     };
 
     //  Bind our events: 

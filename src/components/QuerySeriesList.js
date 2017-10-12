@@ -16,8 +16,8 @@ class QuerySeriesList extends Component {
     //  Otherwise, loop through our series and show them:
     return (
         <div>
-            {this.props.serieslist.map(function(seriesItem) {
-                return <QuerySeries key={seriesItem.name} series={seriesItem}/>;
+            {this.props.serieslist.map(function(seriesItem, index) {
+                return <QuerySeries key={index} series={seriesItem}/>;
             })}
         </div>
     );

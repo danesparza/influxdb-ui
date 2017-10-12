@@ -29,6 +29,7 @@ class Main extends Component {
 
     this.state = {
       dropdownOpen: false,
+      database: "telegraf",
       queryText: "",
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
@@ -274,7 +275,7 @@ class Main extends Component {
     e.preventDefault();
     console.log("Submitting query..." + this.state.queryText);
 
-    InfluxAPI.getQueryResults("telegraf", this.state.queryText);
+    InfluxAPI.getQueryResults(this.state.database, this.state.queryText);
   }
 
   //  Data changed:
