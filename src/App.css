@@ -13,6 +13,10 @@
   margin-bottom: 45px;
 }
 
+.settings-header{
+  margin: 20px 0 5px 0;
+}
+
 .settings-actions{
   margin-bottom: 20px;
 }

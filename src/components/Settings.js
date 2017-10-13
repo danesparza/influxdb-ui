@@ -6,7 +6,7 @@ import Navbar from './NavBar';
 
 class Settings extends Component {
 
-  constructor(){
+  constructor() {
     super();
     this.state = {
       ServerName: "",
@@ -26,15 +26,33 @@ class Settings extends Component {
           <div className="row">
             <div className="col">
 
-              <p className="lead text-muted">Servers</p>
+              <p className="lead text-muted settings-header">Servers</p>
               <div className="rounded settings-group">
 
-                <div className="form-group row">
-                  <label htmlFor="txtServerName" className="col-sm-3 col-form-label font-weight-bold">ServerName</label>
-                  <div className="col-sm-9">
-                    <input id="txtServerName" className="form-control" type="text" maxLength="200" aria-describedby="txtServerNameHelp" />
-                    <small id="txtServerNameHelp" className="text-muted">Used in the web display and notifications</small>
-                  </div>
+                <small>This is a list of InfluxDB servers you can connect to.  Remove any servers you don't recognize.</small>
+
+                <div className="list-group">
+                  <a href="#" className="list-group-item list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                      <h5 className="mb-1">Dev</h5>
+                      <button className="btn btn-outline-danger btn-sm">Delete</button>
+                    </div>
+                    <p className="mb-1">http://chile.lan:8086</p>
+                  </a>
+                  <a href="#" className="list-group-item list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                      <h5 className="mb-1">Test</h5>
+                      <button className="btn btn-outline-danger btn-sm">Delete</button>
+                    </div>
+                    <p className="mb-1">http://testserver:8086</p>
+                  </a>
+                  <a href="#" className="list-group-item list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                      <h5 className="mb-1">Prod</h5>
+                      <button className="btn btn-outline-danger btn-sm">Delete</button>
+                    </div>
+                    <p className="mb-1">http://prodserver:8086</p>
+                  </a>
                 </div>
 
               </div>

@@ -5,7 +5,7 @@ class InfluxAPI {
     
         constructor(){
             //  Setup the base API url
-            this.baseURL = "http://cdldtscapp1:8086";
+            this.baseURL = "http://chile.lan:8086";
         }
     
         // Executes a query and gets the results
