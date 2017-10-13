@@ -33,20 +33,63 @@ class Settings extends Component {
                   This is a list of InfluxDB servers you can connect to. 
                 </div>
 
-                <ul className="list-group">
-                  <li className="d-flex list-group-item justify-content-start flex-wrap">
-                    <div className="p-2"><h5>Dev</h5>http://chile.lan:8086 <span className="badge badge-success">Default</span></div>
-                    <div className="ml-auto p-2"><button className="btn btn-outline-danger btn-sm">Delete</button></div>
-                  </li>
-                  <li className="d-flex list-group-item justify-content-start flex-wrap">
-                  <div className="p-2"><h5>Test</h5>http://testserver:8086</div>
-                    <div className="ml-auto p-2"><button className="btn btn-outline-danger btn-sm">Delete</button></div>
-                  </li>
-                  <li className="d-flex list-group-item justify-content-start flex-wrap">
-                    <div className="p-2"><h5>Prod</h5>http://prodserver:8086</div>
-                    <div className="ml-auto p-2"><button className="btn btn-outline-danger btn-sm">Delete</button></div>
-                  </li>
-                </ul>
+                <table className="table table-responsive">
+                  <thead className="thead-default">
+                    <tr>
+                      <th>Name</th>
+                      <th>Url</th>
+                      <th>Default</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        Dev
+                      </td>
+                      <td>
+                        http://chile.lan:8086
+                      </td>
+                      <td>
+                        <span className="badge badge-success">Default</span>
+                      </td>
+                      <td>
+                        <button className="btn btn-outline-danger btn-sm">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Test
+                      </td>
+                      <td>
+                        http://Testserver:8086
+                      </td>
+                      <td>
+                        
+                      </td>
+                      <td>
+                        <button className="btn btn-outline-danger btn-sm">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Prod
+                      </td>
+                      <td>
+                        http://prodserver:8086
+                      </td>
+                      <td>
+                        
+                      </td>
+                      <td>
+                        <button className="btn btn-outline-danger btn-sm">Delete</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <h5>Add a server</h5>
+                Form body here
 
               </div>
 
