@@ -20,3 +20,12 @@
 .settings-actions{
   margin-bottom: 20px;
 }
+
+.settings-explanation{
+  font-size: small;
+  margin: 20px 0 10px 0;
+}
+
+.server-listing{
+  max-width: 500px;
+}
