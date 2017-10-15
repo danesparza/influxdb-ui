@@ -9,7 +9,8 @@
     "react-dom": "^16.0.0",
     "react-enroute": "^1.0.0",
     "react-scripts": "1.0.14",
-    "reactstrap": "next"
+    "reactstrap": "next",
+    "store": "^2.0.12"
   },
   "scripts": {
     "start": "react-scripts start",

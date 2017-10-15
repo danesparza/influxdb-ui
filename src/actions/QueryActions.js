@@ -3,7 +3,7 @@ import ActionTypes from './ActionTypes';
 
 class QueryActions {
 
-	//	Updates the activity store with the given request
+	//	Updates the query store with the given request
 	receiveQueryRequest(request) {
 		AppDispatcher.dispatch({
 		  actionType: ActionTypes.RECEIVE_QUERY_REQUEST,
@@ -11,7 +11,7 @@ class QueryActions {
 		});
 	}
 
-	//	Updates the activity store with the given query results
+	//	Updates the query store with the given results
 	receiveQueryResults(results) {
 		AppDispatcher.dispatch({
 		  actionType: ActionTypes.RECEIVE_QUERY_RESULTS,
