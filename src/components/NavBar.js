@@ -48,6 +48,13 @@ class NavBar extends Component {
   }
 
   render() {
+
+    let currentServer = "Not setup";
+
+    //  We'll need to create NavBarServerlist and NavBarDatabaseList components
+    //  We can render those in the appropriate places.
+    //  We need to do this so that when there are no servers (or only one server?) we can 
+    //  make a decision to render the list or not
     
     return (
       <nav className="navbar navbar-expand-sm navbar-light bg-light d-print-none">
@@ -57,7 +64,7 @@ class NavBar extends Component {
           <Nav navbar>
             <NavDropdown isOpen={this.state.serverdropdownisOpen} toggle={this.serverdropdowntoggle}>
               <DropdownToggle nav caret>
-                Server: Dev
+                Server: {currentServer}
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem>Dev</DropdownItem>
