@@ -1,6 +1,9 @@
 //  React
 import React, { Component } from 'react';
 
+//  Stores
+import SettingsStore from '../stores/SettingsStore';
+
 //  Components
 import Navbar from './NavBar';
 
@@ -8,15 +11,27 @@ class Settings extends Component {
 
   constructor() {
     super();
+
     this.state = {
       ServerName: "",
-      ServerURL: ""
+      ServerURL: "",
+      Servers: []
     };
+  }
+
+  componentDidMount(){    
+      //  Add store listeners ... and notify ME of changes
+      this.settingsListener = SettingsStore.addListener(this._onChange);
+  }
+
+  componentWillUnmount() {
+      //  Remove store listeners
+      this.settingsListener.remove();
   }
 
   render() {
     //  Look at something like Github email address list for UI example of 
-    //  something that might work as a 'server list'
+    //  something that might work as a 'server list
 
     return (
       <div>
@@ -43,39 +58,9 @@ class Settings extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          Dev
-                        </td>
-                        <td>
-                          http://chile.lan:8086
-                        </td>
-                        <td>
-                          <button className="btn btn-outline-danger btn-sm">Delete</button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Test
-                        </td>
-                        <td>
-                          http://Testserver:8086
-                        </td>
-                        <td>
-                          <button className="btn btn-outline-danger btn-sm">Delete</button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Prod
-                        </td>
-                        <td>
-                          http://prodserver:8086
-                        </td>
-                        <td>
-                          <button className="btn btn-outline-danger btn-sm">Delete</button>
-                        </td>
-                      </tr>
+                      {this.state.Servers.map(function(server, index) {
+                          return <tr key={index}><td>{server.name}</td><td>{server.url}</td><td><button className="btn btn-outline-danger btn-sm">Delete</button></td></tr>;
+                      })}
                     </tbody>
                   </table>
 
@@ -105,6 +90,13 @@ class Settings extends Component {
         </div>
       </div>
     );
+  }
+
+  //  Data changed:
+  _onChange = () => {
+    this.setState({
+      Servers: SettingsStore.getServerList()
+    });
   }
 
 }
