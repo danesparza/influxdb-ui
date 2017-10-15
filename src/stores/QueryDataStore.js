@@ -12,6 +12,14 @@ class QueryDataStore extends Store {
     
     //  The error
     this.error = null;
+
+    //  The query request
+    this.request = "";
+  }
+
+  //  Get the query request
+  getQueryRequest() {
+    return this.request;
   }
 
   //  Get the query results
@@ -59,6 +67,12 @@ class QueryDataStore extends Store {
             this.error = action.queryresults.error;
           }
         } catch(e){/* No op */}
+
+        this.__emitChange();
+        break;
+
+      case ActionTypes.RECEIVE_QUERY_REQUEST:
+        this.request = action.queryrequest;
 
         this.__emitChange();
         break;

@@ -30,7 +30,7 @@ class Main extends Component {
     this.state = {
       dropdownOpen: false,
       database: "telegraf",
-      queryText: "",
+      queryText: QueryDataStore.getQueryRequest(),
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
       QueryError: QueryDataStore.getQueryError()
@@ -281,6 +281,7 @@ class Main extends Component {
   //  Data changed:
   _onChange = () => {
     this.setState({
+      queryText: QueryDataStore.getQueryRequest(),
       QueryHasError: QueryDataStore.hasError(),
       QueryResults: QueryDataStore.getQueryResults(),
       QueryError: QueryDataStore.getQueryError()

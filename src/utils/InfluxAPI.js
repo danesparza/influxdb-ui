@@ -15,6 +15,9 @@ class InfluxAPI {
                 console.log("Can't execute query: database is blank"); 
                 return; 
             }
+
+            //  Set the request
+            QueryActions.receiveQueryRequest(query);
             
             //  Encode and Interpolate the values
             let url = `${this.baseURL}/query?q=${encodeURIComponent(query)}&db=${database}`;
