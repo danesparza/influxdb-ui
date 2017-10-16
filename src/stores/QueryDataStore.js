@@ -4,6 +4,7 @@ import ActionTypes from "../actions/ActionTypes";
 
 //  QueryDataStore stores query results
 class QueryDataStore extends Store {
+  
   constructor() {
     super(AppDispatcher);
 

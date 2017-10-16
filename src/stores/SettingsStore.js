@@ -33,7 +33,13 @@ class SettingsStore extends Store {
 
   //  Get the current server
   getCurrentServer() {
-    return this.currentServer;
+    let retval = this.currentServer;
+
+    if(retval === "" && this.serverList.length > 0) {
+      retval = this.serverList[0].name;
+    }
+
+    return retval;
   }
 
   //  Get the current database

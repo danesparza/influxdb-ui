@@ -5,6 +5,7 @@
   "dependencies": {
     "bootstrap": "4.0.0-beta",
     "flux": "^3.1.3",
+    "immutable": "^3.8.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-enroute": "^1.0.0",

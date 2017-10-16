@@ -13,6 +13,9 @@ import {
   DropdownMenu,
 } from 'reactstrap';
 
+//  Stores
+import SettingsStore from '../stores/SettingsStore';
+
 //  Stylesheets & images
 import './../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -24,6 +27,8 @@ class NavBar extends Component {
 
     this.state = {
       navisOpen: false,
+      Servers: SettingsStore.getServerList() || [],
+      CurrentServer: SettingsStore.getCurrentServer() || "",
       serverdropdownisOpen: false,
       databasedropdownisOpen: false,
     };    
@@ -35,12 +40,6 @@ class NavBar extends Component {
     });
   }
 
-  serverdropdowntoggle = () => {
-    this.setState({
-      serverdropdownisOpen: !this.state.serverdropdownisOpen
-    });
-  }
-
   databasedropdowntoggle = () => {
     this.setState({
       databasedropdownisOpen: !this.state.databasedropdownisOpen
@@ -49,29 +48,13 @@ class NavBar extends Component {
 
   render() {
 
-    let currentServer = "Not setup";
-
-    //  We'll need to create NavBarServerlist and NavBarDatabaseList components
-    //  We can render those in the appropriate places.
-    //  We need to do this so that when there are no servers (or only one server?) we can 
-    //  make a decision to render the list or not
-    
     return (
       <nav className="navbar navbar-expand-sm navbar-light bg-light d-print-none">
         <NavbarBrand href="/#/">InfluxDB UI</NavbarBrand>
         <NavbarToggler onClick={this.navtoggle} />
         <Collapse isOpen={this.state.navisOpen} navbar>
           <Nav navbar>
-            <NavDropdown isOpen={this.state.serverdropdownisOpen} toggle={this.serverdropdowntoggle}>
-              <DropdownToggle nav caret>
-                Server: {currentServer}
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem>Dev</DropdownItem>
-                <DropdownItem>Test</DropdownItem>
-                <DropdownItem>Prod</DropdownItem>
-              </DropdownMenu>
-            </NavDropdown>
+            <NavServerList servers={this.state.Servers} currentserver={this.state.CurrentServer} />
             <NavDropdown isOpen={this.state.databasedropdownisOpen} toggle={this.databasedropdowntoggle}>
               <DropdownToggle nav caret>
                 Database: telegraf
@@ -96,6 +79,47 @@ class NavBar extends Component {
     );
   }
 
+}
+
+//  NavServerList Displays the server list dropdown in the NavBar
+class NavServerList extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      serverdropdownisOpen: false,
+      databasedropdownisOpen: false,
+    };    
+  }
+
+  render() {
+    //  If we don't have a list of servers, don't return anything:
+    if(this.props.servers.length <= 1) {
+      return null;
+    }
+
+    let currentServer = this.props.currentserver || "Not set";
+
+    return (
+      <NavDropdown isOpen={this.state.serverdropdownisOpen} toggle={this.serverdropdowntoggle}>
+        <DropdownToggle nav caret>
+          Server: {currentServer}
+        </DropdownToggle>
+        <DropdownMenu>
+          {this.props.servers.map(function(server, index) {
+              return <DropdownItem key={index}>{server.name}</DropdownItem>;
+          }, this)}
+        </DropdownMenu>
+      </NavDropdown>
+    );
+  }
+
+  serverdropdowntoggle = () => {
+    this.setState({
+      serverdropdownisOpen: !this.state.serverdropdownisOpen
+    });
+  }
 }
 
 export default NavBar;
