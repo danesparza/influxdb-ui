@@ -46,6 +46,16 @@ class NavBar extends Component {
     });
   }
 
+  componentDidMount(){    
+    //  Add store listeners ... and notify ME of changes
+    this.settingsListener = SettingsStore.addListener(this._onChange);
+  }
+
+  componentWillUnmount() {
+      //  Remove store listeners
+      this.settingsListener.remove();
+  }
+
   render() {
 
     return (
@@ -77,6 +87,14 @@ class NavBar extends Component {
         </Collapse>
       </nav>
     );
+  }
+
+  //  Data changed:
+  _onChange = () => {
+    this.setState({
+      Servers: SettingsStore.getServerList() || [],
+      CurrentServer: SettingsStore.getCurrentServer() || "",
+    });
   }
 
 }
