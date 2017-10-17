@@ -45,6 +45,7 @@ class QueryDataStore extends Store {
   }
 
   __onDispatch(action) {
+
     switch (action.actionType) {
       case ActionTypes.RECEIVE_QUERY_RESULTS:
         
@@ -73,6 +74,8 @@ class QueryDataStore extends Store {
         break;
 
       case ActionTypes.RECEIVE_QUERY_REQUEST:
+        console.log(action);
+        
         this.request = action.queryrequest;
 
         this.__emitChange();

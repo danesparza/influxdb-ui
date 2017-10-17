@@ -3,24 +3,20 @@ import QueryActions from '../actions/QueryActions';
 
 class InfluxAPI {
     
-        constructor(){
-            //  Setup the base API url
-            this.baseURL = "http://chile.lan:8086";
-        }
-    
         // Executes a query and gets the results
-        getQueryResults(database, query){
-            if(database === "")
+        getQueryResults(serverurl, database, query){
+
+            if(serverurl === "" || database === "")
             {
-                console.log("Can't execute query: database is blank"); 
+                console.log("Can't execute query: server or database is blank"); 
                 return; 
             }
 
             //  Set the request
-            QueryActions.receiveQueryRequest(query);
+            QueryActions.receiveQueryRequest(query, serverurl, database);
             
             //  Encode and Interpolate the values
-            let url = `${this.baseURL}/query?q=${encodeURIComponent(query)}&db=${database}`;
+            let url = `${serverurl}/query?q=${encodeURIComponent(query)}&db=${database}`;
             url = url.replace(/%20/g, "+");
 
             fetch(url, 

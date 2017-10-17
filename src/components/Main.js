@@ -282,9 +282,8 @@ class Main extends Component {
   //  Form submission (or 'enter' press in the query field)
   _onQuerySubmit= (e) => {
     e.preventDefault();
-    console.log("Submitting query..." + this.state.queryText);
 
-    InfluxAPI.getQueryResults(this.state.database, this.state.queryText);
+    InfluxAPI.getQueryResults(this.state.server.url, this.state.database, this.state.queryText);
   }
 
   //  Data changed:

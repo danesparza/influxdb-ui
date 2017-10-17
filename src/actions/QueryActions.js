@@ -4,10 +4,12 @@ import ActionTypes from './ActionTypes';
 class QueryActions {
 
 	//	Updates the query store with the given request
-	receiveQueryRequest(request) {
+	receiveQueryRequest(request, server, database) {
 		AppDispatcher.dispatch({
 		  actionType: ActionTypes.RECEIVE_QUERY_REQUEST,
-		  queryrequest: request
+			queryrequest: request,
+			server: server,
+			database: database
 		});
 	}
 
