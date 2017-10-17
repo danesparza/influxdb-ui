@@ -28,7 +28,7 @@ class NavBar extends Component {
     this.state = {
       navisOpen: false,
       Servers: SettingsStore.getServerList() || [],
-      CurrentServer: SettingsStore.getCurrentServer() || "",
+      CurrentServer: SettingsStore.getCurrentServer(),
       serverdropdownisOpen: false,
       databasedropdownisOpen: false,
     };    
@@ -117,7 +117,7 @@ class NavServerList extends Component {
       return null;
     }
 
-    let currentServer = this.props.currentserver || "Not set";
+    let currentServer = this.props.currentserver.name;
 
     return (
       <NavDropdown isOpen={this.state.serverdropdownisOpen} toggle={this.serverdropdowntoggle}>

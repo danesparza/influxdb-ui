@@ -17,6 +17,7 @@ import InfluxAPI from '../utils/InfluxAPI';
 
 //  Stores
 import QueryDataStore from '../stores/QueryDataStore';
+import SettingsStore from '../stores/SettingsStore';
 
 //  Stylesheets & images
 import './../App.css';
@@ -29,6 +30,8 @@ class Main extends Component {
 
     this.state = {
       dropdownOpen: false,
+      needCurrentServer: SettingsStore.needCurrentServer(),
+      server: SettingsStore.getCurrentServer(),
       database: "telegraf",
       queryText: QueryDataStore.getQueryRequest(),
       QueryHasError: false,
@@ -54,6 +57,12 @@ class Main extends Component {
   }
 
   render() {
+
+    //  If we need to setup a server, go to settings:
+    if(this.state.needCurrentServer){
+      window.location.hash = "#/settings";
+      return null;
+    }
 
     return (
         <div>
@@ -284,7 +293,9 @@ class Main extends Component {
       queryText: QueryDataStore.getQueryRequest(),
       QueryHasError: QueryDataStore.hasError(),
       QueryResults: QueryDataStore.getQueryResults(),
-      QueryError: QueryDataStore.getQueryError()
+      QueryError: QueryDataStore.getQueryError(),
+      needCurrentServer: SettingsStore.needCurrentServer(),
+      server: SettingsStore.getCurrentServer()
     });
   }
 

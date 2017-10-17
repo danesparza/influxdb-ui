@@ -2,6 +2,11 @@ import { Store } from "flux/utils";
 import AppDispatcher from "../dispatcher/AppDispatcher";
 import ActionTypes from "../actions/ActionTypes";
 
+//  Utility function to see if an object is empty
+function isEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}
+
 //  SettingsStore stores app settings
 class SettingsStore extends Store {
 
@@ -15,7 +20,7 @@ class SettingsStore extends Store {
     this.currentServerDBList = [];
     
     //  The current server
-    this.currentServer = "";
+    this.currentServer = {};
 
     //  The current database
     this.currentDatabase = "";
@@ -26,6 +31,11 @@ class SettingsStore extends Store {
     return this.serverList;
   }
 
+  //  Returns 'true' if we have a current server
+  needCurrentServer() {
+    return isEmpty(this.getCurrentServer());
+  }
+
   //  Get the database list
   getDatabaseList() {
     return this.currentServerDBList;
@@ -33,11 +43,17 @@ class SettingsStore extends Store {
 
   //  Get the current server
   getCurrentServer() {
-    let retval = this.currentServer;
+    let retval = {};
 
-    if(retval === "" && this.serverList.length > 0) {
-      retval = this.serverList[0].name;
+    if(!isEmpty(this.currentServer)){
+      retval = this.currentServer;
     }
+
+    try{
+      if(isEmpty(retval) && this.serverList.length > 0) {
+        retval = this.serverList[0];
+      }
+    }catch(e) {/* No op */}
 
     return retval;
   }
