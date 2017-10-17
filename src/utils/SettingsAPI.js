@@ -9,6 +9,9 @@ class SettingsAPI {
         getSettings(){
             let servers = store.get('servers');
             SettingsActions.receiveServerList(servers);
+
+            let currentServer = store.get('currentServer') || {};
+            SettingsActions.receiveCurrentServer(currentServer);
         }
 
         //  Adds a server to the list

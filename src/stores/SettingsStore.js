@@ -45,10 +45,12 @@ class SettingsStore extends Store {
   getCurrentServer() {
     let retval = {};
 
+    //  If we have one explicitly set, use it
     if(!isEmpty(this.currentServer)){
       retval = this.currentServer;
     }
 
+    //  If we don't have one explicitly set, use the first in the list:
     try{
       if(isEmpty(retval) && this.serverList.length > 0) {
         retval = this.serverList[0];
@@ -60,7 +62,19 @@ class SettingsStore extends Store {
 
   //  Get the current database
   getCurrentDatabase() {
-    return this.currentDatabase;
+    let retval = "";
+
+    //  If we have a database explicitly set, use it:
+    if(this.currentDatabase !== ""){
+      retval = this.currentDatabase;
+    }
+
+    //  If we don't have one explicitly set, default to the first in our list
+    if(this.currentDatabase === "" && this.currentServerDBList.length > 0){
+      retval = this.currentServerDBList[0];
+    }
+
+    return retval;
   }
 
   __onDispatch(action) {
@@ -69,6 +83,36 @@ class SettingsStore extends Store {
         
         this.serverList = action.servers;
         console.log(action);
+
+        this.__emitChange();
+        break;
+
+      case ActionTypes.RECEIVE_CURRENT_SERVER:
+        
+        this.currentServer = action.server;
+        console.log(action);
+
+        this.__emitChange();
+        break;
+        
+      case ActionTypes.RECEIVE_DATABASE_LIST:
+        
+        //  Reset the internal state:
+        this.currentServerDBList = [];
+
+        //  Log the action data:
+        console.log(action);
+
+        //  Try to set the database list
+        try{
+          if(action.databaselist.results[0].series[0].values) {
+            this.currentServerDBList = action.databaselist.results[0].series[0].values.map(function (item){
+                return item[0];
+            });
+          }          
+        } catch(e){/* No op */}
+
+        console.log("Databases for " + action.serverurl, this.currentServerDBList);
 
         this.__emitChange();
         break;

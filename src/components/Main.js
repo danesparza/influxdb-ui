@@ -49,11 +49,13 @@ class Main extends Component {
   componentDidMount(){    
       //  Add store listeners ... and notify ME of changes
       this.queryDataListener = QueryDataStore.addListener(this._onChange);
+      this.settingsListener = SettingsStore.addListener(this._onChange);
   }
 
   componentWillUnmount() {
       //  Remove store listeners
       this.queryDataListener.remove();
+      this.settingsListener.remove();
   }
 
   render() {

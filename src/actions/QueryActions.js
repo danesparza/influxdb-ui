@@ -19,7 +19,7 @@ class QueryActions {
 		  actionType: ActionTypes.RECEIVE_QUERY_RESULTS,
 		  queryresults: results
 		});
-	}	
+	}
 
 }
 

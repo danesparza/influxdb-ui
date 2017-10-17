@@ -28,21 +28,15 @@ class NavBar extends Component {
     this.state = {
       navisOpen: false,
       Servers: SettingsStore.getServerList() || [],
+      DatabaseList: SettingsStore.getDatabaseList() || [],
       CurrentServer: SettingsStore.getCurrentServer(),
-      serverdropdownisOpen: false,
-      databasedropdownisOpen: false,
+      CurrentDatabase: SettingsStore.getCurrentDatabase(),
     };    
   }
 
   navtoggle = () => {
     this.setState({
       navisOpen: !this.state.navisOpen
-    });
-  }
-
-  databasedropdowntoggle = () => {
-    this.setState({
-      databasedropdownisOpen: !this.state.databasedropdownisOpen
     });
   }
 
@@ -65,16 +59,7 @@ class NavBar extends Component {
         <Collapse isOpen={this.state.navisOpen} navbar>
           <Nav navbar>
             <NavServerList servers={this.state.Servers} currentserver={this.state.CurrentServer} />
-            <NavDropdown isOpen={this.state.databasedropdownisOpen} toggle={this.databasedropdowntoggle}>
-              <DropdownToggle nav caret>
-                Database: telegraf
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem>_internal</DropdownItem>
-                <DropdownItem>telegraf</DropdownItem>
-                <DropdownItem>sensors</DropdownItem>
-              </DropdownMenu>
-            </NavDropdown>
+            <NavDatabaseList databases={this.state.DatabaseList} currentdatabase={this.state.CurrentDatabase} />
           </Nav>
           <Nav className="ml-auto" navbar>
             <NavItem>
@@ -93,7 +78,9 @@ class NavBar extends Component {
   _onChange = () => {
     this.setState({
       Servers: SettingsStore.getServerList() || [],
+      DatabaseList: SettingsStore.getDatabaseList() || [],
       CurrentServer: SettingsStore.getCurrentServer() || "",
+      CurrentDatabase: SettingsStore.getCurrentDatabase() || "",
     });
   }
 
@@ -139,5 +126,45 @@ class NavServerList extends Component {
     });
   }
 }
+
+//  NavDatabaseList Displays the database list dropdown in the NavBar
+class NavDatabaseList extends Component {
+  
+    constructor(props) {
+      super(props);
+  
+      this.state = {
+        databasedropdownisOpen: false
+      };    
+    }
+  
+    render() {
+      //  If we don't have a list of databases, don't return anything:
+      if(this.props.databases.length <= 1) {
+        return null;
+      }
+  
+      let currentDatabase = this.props.currentdatabase;
+  
+      return (
+        <NavDropdown isOpen={this.state.databasedropdownisOpen} toggle={this.dbdropdowntoggle}>
+          <DropdownToggle nav caret>
+            Database: {currentDatabase}
+          </DropdownToggle>
+          <DropdownMenu>
+            {this.props.databases.map(function(database, index) {
+                return <DropdownItem key={index}>{database}</DropdownItem>;
+            }, this)}
+          </DropdownMenu>
+        </NavDropdown>
+      );
+    }
+  
+    dbdropdowntoggle = () => {
+      this.setState({
+        databasedropdownisOpen: !this.state.databasedropdownisOpen
+      });
+    }
+  }
 
 export default NavBar;
