@@ -69,6 +69,7 @@ class InfluxAPI {
             )
             .catch(function (err) {
                 console.log('Fetch Error :-S', err);
+                SettingsActions.receiveDatabaseList(serverurl, {});
             });
         }
     
