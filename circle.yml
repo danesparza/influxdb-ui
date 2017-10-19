@@ -17,3 +17,9 @@ dependencies:
 test:
   override:
     - yarn test
+deployment:
+  hub:
+    branch: master
+    commands:
+      # Publish assets to Github
+      - ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME v1.0.$CIRCLE_BUILD_NUM $CIRCLE_ARTIFACTS/ || true
