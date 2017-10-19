@@ -18,6 +18,7 @@ import SettingsStore from '../stores/SettingsStore';
 
 //  Actions
 import SettingsAPI from '../utils/SettingsAPI';
+import InfluxAPI from '../utils/InfluxAPI';
 
 //  Stylesheets & images
 import './../App.css';
@@ -116,7 +117,7 @@ class NavServerList extends Component {
         </DropdownToggle>
         <DropdownMenu>
           {this.props.servers.map(function(server, index) {
-              return <DropdownItem key={index}>{server.name}</DropdownItem>;
+              return <DropdownItem key={index} onClick={this.itemclick}>{server.name}</DropdownItem>;
           }, this)}
         </DropdownMenu>
       </NavDropdown>
@@ -127,6 +128,17 @@ class NavServerList extends Component {
     this.setState({
       serverdropdownisOpen: !this.state.serverdropdownisOpen
     });
+  }
+
+  itemclick = (e) => {
+    SettingsAPI.setCurrentServer(e.target.innerText);
+
+    //  Get the current server:
+    let currentServer = SettingsStore.getCurrentServer();
+    console.log(currentServer);
+    
+    //  Reset the database list:
+    InfluxAPI.getDatabaseList(currentServer.url);
   }
 }
 
@@ -156,7 +168,7 @@ class NavDatabaseList extends Component {
           </DropdownToggle>
           <DropdownMenu>
             {this.props.databases.map(function(database, index) {
-                return <DropdownItem key={index} onClick={this.dbitemclick}>{database}</DropdownItem>;
+                return <DropdownItem key={index} onClick={this.itemclick}>{database}</DropdownItem>;
             }, this)}
           </DropdownMenu>
         </NavDropdown>
@@ -169,7 +181,7 @@ class NavDatabaseList extends Component {
       });
     }
 
-    dbitemclick = (e) => {
+    itemclick = (e) => {
       SettingsAPI.setCurrentDatabase(e.target.innerText);
     }
   }

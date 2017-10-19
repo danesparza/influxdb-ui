@@ -11,7 +11,7 @@ class SettingsActions {
 		});
 	}
 
-	//	Updates the query store with the current server
+	//	Updates the settinsg store with the current server
 	receiveCurrentServer(server) {
 		AppDispatcher.dispatch({
 		  actionType: ActionTypes.RECEIVE_CURRENT_SERVER,
@@ -19,7 +19,7 @@ class SettingsActions {
 		});
 	}
 
-	//	Updates the query store with the current database
+	//	Updates the settings store with the current database
 	receiveCurrentDatabase(database) {
 		AppDispatcher.dispatch({
 		  actionType: ActionTypes.RECEIVE_CURRENT_DATABASE,
@@ -27,7 +27,7 @@ class SettingsActions {
 		});
 	}
 
-	//	Updates the query store with the given database list
+	//	Updates the settings store with the given database list
 	receiveDatabaseList(serverurl, databaselist) {
 		AppDispatcher.dispatch({
 		  actionType: ActionTypes.RECEIVE_DATABASE_LIST,

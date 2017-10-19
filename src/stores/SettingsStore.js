@@ -2,9 +2,9 @@ import { Store } from "flux/utils";
 import AppDispatcher from "../dispatcher/AppDispatcher";
 import ActionTypes from "../actions/ActionTypes";
 
-//  Utility function to see if an object is empty
+//  Utility function to see if an object is empty (or undefined)
 function isEmpty(obj) {
-  return Object.keys(obj).length === 0;
+  return Object.keys(obj || {}).length === 0;
 }
 
 //  SettingsStore stores app settings
@@ -89,7 +89,14 @@ class SettingsStore extends Store {
 
       case ActionTypes.RECEIVE_CURRENT_SERVER:
         
-        this.currentServer = action.server;
+        //  Find the server name
+        try{
+          //  Try to set the current server:
+          this.currentServer = this.serverList.find(function(item){
+            return item.name === action.server || "";
+          });
+         } catch(e) { /* No op */ }
+
         console.log(action);
 
         this.__emitChange();
