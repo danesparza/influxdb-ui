@@ -23,3 +23,8 @@ deployment:
     commands:
       # Publish assets to Github
       - ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME v1.0.$CIRCLE_BUILD_NUM $CIRCLE_ARTIFACTS/ || true
+      # Push to S3. This expects the environment variables 
+      # AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to be set
+      # See http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-environment 
+      # for more information
+      - aws s3 sync build s3://$S3_DEPLOY_BUCKET --quiet
