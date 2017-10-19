@@ -33,9 +33,7 @@ class Settings extends Component {
   }
 
   render() {
-    //  Look at something like Github email address list for UI example of 
-    //  something that might work as a 'server list
-
+    
     return (
       <div>
         <Navbar {...this.props} />
@@ -112,10 +110,17 @@ class Settings extends Component {
     e.preventDefault();
 
     //  Format the url
+    //  See https://gist.github.com/jlong/2428561 for more information
+    let parser = document.createElement('a');
+    parser.href = this.state.AddServerUrl;
+
+    let port = parser.port || 8086;
+
+    let serverUrl = `${parser.protocol}//${parser.hostname}:${port}`;
 
     //  Add the server
     console.log("Adding server..." + this.state.AddServerName);
-    SettingsAPI.addServer(this.state.AddServerName, this.state.AddServerUrl);
+    SettingsAPI.addServer(this.state.AddServerName, serverUrl);
 
     //  Clear the add server fields:
     this.setState(
