@@ -32,7 +32,7 @@ class Main extends Component {
       dropdownOpen: false,
       needCurrentServer: SettingsStore.needCurrentServer(),
       server: SettingsStore.getCurrentServer(),
-      database: "telegraf",
+      database: SettingsStore.getCurrentDatabase(),
       queryText: QueryDataStore.getQueryRequest(),
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
@@ -296,7 +296,8 @@ class Main extends Component {
       QueryResults: QueryDataStore.getQueryResults(),
       QueryError: QueryDataStore.getQueryError(),
       needCurrentServer: SettingsStore.needCurrentServer(),
-      server: SettingsStore.getCurrentServer()
+      server: SettingsStore.getCurrentServer(),
+      database: SettingsStore.getCurrentDatabase()
     });
   }
 

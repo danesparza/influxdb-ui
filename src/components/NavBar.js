@@ -16,6 +16,9 @@ import {
 //  Stores
 import SettingsStore from '../stores/SettingsStore';
 
+//  Actions
+import SettingsAPI from '../utils/SettingsAPI';
+
 //  Stylesheets & images
 import './../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -153,7 +156,7 @@ class NavDatabaseList extends Component {
           </DropdownToggle>
           <DropdownMenu>
             {this.props.databases.map(function(database, index) {
-                return <DropdownItem key={index}>{database}</DropdownItem>;
+                return <DropdownItem key={index} onClick={this.dbitemclick}>{database}</DropdownItem>;
             }, this)}
           </DropdownMenu>
         </NavDropdown>
@@ -164,6 +167,10 @@ class NavDatabaseList extends Component {
       this.setState({
         databasedropdownisOpen: !this.state.databasedropdownisOpen
       });
+    }
+
+    dbitemclick = (e) => {
+      SettingsAPI.setCurrentDatabase(e.target.innerText);
     }
   }
 

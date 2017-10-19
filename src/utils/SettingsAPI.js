@@ -12,6 +12,9 @@ class SettingsAPI {
 
             let currentServer = store.get('currentServer') || {};
             SettingsActions.receiveCurrentServer(currentServer);
+
+            let currentDatabase = store.get('currentdatabase') || "";
+            SettingsActions.receiveCurrentDatabase(currentDatabase);
         }
 
         //  Adds a server to the list
@@ -48,6 +51,12 @@ class SettingsAPI {
             //  and notify using SettingsActions
             store.set('servers', filteredlist);
             SettingsActions.receiveServerList(filteredlist);
+        }
+
+        //  Set the current database
+        setCurrentDatabase(database) {
+            store.set('currentdatabase', database);
+            SettingsActions.receiveCurrentDatabase(database);
         }
     
     }

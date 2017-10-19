@@ -94,6 +94,14 @@ class SettingsStore extends Store {
 
         this.__emitChange();
         break;
+
+      case ActionTypes.RECEIVE_CURRENT_DATABASE:
+        
+        this.currentDatabase = action.database;
+        console.log(action);
+
+        this.__emitChange();
+        break;
         
       case ActionTypes.RECEIVE_DATABASE_LIST:
         
