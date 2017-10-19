@@ -5,7 +5,9 @@ Built entirely in [React](https://reactjs.org/)/Flux as a browser based single p
 
 ## Installing
 
-Just grab the [latest release](https://github.com/danesparza/influxdb-ui/releases/latest) and unzip in the webserver of your choice (or just upload to an S3 bucket and turn on [static website hosting](http://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html)).
+Just grab the [latest release](https://github.com/danesparza/influxdb-ui/releases/latest) and unzip to the webserver of your choice (or just upload to an S3 bucket and turn on [static website hosting](http://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html)).
+
+Or just use the latest version of the app [hosted on S3](http://influxui.s3-website-us-east-1.amazonaws.com/#/).
 
 ## Building
 ```
