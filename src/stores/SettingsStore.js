@@ -31,9 +31,14 @@ class SettingsStore extends Store {
     return this.serverList;
   }
 
-  //  Returns 'true' if we have a current server
+  //  Returns 'true' if we don't have a current server
   needCurrentServer() {
     return isEmpty(this.getCurrentServer());
+  }
+
+  //  Returns 'true' if we have a current server
+  haveCurrentServer() {
+    return isEmpty(this.getCurrentServer()) === false;
   }
 
   //  Get the database list
@@ -83,6 +88,16 @@ class SettingsStore extends Store {
         
         this.serverList = action.servers;
         console.log(action);
+
+        //  If this list is now blank, we should reset
+        //  current database
+        //  list of databases
+        //  current server
+        if(this.serverList.length < 1){
+          this.currentDatabase = "";
+          this.currentServerDBList = [];
+          this.currentServer = {};
+        }
 
         this.__emitChange();
         break;

@@ -42,7 +42,7 @@ class InfluxAPI {
         //  Gets the list of databases for the given server
         getDatabaseList(serverurl) {
 
-            if(serverurl === "")
+            if(!serverurl)
             {
                 console.log("Can't execute query: server is blank"); 
                 return; 

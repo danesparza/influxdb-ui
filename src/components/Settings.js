@@ -6,6 +6,7 @@ import Navbar from './NavBar';
 
 //  Utils
 import SettingsAPI from '../utils/SettingsAPI';
+import InfluxAPI from '../utils/InfluxAPI';
 
 //  Stores
 import SettingsStore from '../stores/SettingsStore';
@@ -115,12 +116,22 @@ class Settings extends Component {
     parser.href = this.state.AddServerUrl;
 
     let port = parser.port || 8086;
+    let protocol = parser.protocol || "http:";
 
-    let serverUrl = `${parser.protocol}//${parser.hostname}:${port}`;
+    let serverUrl = `${protocol}//${parser.hostname}:${port}`;
 
     //  Add the server
     console.log("Adding server..." + this.state.AddServerName);
     SettingsAPI.addServer(this.state.AddServerName, serverUrl);
+    
+    //  If we have a current server:
+    if(SettingsStore.haveCurrentServer()){
+      //  Get the current server:
+      let currentServer = SettingsStore.getCurrentServer();
+
+      //  Reset the database list:
+      InfluxAPI.getDatabaseList(currentServer.url);
+    }
 
     //  Clear the add server fields:
     this.setState(
@@ -137,6 +148,14 @@ class Settings extends Component {
   _onRemoveServerClick = (name) => {
     console.log("Removing server..." + name);
     SettingsAPI.removeServer(name);
+
+    if(SettingsStore.haveCurrentServer()){
+      //  Get the current server:
+      let currentServer = SettingsStore.getCurrentServer();
+
+      //  Reset the database list:
+      InfluxAPI.getDatabaseList(currentServer.url);
+    }
   }
 
   //  Data changed:
