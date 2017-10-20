@@ -5,7 +5,7 @@ Built entirely in [React](https://reactjs.org/)/Flux as a browser based single p
 
 ## Just let me use it already
 
-The latest version of the app is [hosted on S3](http://influxui.s3-website-us-east-1.amazonaws.com/#/).  Don't worry.  We literally store none of your data on a remote server (and you can look at the source to verify).  Your server connections are stored in your browser as cookies.
+The latest version of the app is [hosted on S3 & Cloudfront](https://dca2rypj1cavm.cloudfront.net/#/).  Don't worry.  We don't store any of your data on a remote server (and you can look at the source to verify).  Your server connections are stored in your browser as cookies/localstorage data.
 
 ## Installing locally
 
