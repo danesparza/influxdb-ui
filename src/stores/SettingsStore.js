@@ -86,18 +86,20 @@ class SettingsStore extends Store {
     switch (action.actionType) {
       case ActionTypes.RECEIVE_SERVER_LIST:
         
-        this.serverList = action.servers;
-        console.log(action);
+        this.serverList = action.servers || [];
+        console.log("Server list", this.serverList);
 
         //  If this list is now blank, we should reset
         //  current database
         //  list of databases
         //  current server
-        if(this.serverList.length < 1){
-          this.currentDatabase = "";
-          this.currentServerDBList = [];
-          this.currentServer = {};
-        }
+        try{
+          if(this.serverList.length < 1){
+            this.currentDatabase = "";
+            this.currentServerDBList = [];
+            this.currentServer = {};
+          }
+        } catch(e) { /* No op */}
 
         this.__emitChange();
         break;
@@ -112,7 +114,7 @@ class SettingsStore extends Store {
           });
          } catch(e) { /* No op */ }
 
-        console.log(action);
+        console.log("Current server: ", this.getCurrentServer());
 
         this.__emitChange();
         break;
@@ -120,7 +122,7 @@ class SettingsStore extends Store {
       case ActionTypes.RECEIVE_CURRENT_DATABASE:
         
         this.currentDatabase = action.database;
-        console.log(action);
+        console.log("Current database: ", this.currentDatabase);
 
         this.__emitChange();
         break;
