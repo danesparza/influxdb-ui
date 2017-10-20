@@ -3,13 +3,15 @@ A simple UI for InfluxDB.  Now that [web admin UI has been removed](https://docs
 
 Built entirely in [React](https://reactjs.org/)/Flux as a browser based single page application.  
 
-## Installing
+## Just let me use it already
+
+The latest version of the app is [hosted on S3](http://influxui.s3-website-us-east-1.amazonaws.com/#/).  Don't worry.  We literally store none of your data on a remote server (and you can look at the source to verify).  Your server connections are stored in your browser as cookies.
+
+## Installing locally
 
 Just grab the [latest release](https://github.com/danesparza/influxdb-ui/releases/latest) and unzip to the webserver of your choice (or just upload to an S3 bucket and turn on [static website hosting](http://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html)).
 
-Or just use the latest version of the app [hosted on S3](http://influxui.s3-website-us-east-1.amazonaws.com/#/).
-
-## Building
+## Building locally
 ```
 yarn
 yarn build
