@@ -70,16 +70,16 @@ class Settings extends Component {
                     <div className="form-row">
                       <div className="col">
                         <label className="sr-only" htmlFor="txtAddName">Server name</label>
-                        <input type="text" autoFocus ref={(input) => { this.addName = input; }} className="form-control" id="txtAddName" value={this.state.AddServerName} onChange={this._onAddServerNameChange} placeholder="Dev server"/>
+                        <input type="text" autoFocus ref={(input) => { this.addName = input; }} className="form-control" id="txtAddName" value={this.state.AddServerName} onChange={this._onAddServerNameChange} placeholder="Dev server" required/>
                       </div>
                       
                       <div className="col">
                         <label className="sr-only" htmlFor="txtAddUrl">Server url</label>
-                        <input type="text" className="form-control" id="txtAddUrl" value={this.state.AddServerUrl} onChange={this._onAddServerUrlChange} placeholder="http://dev.server:8086"/>
+                        <input type="url" className="form-control" id="txtAddUrl" value={this.state.AddServerUrl} onChange={this._onAddServerUrlChange} placeholder="http://dev.server:8086" required/>
                       </div>
 
                       <div className="col">
-                        <button type="submit" className="btn btn-secondary" onClick={this._onAddServerClick}>Add</button>
+                        <button type="submit" className="btn btn-secondary">Add</button>
                       </div>
                     </div>
                   </form>
