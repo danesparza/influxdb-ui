@@ -8,12 +8,7 @@ dependencies:
   override:    
     # Execute the build process
     - npm install -g yarn
-    - yarn
-    - yarn build
-
-    # Build our dashboard zip file
-    - echo "{\"version\":$CIRCLE_BUILD_NUM}" >> build/build.json
-    - cd build; zip -r9 $CIRCLE_ARTIFACTS/influxdb-ui.zip .
+    - yarn    
 test:
   override:
     - yarn test
@@ -21,6 +16,13 @@ deployment:
   hub:
     branch: master
     commands:
+      # Perform a full build
+      - yarn build
+
+      # Build our zip file
+      - echo "{\"version\":$CIRCLE_BUILD_NUM}" >> build/build.json
+      - cd build; zip -r9 $CIRCLE_ARTIFACTS/influxdb-ui.zip .
+
       # Publish assets to Github
       - ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME v1.0.$CIRCLE_BUILD_NUM $CIRCLE_ARTIFACTS/ || true
       # Push to S3. This expects the environment variables 
