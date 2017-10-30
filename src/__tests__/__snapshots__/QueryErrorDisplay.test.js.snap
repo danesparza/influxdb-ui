@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Displays no error as expected 1`] = `
+<div
+  className="alert alert-warning"
+  role="alert"
+>
+  Error: 
+</div>
+`;
+
+exports[`Displays the given error information 1`] = `
+<div
+  className="alert alert-warning"
+  role="alert"
+>
+  Error: 
+  Some error text
+</div>
+`;
