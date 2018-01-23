@@ -3,6 +3,10 @@ A simple UI for InfluxDB.  Now that [web admin UI has been removed](https://docs
 
 Built entirely in [React](https://reactjs.org/)/Flux as a browser based single page application.  
 
+## Just show me already
+
+![Screenshot of influxui](influxui.png?raw=true)
+
 ## Just let me use it already
 
 The latest version of the app is [hosted on S3](http://influxui.s3-website-us-east-1.amazonaws.com/#/).  Don't worry.  We don't store any of your data on a remote server (and you can look at the source to verify).  Your server connections are stored in your browser as cookies/localstorage data.  
