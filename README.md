@@ -5,7 +5,7 @@ Built entirely in [React](https://reactjs.org/)/Flux as a browser based single p
 
 ## Just show me already
 
-![Screenshot of influxui](influxui.png?raw=true)
+![Screenshot of influxui](influxui-screenshot.png?raw=true)
 
 ## Just let me use it already
 
