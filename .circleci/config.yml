@@ -50,6 +50,32 @@ jobs:
           paths:
             - influxdb-ui.zip
 
+  deploy:
+    docker:
+      - image: circleci/python:3.4-jessie-browsers
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+
+      - run:
+          name: Set path
+          command: export PATH=~/bin:$PATH
+
+      - run:
+          name: Install AWS tools
+          command: |            
+            curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+            unzip awscli-bundle.zip
+            ./awscli-bundle/install -b ~/bin/aws
+      
+      # This expects the environment variables
+      # AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to be set
+      # See http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-environment 
+      # for more information
+      - run: 
+         name: Push to S3
+         command: /home/circleci/bin/aws s3 sync /tmp/workspace/build s3://$S3_DEPLOY_BUCKET --quiet
+
   release:
     docker:
       - image: circleci/golang:1.9.4
@@ -72,6 +98,9 @@ workflows:
   build_deploy:
     jobs:
       - build
+      - deploy:
+          requires:
+            - build
       - release:
           requires:
             - build
