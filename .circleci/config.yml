@@ -1,0 +1,77 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:9.7.1-stretch-browsers
+    steps:
+      - checkout
+
+      # Restore our dependency cache
+      - restore_cache:
+          keys: 
+            - node-cache-{{ checksum "package.json" }}
+            - node_cache- 
+
+      # Execute the build process
+      - run:
+          name: Fetch and Install packages
+          command: yarn
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: node-cache-{{ checksum "package.json" }}
+
+      - run: 
+          name: Create optimized production build
+          command: yarn build
+
+      # Execute the packaging process
+      - run: 
+          name: Emit build number
+          command: echo "{\"version\":$CIRCLE_BUILD_NUM}" >> build/build.json
+      - run: 
+          name: Create the zip file
+          command: cd build; zip -r9 /tmp/influxdb-ui.zip .
+
+      # Indicate we have artifacts
+      - store_artifacts:
+          path: /tmp/influxdb-ui.zip
+
+      # Persist the built (unzipped) app to the workspace
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build
+
+      # Persist the zip artifact to the workspace
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - influxdb-ui.zip
+
+  release:
+    docker:
+      - image: circleci/golang:1.9.4
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+
+      - run:
+         name: Fetch and Install packages
+         command: go get github.com/tcnksm/ghr
+
+      - run: 
+         name: Push the release to Github
+         command: ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME v1.0.$CIRCLE_BUILD_NUM /tmp/workspace/centralconfig-ui.zip || true
+
+workflows:
+  version: 2
+
+  # Build and deploy workflow
+  build_deploy:
+    jobs:
+      - build
+      - release:
+          requires:
+            - build
