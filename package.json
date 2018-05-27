@@ -11,7 +11,7 @@
     "react-dom": "^16.0.0",
     "react-enroute": "^1.0.0",
     "react-scripts": "1.0.14",
-    "reactstrap": "next",
+    "reactstrap": "^6.0.1",
     "store": "^2.0.12"
   },
   "scripts": {
