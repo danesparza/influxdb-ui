@@ -111,12 +111,18 @@ class Settings extends Component {
     e.preventDefault();
 
     //  Format the url
-    //  See https://gist.github.com/jlong/2428561 for more information
+    //  See https://gist.github.com/jlong/2428561 for more information    
     let parser = document.createElement('a');
     parser.href = this.state.AddServerUrl;
 
     let port = parser.port || 8086;
     let protocol = parser.protocol || "http:";
+
+    //  This works flawlessly for everything but port 80 -- so we have a special case for that.
+    if(this.state.AddServerUrl.substr(this.state.AddServerUrl.length - 3) === ":80")
+    {
+      port = 80;
+    }
 
     let serverUrl = `${protocol}//${parser.hostname}:${port}`;
 
