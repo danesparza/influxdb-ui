@@ -112,19 +112,21 @@ class Settings extends Component {
 
     //  Format the url
     //  See https://gist.github.com/jlong/2428561 for more information    
-    let parser = document.createElement('a');
-    parser.href = this.state.AddServerUrl;
+    // let parser = document.createElement('a');
+    // parser.href = this.state.AddServerUrl;
 
-    let port = parser.port || 8086;
-    let protocol = parser.protocol || "http:";
+    // let port = parser.port || 8086;
+    // let protocol = parser.protocol || "http:";
 
-    //  This works flawlessly for everything but port 80 -- so we have a special case for that.
-    if(this.state.AddServerUrl.substr(this.state.AddServerUrl.length - 3) === ":80")
-    {
-      port = 80;
-    }
+    // //  This works flawlessly for everything but port 80 -- so we have a special case for that.
+    // if(this.state.AddServerUrl.substr(this.state.AddServerUrl.length - 3) === ":80")
+    // {
+    //   port = 80;
+    // }
 
-    let serverUrl = `${protocol}//${parser.hostname}:${port}`;
+    // let serverUrl = `${protocol}//${parser.hostname}:${port}`;
+
+    let serverUrl = this.state.AddServerUrl;
 
     //  Add the server
     console.log("Adding server..." + this.state.AddServerName);
