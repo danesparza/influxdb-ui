@@ -56,19 +56,26 @@ class QueryDataStore extends Store {
         //  Log the action data:
         //  console.log(action);
 
-        //  Try to set the query results
-        try{
-          if(action.queryresults.results) {
-            this.results = action.queryresults.results;
-          }          
-        } catch(e){/* No op */}
-
         //  Try to set the error
         try{
           if(action.queryresults.error) {
             this.error = action.queryresults.error;
           }
         } catch(e){/* No op */}
+
+        //  Try to set the query results
+        try{
+          if(action.queryresults.results) {
+            if (action.queryresults.results[0] !== undefined && action.queryresults.results[0].error !== undefined){
+              //  There is error returned in results, needs to be parsed
+              this.error = action.queryresults.results[0].error
+            }else{
+              //  Normal results will be set to results
+              this.results = action.queryresults.results;
+            }
+          }          
+        } catch(e){/* No op */}
+
 
         this.__emitChange();
         break;
