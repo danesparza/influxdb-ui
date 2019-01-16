@@ -115,16 +115,14 @@ class Settings extends Component {
     let parser = document.createElement('a');
     parser.href = this.state.AddServerUrl;
 
-    let port = parser.port || 8086;
+    let port = parser.port || "80";
     let protocol = parser.protocol || "http:";
-
-    //  This works flawlessly for everything but port 80 -- so we have a special case for that.
-    if(this.state.AddServerUrl.substr(this.state.AddServerUrl.length - 3) === ":80")
-    {
-      port = 80;
+    let path = ""
+    if(parser.pathname !== "/" || parser.hash !== "" || parser.search !== ""){
+      path = parser.pathname + parser.hash + parser.search;
     }
 
-    let serverUrl = `${protocol}//${parser.hostname}:${port}`;
+    let serverUrl = `${protocol}//${parser.hostname}:${port}${path}`;
 
     //  Add the server
     console.log("Adding server..." + this.state.AddServerName);

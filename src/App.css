@@ -1,5 +1,9 @@
 #influxQuery{
   margin: 25px 0 5px;
+  line-height: 38px;
+}
+#influxQuery #basic-addon1{
+  margin-right: 5px;    
 }
 
 #queryResults{
