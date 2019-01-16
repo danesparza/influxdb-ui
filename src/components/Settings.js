@@ -117,7 +117,10 @@ class Settings extends Component {
 
     let port = parser.port || "80";
     let protocol = parser.protocol || "http:";
-    let path = parser.pathname + parser.hash + parser.search || "";
+    let path = ""
+    if(parser.pathname !== "/" || parser.hash !== "" || parser.search !== ""){
+      path = parser.pathname + parser.hash + parser.search;
+    }
 
     let serverUrl = `${protocol}//${parser.hostname}:${port}${path}`;
 
