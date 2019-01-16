@@ -1,6 +1,6 @@
-all: build publish
+all: buildd publish
 
-build:
+buildd:
 	yarn build
 
 publish:
