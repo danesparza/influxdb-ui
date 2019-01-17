@@ -7,7 +7,7 @@ import {
   Nav,
   NavItem,
   NavLink,
-  NavDropdown,
+  Dropdown,
   DropdownToggle,
   DropdownItem,
   DropdownMenu,
@@ -114,7 +114,7 @@ class NavServerList extends Component {
     let currentServer = this.props.currentserver.name;
 
     return (
-      <NavDropdown isOpen={this.state.serverdropdownisOpen} toggle={this.serverdropdowntoggle}>
+      <Dropdown isOpen={this.state.serverdropdownisOpen} toggle={this.serverdropdowntoggle}>
         <DropdownToggle nav caret>
           Server: {currentServer}
         </DropdownToggle>
@@ -123,7 +123,7 @@ class NavServerList extends Component {
               return <DropdownItem key={index} onClick={this.itemclick}>{server.name}</DropdownItem>;
           }, this)}
         </DropdownMenu>
-      </NavDropdown>
+      </Dropdown>
     );
   }
 
@@ -165,7 +165,7 @@ class NavDatabaseList extends Component {
       let currentDatabase = this.props.currentdatabase;
   
       return (
-        <NavDropdown isOpen={this.state.databasedropdownisOpen} toggle={this.dbdropdowntoggle}>
+        <Dropdown isOpen={this.state.databasedropdownisOpen} toggle={this.dbdropdowntoggle}>
           <DropdownToggle nav caret>
             Database: {currentDatabase}
           </DropdownToggle>
@@ -174,7 +174,7 @@ class NavDatabaseList extends Component {
                 return <DropdownItem key={index} onClick={this.itemclick}>{database}</DropdownItem>;
             }, this)}
           </DropdownMenu>
-        </NavDropdown>
+        </Dropdown>
       );
     }
   

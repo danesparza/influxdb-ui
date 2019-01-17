@@ -19,7 +19,7 @@ class SettingsAPI {
         }
 
         //  Adds a server to the list
-        addServer(name, url) {
+        addServer(name, url, username, password) {
             //  First, get the current list of servers
             let servers = store.get('servers') || [];
 
@@ -29,6 +29,8 @@ class SettingsAPI {
                 let newServer = {};
                 newServer.name = name;
                 newServer.url = url;
+                newServer.username = username;
+                newServer.password = password;
                 servers.push(newServer);
             }
 

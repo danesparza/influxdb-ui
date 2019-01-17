@@ -55,12 +55,14 @@ class Settings extends Component {
                       <tr>
                         <th>Name</th>
                         <th>Url</th>
+                        <th>Username</th>
+                        <th>Password</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {this.state.Servers.map(function(server, index) {
-                          return <tr key={index}><td>{server.name}</td><td>{server.url}</td><td><DeleteButton name={server.name} onDelete={this._onRemoveServerClick} /></td></tr>;
+                          return <tr key={index}><td>{server.name}</td><td>{server.url}</td><td>{server.username}</td><td>{server.password && "*"}</td><td><DeleteButton name={server.name} onDelete={this._onRemoveServerClick} /></td></tr>;
                       }, this)}
                     </tbody>
                   </table>
@@ -76,6 +78,16 @@ class Settings extends Component {
                       <div className="col">
                         <label className="sr-only" htmlFor="txtAddUrl">Server url</label>
                         <input type="url" className="form-control" id="txtAddUrl" value={this.state.AddServerUrl} onChange={this._onAddServerUrlChange} placeholder="http://dev.server:8086" required/>
+                      </div>
+
+                      <div className="col">
+                        <label className="sr-only" htmlFor="txtAddUsername">Username</label>
+                        <input type="text" className="form-control" id="txtAddUsername" value={this.state.AddServerUsername} onChange={this._onAddServerUsernameChange} placeholder="username" autoComplete="off"/>
+                      </div>
+
+                      <div className="col">
+                        <label className="sr-only" htmlFor="txtAddPassword">Password</label>
+                        <input type="password" className="form-control" id="txtAddPassword" value={this.state.AddServerPassword} onChange={this._onAddServerPasswordChange} placeholder="password" autoComplete="off"/>
                       </div>
 
                       <div className="col">
@@ -107,6 +119,18 @@ class Settings extends Component {
     });
   }
 
+  _onAddServerUsernameChange = (e) => {
+    this.setState({
+      AddServerUsername: e.target.value
+    });
+  }
+
+  _onAddServerPasswordChange = (e) => {
+    this.setState({
+      AddServerPassword: e.target.value
+    });
+  }
+
   _onAddServerClick = (e) => {
     e.preventDefault();
 
@@ -126,7 +150,7 @@ class Settings extends Component {
 
     //  Add the server
     console.log("Adding server..." + this.state.AddServerName);
-    SettingsAPI.addServer(this.state.AddServerName, serverUrl);
+    SettingsAPI.addServer(this.state.AddServerName, serverUrl, this.state.AddServerUsername, this.state.AddServerPassword);
     
     //  If we have a current server:
     if(SettingsStore.haveCurrentServer()){
@@ -134,14 +158,16 @@ class Settings extends Component {
       let currentServer = SettingsStore.getCurrentServer();
 
       //  Reset the database list:
-      InfluxAPI.getDatabaseList(currentServer.url);
+      InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
     }
 
     //  Clear the add server fields:
     this.setState(
       {
         AddServerName: "",
-        AddServerUrl: ""
+        AddServerUrl: "",
+        AddServerUsername: "",
+        AddServerPassword: "",
       }
     );
 
