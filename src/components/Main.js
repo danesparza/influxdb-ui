@@ -285,7 +285,7 @@ class Main extends Component {
   _onQuerySubmit= (e) => {
     e.preventDefault();
 
-    InfluxAPI.getQueryResults(this.state.server.url, this.state.database, this.state.queryText);
+    InfluxAPI.getQueryResults(this.state.server.url,this.state.server.username, this.state.server.password, this.state.database, this.state.queryText);
   }
 
   //  Data changed:

@@ -5,7 +5,7 @@ import SettingsActions from '../actions/SettingsActions';
 class InfluxAPI {
     
         // Executes a query and gets the results
-        getQueryResults(serverurl, database, query){
+        getQueryResults(serverurl,username, password, database, query){
 
             if(serverurl === "" || database === "")
             {
@@ -16,8 +16,14 @@ class InfluxAPI {
             //  Set the request
             QueryActions.receiveQueryRequest(query, serverurl, database);
             
+            // build auth query params
+            let auth = ""
+            if (username !== undefined && username !== "" && password !== undefined && username !== "") {
+                auth = "&u=" + username + "&p=" + password
+            }
+
             //  Encode and Interpolate the values
-            let url = `${serverurl}/query?q=${encodeURIComponent(query)}&db=${database}`;
+            let url = `${serverurl}/query?q=${encodeURIComponent(query)}`+auth+`&db=${database}`;
             url = url.replace(/%20/g, "+");
 
             fetch(url, 
@@ -40,16 +46,22 @@ class InfluxAPI {
         }
 
         //  Gets the list of databases for the given server
-        getDatabaseList(serverurl) {
+        getDatabaseList(serverurl, username, password) {
 
             if(!serverurl)
             {
                 console.log("Can't execute query: server is blank"); 
                 return; 
             }
+
+            // build auth query params
+            let auth = ""
+            if(username !== undefined && password !== undefined){
+                auth = "&u="+username+"&p="+password
+            }
             
             //  Encode and Interpolate the values
-            let url = `${serverurl}/query?q=SHOW+DATABASES&db=`;
+            let url = `${serverurl}/query?q=SHOW+DATABASES`+auth+`&db=`;
             url = url.replace(/%20/g, "+");
 
             fetch(url, 
