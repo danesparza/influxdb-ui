@@ -22,3 +22,6 @@ Just grab the [latest release](https://github.com/danesparza/influxdb-ui/release
 yarn
 yarn build
 ```
+
+## Docker image
+User [sillydong](https://github.com/sillydong) contributed a docker image if you would prefer to use that as well: https://hub.docker.com/r/sillydong/influxdb-ui
