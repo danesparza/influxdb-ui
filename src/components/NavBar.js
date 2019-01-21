@@ -24,7 +24,7 @@ import InfluxAPI from '../utils/InfluxAPI';
 import './../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
-class NavBar extends Component {  
+class NavBar extends Component {
 
   constructor(props) {
     super(props);
@@ -35,7 +35,7 @@ class NavBar extends Component {
       DatabaseList: SettingsStore.getDatabaseList() || [],
       CurrentServer: SettingsStore.getCurrentServer(),
       CurrentDatabase: SettingsStore.getCurrentDatabase(),
-    };    
+    };
   }
 
   navtoggle = () => {
@@ -44,7 +44,7 @@ class NavBar extends Component {
     });
   }
 
-  componentDidMount(){    
+  componentDidMount(){
     //  Add store listeners ... and notify ME of changes
     this.settingsListener = SettingsStore.addListener(this._onChange);
   }
@@ -58,7 +58,7 @@ class NavBar extends Component {
 
     return (
       <nav className="navbar navbar-expand-sm navbar-light bg-light d-print-none">
-        <NavbarBrand href="/#/">InfluxDB UI</NavbarBrand>
+        <NavbarBrand href="#/">InfluxDB UI</NavbarBrand>
         <NavbarToggler onClick={this.navtoggle} />
         <Collapse isOpen={this.state.navisOpen} navbar>
           <Nav navbar>
@@ -67,10 +67,10 @@ class NavBar extends Component {
           </Nav>
           <Nav className="ml-auto" navbar>
             <NavItem>
-            <NavLink href="/#/">Query</NavLink>
+            <NavLink href="#/">Query</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/#/settings">Settings</NavLink>
+              <NavLink href="#/settings">Settings</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="https://docs.influxdata.com/influxdb/">Docs</NavLink>
@@ -102,7 +102,7 @@ class NavServerList extends Component {
     this.state = {
       serverdropdownisOpen: false,
       databasedropdownisOpen: false,
-    };    
+    };
   }
 
   render() {
@@ -139,7 +139,7 @@ class NavServerList extends Component {
     //  Get the current server:
     let currentServer = SettingsStore.getCurrentServer();
     console.log(currentServer);
-    
+
     //  Reset the database list:
     InfluxAPI.getDatabaseList(currentServer.url);
   }
@@ -147,23 +147,23 @@ class NavServerList extends Component {
 
 //  NavDatabaseList Displays the database list dropdown in the NavBar
 class NavDatabaseList extends Component {
-  
+
     constructor(props) {
       super(props);
-  
+
       this.state = {
         databasedropdownisOpen: false
-      };    
+      };
     }
-  
+
     render() {
       //  If we don't have a list of databases, don't return anything:
       if(this.props.databases.length <= 1) {
         return null;
       }
-  
+
       let currentDatabase = this.props.currentdatabase;
-  
+
       return (
         <Dropdown isOpen={this.state.databasedropdownisOpen} toggle={this.dbdropdowntoggle}>
           <DropdownToggle nav caret>
@@ -177,7 +177,7 @@ class NavDatabaseList extends Component {
         </Dropdown>
       );
     }
-  
+
     dbdropdowntoggle = () => {
       this.setState({
         databasedropdownisOpen: !this.state.databasedropdownisOpen
