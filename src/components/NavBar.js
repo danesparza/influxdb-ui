@@ -141,7 +141,7 @@ class NavServerList extends Component {
     console.log(currentServer);
 
     //  Reset the database list:
-    InfluxAPI.getDatabaseList(currentServer.url);
+    InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
   }
 }
 
