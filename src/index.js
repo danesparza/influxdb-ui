@@ -18,7 +18,7 @@ SettingsAPI.getSettings();
 if(!SettingsStore.needCurrentServer()){
     let currentServer = SettingsStore.getCurrentServer();
     console.log(currentServer);
-    InfluxAPI.getDatabaseList(currentServer.url);
+    InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
   }
 
 ReactDOM.render(<App />, document.getElementById('root'));

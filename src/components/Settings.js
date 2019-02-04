@@ -184,7 +184,7 @@ class Settings extends Component {
       let currentServer = SettingsStore.getCurrentServer();
 
       //  Reset the database list:
-      InfluxAPI.getDatabaseList(currentServer.url);
+      InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
     }
   }
 
