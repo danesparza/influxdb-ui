@@ -1,5 +1,5 @@
 # influxdb-ui [![CircleCI](https://circleci.com/gh/danesparza/influxdb-ui.svg?style=shield)](https://circleci.com/gh/danesparza/influxdb-ui)
-A simple UI for InfluxDB.  Now that [web admin UI has been removed](https://docs.influxdata.com/influxdb/v1.3/administration/differences/#web-admin-ui-removal) in version 1.3 and later releases, I thought it might still be nice to have a simple web UI to manage InfluxDB.
+A simple UI for [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/).  Now that [web admin UI has been removed](https://docs.influxdata.com/influxdb/v1.3/administration/differences/#web-admin-ui-removal) in version 1.3 and later releases, I thought it might still be nice to have a simple web UI to manage InfluxDB.
 
 Built entirely in [React](https://reactjs.org/)/[Flux](https://facebook.github.io/flux/docs/in-depth-overview.html#content) as a browser based single page application.  
 
