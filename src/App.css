@@ -33,3 +33,23 @@
 .server-listing{
   max-width: 700px;
 }
+
+.history-list {
+  background: white;
+  box-shadow: 0 2px 1px 1px #c1c1c1;
+  margin-bottom: 45px;
+}
+
+.history-list > .recent-request {
+  margin: 0;
+  padding: 10px;
+  word-break: break-word;
+}
+
+.history-list > .recent-request:nth-child(odd) {
+  background-color: ghostwhite;
+}
+
+.history-list > .recent-request:not(:last-child) {
+  border-bottom: 1px solid gray;
+}

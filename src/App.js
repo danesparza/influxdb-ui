@@ -5,6 +5,7 @@ import {Router, Route} from 'react-enroute';
 import Main from './components/Main';
 import NotFound from './components/NotFound';
 import Settings from './components/Settings';
+import History from './components/History';
 
 //  Stylesheets & images
 import './App.css';
@@ -49,6 +50,7 @@ class App extends Component {
     return (
       <Router {...this.state}>
         <Route path="/" component={Main} />
+        <Route path="/history" component={History} />
         <Route path="/settings" component={Settings} />
         <Route path="*" component={NotFound} />
       </Router>

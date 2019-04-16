@@ -67,7 +67,10 @@ class NavBar extends Component {
           </Nav>
           <Nav className="ml-auto" navbar>
             <NavItem>
-            <NavLink href="#/">Query</NavLink>
+              <NavLink href="#/">Query</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="#/history">Recent requests</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="#/settings">Settings</NavLink>

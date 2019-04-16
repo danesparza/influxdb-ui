@@ -10,14 +10,14 @@ class InfluxAPI {
             if(serverurl === "" || database === "")
             {
                 console.log("Can't execute query: server or database is blank"); 
-                return; 
+                return Promise.resolve();
             }
 
             //  Set the request
             QueryActions.receiveQueryRequest(query, serverurl, database);
             
             // build auth query params
-            let auth = ""
+            let auth = "";
             if (username !== undefined && username !== "" && password !== undefined && username !== "") {
                 auth = "&u=" + username + "&p=" + password
             }
@@ -26,23 +26,19 @@ class InfluxAPI {
             let url = `${serverurl}/query?q=${encodeURIComponent(query)}`+auth+`&db=${database}`;
             url = url.replace(/%20/g, "+");
 
-            fetch(url, 
+            return fetch(url,
             {
                 mode: 'cors',
                 method: 'get'
             })
-            .then(
-                function (response) {
+                .then(function (response) {
                     // Receive system state
-                    response.json().then(function (data) {
-                        //  Pass data to the action
-                        QueryActions.receiveQueryResults(data);               						
-                    });
-                }
-            )
-            .catch(function (err) {
-                console.log('Fetch Error :-S', err);
-            });
+                    return response.json();
+                })
+                .then(function (data) {
+                    //  Pass data to the action
+                    QueryActions.receiveQueryResults(data);
+                });
         }
 
         //  Gets the list of databases for the given server
