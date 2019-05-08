@@ -14,6 +14,7 @@ import QueryErrorDisplay from './QueryErrorDisplay';
 
 //  Utilities
 import InfluxAPI from '../utils/InfluxAPI';
+import HistoryAPI from '../utils/HistoryAPI';
 
 //  Stores
 import QueryDataStore from '../stores/QueryDataStore';
@@ -285,7 +286,16 @@ class Main extends Component {
   _onQuerySubmit= (e) => {
     e.preventDefault();
 
-    InfluxAPI.getQueryResults(this.state.server.url,this.state.server.username, this.state.server.password, this.state.database, this.state.queryText);
+    const query = this.state.queryText;
+
+    InfluxAPI.getQueryResults(this.state.server.url,this.state.server.username, this.state.server.password, this.state.database, query)
+        .then(function () {
+          // Remember the request
+          HistoryAPI.rememberRequest(query);
+        })
+        .catch(function (err) {
+          console.log('Fetch Error :-S', err);
+        });
   }
 
   //  Data changed:
