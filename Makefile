@@ -1,14 +1,11 @@
 BUILDVERSION=$(shell git describe --tags --always)
 
-all: buildd docker
+all: docker
 
-buildd:
-	yarn build
-
-docker: buildd
+docker:
 	docker build -t influxdb-ui:$(BUILDVERSION) .
 
-publish: buildd docker
+publish: docker
 	docker tag influxdb-ui:$(BUILDVERSION) sillydong/influxdb-ui:$(BUILDVERSION)
 	docker tag influxdb-ui:$(BUILDVERSION) sillydong/influxdb-ui:latest
 	docker push sillydong/influxdb-ui:$(BUILDVERSION)
