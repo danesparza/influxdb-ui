@@ -7,10 +7,6 @@ import NotFound from './components/NotFound';
 import Settings from './components/Settings';
 import History from './components/History';
 
-//  Stylesheets & images
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.css';
-
 const getHash = hash => {
   if (typeof hash === 'string' && hash.length > 0) {
     if (hash.substring(0, 1) === '#') {

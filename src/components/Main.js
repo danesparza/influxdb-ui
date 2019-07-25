@@ -1,11 +1,9 @@
 //  React
 import React, { Component } from 'react';
-import {
-  Dropdown, 
-  DropdownToggle, 
-  DropdownMenu, 
-  DropdownItem,
-} from 'reactstrap';
+
+import { withStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
 
 //  Components
 import Navbar from './NavBar';
@@ -19,10 +17,11 @@ import HistoryAPI from '../utils/HistoryAPI';
 //  Stores
 import QueryDataStore from '../stores/QueryDataStore';
 import SettingsStore from '../stores/SettingsStore';
+import { Container } from '@material-ui/core';
 
-//  Stylesheets & images
-import './../App.css';
-import 'bootstrap/dist/css/bootstrap.css';
+const styles = theme => ({
+  /** Styles here */
+});
 
 class Main extends Component {  
 
@@ -60,6 +59,7 @@ class Main extends Component {
   }
 
   render() {
+    const { classes } = this.props;
 
     //  If we need to setup a server, go to settings:
     if(this.state.needCurrentServer){
@@ -68,67 +68,37 @@ class Main extends Component {
     }
 
     return (
-        <div>
-            <Navbar {...this.props} />
+      <React.Fragment>        
+        <CssBaseline />
+        
+        <Navbar {...this.props} />
 
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col">
-                  <form onSubmit={this._onQuerySubmit}>
-                    <div id="influxQuery" className="input-group">
-                      <span className="input-group-addon" id="basic-addon1">Query:</span>
-                      <input autoFocus ref={(input) => { this.queryInput = input; }} type="text" value={this.state.queryText} onChange={this._onQueryChange} className="form-control" aria-label="Influx query" aria-describedby="basic-addon1"/>
-                    </div>
-                  </form>
-                </div>
-              </div>
+        <main>
+          <Container>
+            <div id="query">
+              <form onSubmit={this._onQuerySubmit} className={classes.container}>
+                <TextField
+                  id="influxQuery"
+                  label="Query"
+                  autoFocus
+                  className={classes.textField}
+                  value={this.state.queryText}
+                  onChange={this._onQueryChange}
+                  margin="normal"
+                  fullWidth
+                />                  
+              </form>
+            </div>
 
-              <div className="row">
-                  <div className="col text-right d-print-none">
-                    <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                      <DropdownToggle caret>
-                        Query templates
-                      </DropdownToggle>
-                      <DropdownMenu>
-                        <DropdownItem onClick={this.showDatabasesText}>Show databases</DropdownItem>
-                        <DropdownItem onClick={this.createDatabaseText}>Create database</DropdownItem>
-                        <DropdownItem onClick={this.dropDatabasesText}>Drop database</DropdownItem>
-                        <DropdownItem divider />
-                        <DropdownItem onClick={this.showMeasurementsText}>Show measurements</DropdownItem>
-                        <DropdownItem onClick={this.showTagKeysText}>Show tag keys</DropdownItem>
-                        <DropdownItem onClick={this.showTagValuesText}>Show tag values</DropdownItem>
-                        <DropdownItem divider />
-                        <DropdownItem onClick={this.showRetentionPolicyText}>Show retention policies</DropdownItem>
-                        <DropdownItem onClick={this.createRetentionPolicyText}>Create retention policy</DropdownItem>
-                        <DropdownItem onClick={this.dropRetentionPolicyText}>Drop retention policy</DropdownItem>
-                        <DropdownItem divider />
-                        <DropdownItem onClick={this.showContinuousQueryText}>Show continuous queries</DropdownItem>
-                        <DropdownItem onClick={this.createContinuousQueryText}>Create continuous query</DropdownItem>
-                        <DropdownItem onClick={this.dropContinuousQueryText}>Drop continuous query</DropdownItem>
-                        <DropdownItem divider />
-                        <DropdownItem onClick={this.showUserText}>Show users</DropdownItem>
-                        <DropdownItem onClick={this.createUserText}>Create user</DropdownItem>
-                        <DropdownItem onClick={this.createAdminUserText}>Create admin user</DropdownItem>
-                        <DropdownItem onClick={this.dropUserText}>Drop user</DropdownItem>
-                        <DropdownItem divider />
-                        <DropdownItem onClick={this.showStatsText}>Show stats</DropdownItem>
-                        <DropdownItem onClick={this.showDiagnosticsText}>Show diagnostics</DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
-              </div>
+            <div id="queryResults">
+              <QueryErrorDisplay haserror={this.state.QueryHasError} error={this.state.QueryError} />
+              <QueryResultList results={this.state.QueryResults} />
+            </div>
 
-              <div className="row">
-                <div className="col">
-                  <div id="queryResults">
-                    <QueryErrorDisplay haserror={this.state.QueryHasError} error={this.state.QueryError} />
-                    <QueryResultList results={this.state.QueryResults} />
-                  </div>
-                </div>
-              </div>
-
-            </div> 
-        </div>
+          </Container>
+          
+        </main>        
+      </React.Fragment>
     );
   }
 
@@ -317,4 +287,4 @@ class Main extends Component {
   };
 }
 
-export default Main;
+export default withStyles(styles)(Main);

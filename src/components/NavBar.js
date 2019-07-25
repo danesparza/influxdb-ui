@@ -1,17 +1,11 @@
 //  React and reactstrap
 import React, { Component } from 'react';
-import {
-  Collapse,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  Dropdown,
-  DropdownToggle,
-  DropdownItem,
-  DropdownMenu,
-} from 'reactstrap';
+
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import ReceiptIcon from '@material-ui/icons/Receipt';
 
 //  Stores
 import SettingsStore from '../stores/SettingsStore';
@@ -20,9 +14,9 @@ import SettingsStore from '../stores/SettingsStore';
 import SettingsAPI from '../utils/SettingsAPI';
 import InfluxAPI from '../utils/InfluxAPI';
 
-//  Stylesheets & images
-import './../App.css';
-import 'bootstrap/dist/css/bootstrap.css';
+const styles = theme => ({
+  /* Styles here */
+});
 
 class NavBar extends Component {
 
@@ -30,18 +24,11 @@ class NavBar extends Component {
     super(props);
 
     this.state = {
-      navisOpen: false,
       Servers: SettingsStore.getServerList() || [],
       DatabaseList: SettingsStore.getDatabaseList() || [],
       CurrentServer: SettingsStore.getCurrentServer(),
       CurrentDatabase: SettingsStore.getCurrentDatabase(),
     };
-  }
-
-  navtoggle = () => {
-    this.setState({
-      navisOpen: !this.state.navisOpen
-    });
   }
 
   componentDidMount(){
@@ -55,32 +42,21 @@ class NavBar extends Component {
   }
 
   render() {
+    const { classes } = this.props;
 
     return (
-      <nav className="navbar navbar-expand-sm navbar-light bg-light d-print-none">
-        <NavbarBrand href="#/">InfluxDB UI</NavbarBrand>
-        <NavbarToggler onClick={this.navtoggle} />
-        <Collapse isOpen={this.state.navisOpen} navbar>
-          <Nav navbar>
-            <NavServerList servers={this.state.Servers} currentserver={this.state.CurrentServer} />
-            <NavDatabaseList databases={this.state.DatabaseList} currentdatabase={this.state.CurrentDatabase} />
-          </Nav>
-          <Nav className="ml-auto" navbar>
-            <NavItem>
-              <NavLink href="#/">Query</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="#/history">Recent requests</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="#/settings">Settings</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="https://docs.influxdata.com/influxdb/">Docs</NavLink>
-            </NavItem>
-          </Nav>
-        </Collapse>
-      </nav>
+      <React.Fragment>
+
+        <AppBar position="relative">
+          <Toolbar>
+            <ReceiptIcon className={classes.icon} />
+            <Typography variant="h6" color="inherit" noWrap>
+              InfluxDB UI
+            </Typography>
+          </Toolbar>
+        </AppBar>
+          
+      </React.Fragment>
     );
   }
 
@@ -117,16 +93,7 @@ class NavServerList extends Component {
     let currentServer = this.props.currentserver.name;
 
     return (
-      <Dropdown isOpen={this.state.serverdropdownisOpen} toggle={this.serverdropdowntoggle}>
-        <DropdownToggle nav caret>
-          Server: {currentServer}
-        </DropdownToggle>
-        <DropdownMenu>
-          {this.props.servers.map(function(server, index) {
-              return <DropdownItem key={index} onClick={this.itemclick}>{server.name}</DropdownItem>;
-          }, this)}
-        </DropdownMenu>
-      </Dropdown>
+      <div>Server list</div>
     );
   }
 
@@ -168,16 +135,7 @@ class NavDatabaseList extends Component {
       let currentDatabase = this.props.currentdatabase;
 
       return (
-        <Dropdown isOpen={this.state.databasedropdownisOpen} toggle={this.dbdropdowntoggle}>
-          <DropdownToggle nav caret>
-            Database: {currentDatabase}
-          </DropdownToggle>
-          <DropdownMenu>
-            {this.props.databases.map(function(database, index) {
-                return <DropdownItem key={index} onClick={this.itemclick}>{database}</DropdownItem>;
-            }, this)}
-          </DropdownMenu>
-        </Dropdown>
+        <div>Database list</div>
       );
     }
 
@@ -192,4 +150,4 @@ class NavDatabaseList extends Component {
     }
   }
 
-export default NavBar;
+export default withStyles(styles)(NavBar);
