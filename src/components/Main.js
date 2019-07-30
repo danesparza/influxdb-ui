@@ -73,35 +73,33 @@ class Main extends Component {
 
         <main>
           <Container>
-            <div id="query">
-              <form onSubmit={this._onQuerySubmit} className={classes.container}>
-                <TextField
-                  id="influxQuery"
-                  label="Query"
-                  autoFocus
-                  className={classes.textField}
-                  value={this.state.queryText}
-                  onChange={this._onQueryChange}
-                  margin="normal"
-                  fullWidth
-                />
-
-                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
-                  Open Menu
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={this.state.anchorEl}
-                  keepMounted
-                  open={Boolean(this.state.anchorEl)}
-                  onClose={this.handleClose}
-                >
-                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                  <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-                </Menu>                 
-              </form>
-            </div>
+            <form onSubmit={this._onQuerySubmit} className={classes.container} >
+              <TextField
+                id="influxQuery"
+                label="Query"
+                autoFocus
+                className={classes.textField}
+                value={this.state.queryText}
+                onChange={this._onQueryChange}
+                margin="normal"
+                fullWidth
+              />                               
+            </form>
+            
+            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
+              Open Menu
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={this.state.anchorEl}
+              keepMounted
+              open={Boolean(this.state.anchorEl)}
+              onClose={this.handleClose}
+            >
+              <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+              <MenuItem onClick={this.handleClose}>My account</MenuItem>
+              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+            </Menu>  
 
             <div id="queryResults">
               <QueryErrorDisplay haserror={this.state.QueryHasError} error={this.state.QueryError} />
