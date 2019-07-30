@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 //  Components
 import Navbar from './NavBar';
@@ -29,6 +32,7 @@ class Main extends Component {
     super(props);
 
     this.state = {
+      anchorEl: null,
       dropdownOpen: false,
       needCurrentServer: SettingsStore.needCurrentServer(),
       server: SettingsStore.getCurrentServer(),
@@ -38,12 +42,6 @@ class Main extends Component {
       QueryResults: QueryDataStore.getQueryResults(),
       QueryError: QueryDataStore.getQueryError()
     };
-  }
-
-  toggle = () => {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
   }
 
   componentDidMount(){    
@@ -86,7 +84,22 @@ class Main extends Component {
                   onChange={this._onQueryChange}
                   margin="normal"
                   fullWidth
-                />                  
+                />
+
+                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
+                  Open Menu
+                </Button>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={this.state.anchorEl}
+                  keepMounted
+                  open={Boolean(this.state.anchorEl)}
+                  onClose={this.handleClose}
+                >
+                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                  <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                </Menu>                 
               </form>
             </div>
 
@@ -100,6 +113,18 @@ class Main extends Component {
         </main>        
       </React.Fragment>
     );
+  }
+
+  handleClick = (event) => {
+    this.setState({
+      anchorEl: event.currentTarget
+    });
+  }
+
+  handleClose = () => {
+    this.setState({
+      anchorEl: null
+    });
   }
 
   _onQueryChange = (e) => {
