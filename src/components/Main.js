@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -71,43 +72,46 @@ class Main extends Component {
         
         <Navbar {...this.props} />
 
-        <main>
-          <Container>
-            <form onSubmit={this._onQuerySubmit} className={classes.container} >
-              <TextField
-                id="influxQuery"
-                label="Query"
-                autoFocus
-                className={classes.textField}
-                value={this.state.queryText}
-                onChange={this._onQueryChange}
-                margin="normal"
-                fullWidth
-              />                               
-            </form>
+        <main style={{ padding: 20}}>
+          <Grid container spacing={3}>
+            <Grid item xs={10}>
+              <form onSubmit={this._onQuerySubmit} className={classes.container} >
+                <TextField
+                  id="influxQuery"
+                  label="Query"
+                  autoFocus
+                  className={classes.textField}
+                  value={this.state.queryText}
+                  onChange={this._onQueryChange}
+                  margin="normal"
+                  fullWidth
+                />                               
+              </form>
+            </Grid>
             
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
-              Open Menu
-            </Button>
-            <Menu
-              id="simple-menu"
-              anchorEl={this.state.anchorEl}
-              keepMounted
-              open={Boolean(this.state.anchorEl)}
-              onClose={this.handleClose}
-            >
-              <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-              <MenuItem onClick={this.handleClose}>My account</MenuItem>
-              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-            </Menu>  
-
-            <div id="queryResults">
-              <QueryErrorDisplay haserror={this.state.QueryHasError} error={this.state.QueryError} />
-              <QueryResultList results={this.state.QueryResults} />
-            </div>
-
-          </Container>
+            <Grid item xs={2}>
+              <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
+                Open Menu
+              </Button>
+              <Menu
+                id="simple-menu"
+                anchorEl={this.state.anchorEl}
+                keepMounted
+                open={Boolean(this.state.anchorEl)}
+                onClose={this.handleClose}
+              >
+                <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+              </Menu>                
+            </Grid>          
+          </Grid>
           
+          <div id="queryResults">
+            <QueryErrorDisplay haserror={this.state.QueryHasError} error={this.state.QueryError} />
+            <QueryResultList results={this.state.QueryResults} />
+          </div>
+
         </main>        
       </React.Fragment>
     );
