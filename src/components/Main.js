@@ -21,7 +21,6 @@ import HistoryAPI from '../utils/HistoryAPI';
 //  Stores
 import QueryDataStore from '../stores/QueryDataStore';
 import SettingsStore from '../stores/SettingsStore';
-import { Container } from '@material-ui/core';
 
 const styles = theme => ({
   /** Styles here */
@@ -73,8 +72,8 @@ class Main extends Component {
         <Navbar {...this.props} />
 
         <main style={{ padding: 20}}>
-          <Grid container spacing={3}>
-            <Grid item xs={10}>
+          <Grid container spacing={3} alignItems="center">
+            <Grid item xs={9} lg={10}>
               <form onSubmit={this._onQuerySubmit} className={classes.container} >
                 <TextField
                   id="influxQuery"
@@ -89,9 +88,9 @@ class Main extends Component {
               </form>
             </Grid>
             
-            <Grid item xs={2}>
+            <Grid item xs={3} lg={2}>
               <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
-                Open Menu
+                Query templates
               </Button>
               <Menu
                 id="simple-menu"
@@ -100,9 +99,14 @@ class Main extends Component {
                 open={Boolean(this.state.anchorEl)}
                 onClose={this.handleClose}
               >
-                <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                <MenuItem onClick={this.showDatabasesText}>Show databases</MenuItem>
+                <MenuItem onClick={this.createDatabaseText}>Create database</MenuItem>                
+                <MenuItem onClick={this.dropDatabasesText}>Drop database</MenuItem>
+                <hr />
+                <MenuItem onClick={this.showMeasurementsText}>Show measurements</MenuItem>
+                <MenuItem onClick={this.showTagKeysText}>Show tag keys</MenuItem>
+                <MenuItem onClick={this.showTagValuesText}>Show tag values</MenuItem>
+                <MenuItem onClick={this.showRetentionPolicyText}>Show retention policies</MenuItem>
               </Menu>                
             </Grid>          
           </Grid>
@@ -138,145 +142,145 @@ class Main extends Component {
   //  Show databases
   showDatabasesText = () => {
     this.setState({
-      queryText: "SHOW DATABASES"
+      queryText: "SHOW DATABASES",
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Create database
   createDatabaseText = () => {
     this.setState({
-      queryText: `CREATE DATABASE "db_name"`
-    });
-    this.focusQueryInput();
+      queryText: `CREATE DATABASE "db_name"`,
+      anchorEl: null
+    });    
   };
 
   //  Drop database
   dropDatabasesText = () => {
     this.setState({
-      queryText: `DROP DATABASE "db_name"`
+      queryText: `DROP DATABASE "db_name"`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Show measurements
   showMeasurementsText = () => {
     this.setState({
-      queryText: "SHOW MEASUREMENTS"
+      queryText: "SHOW MEASUREMENTS",
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Show tag keys
   showTagKeysText = () => {
     this.setState({
-      queryText: `SHOW TAG KEYS FROM "measurement_name"`
+      queryText: `SHOW TAG KEYS FROM "measurement_name"`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Show tag values
   showTagValuesText = () => {
     this.setState({
-      queryText: `SHOW TAG VALUES FROM "measurement_name" WITH KEY = "tag_key"`
+      queryText: `SHOW TAG VALUES FROM "measurement_name" WITH KEY = "tag_key"`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Show retention policies
   showRetentionPolicyText = () => {
     this.setState({
-      queryText: `SHOW RETENTION POLICIES ON "db_name"`
+      queryText: `SHOW RETENTION POLICIES ON "db_name"`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Create retention policy
   createRetentionPolicyText = () => {
     this.setState({
-      queryText: `CREATE RETENTION POLICY "rp_name" ON "db_name" DURATION 30d REPLICATION 1 DEFAULT`
+      queryText: `CREATE RETENTION POLICY "rp_name" ON "db_name" DURATION 30d REPLICATION 1 DEFAULT`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Drop retention policy
   dropRetentionPolicyText = () => {
     this.setState({
-      queryText: `DROP RETENTION POLICY "rp_name" ON "db_name"`
+      queryText: `DROP RETENTION POLICY "rp_name" ON "db_name"`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Show continuous queries
   showContinuousQueryText = () => {
     this.setState({
-      queryText: `SHOW CONTINUOUS QUERIES`
+      queryText: `SHOW CONTINUOUS QUERIES`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Create continuous query
   createContinuousQueryText = () => {
     this.setState({
-      queryText: `CREATE CONTINUOUS QUERY "cq_name" ON "db_name" BEGIN SELECT min("field") INTO "target_measurement" FROM "current_measurement" GROUP BY time(30m) END`
+      queryText: `CREATE CONTINUOUS QUERY "cq_name" ON "db_name" BEGIN SELECT min("field") INTO "target_measurement" FROM "current_measurement" GROUP BY time(30m) END`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Drop continuous query
   dropContinuousQueryText = () => {
     this.setState({
-      queryText: `DROP CONTINUOUS QUERY "cq_name" ON "db_name"`
+      queryText: `DROP CONTINUOUS QUERY "cq_name" ON "db_name"`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Show users
   showUserText = () => {
     this.setState({
-      queryText: `SHOW USERS`
+      queryText: `SHOW USERS`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Create user
   createUserText = () => {
     this.setState({
-      queryText: `CREATE USER "username" WITH PASSWORD 'password'`
+      queryText: `CREATE USER "username" WITH PASSWORD 'password'`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Create admin user
   createAdminUserText = () => {
     this.setState({
-      queryText: `CREATE USER "username" WITH PASSWORD 'password' WITH ALL PRIVILEGES`
+      queryText: `CREATE USER "username" WITH PASSWORD 'password' WITH ALL PRIVILEGES`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Drop user
   dropUserText = () => {
     this.setState({
-      queryText: `DROP USER "username"`
+      queryText: `DROP USER "username"`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Show stats
   showStatsText = () => {
     this.setState({
-      queryText: `SHOW STATS`
+      queryText: `SHOW STATS`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Show diagnostics
   showDiagnosticsText = () => {
     this.setState({
-      queryText: `SHOW DIAGNOSTICS`
+      queryText: `SHOW DIAGNOSTICS`,
+      anchorEl: null
     });
-    this.focusQueryInput();
   };
 
   //  Form submission (or 'enter' press in the query field)
@@ -310,7 +314,7 @@ class Main extends Component {
 
   //  Focus input on the query textbox
   focusQueryInput = () => {
-    this.queryInput.focus();
+    this.influxQuery.focus();
   };
 }
 
