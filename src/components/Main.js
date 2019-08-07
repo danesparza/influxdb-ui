@@ -2,12 +2,15 @@
 import React, { Component } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import {
+  CssBaseline, 
+  TextField, 
+  Button, 
+  Menu, 
+  MenuItem
+} from '@material-ui/core';
+
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 //  Components
 import Navbar from './NavBar';
@@ -23,7 +26,15 @@ import QueryDataStore from '../stores/QueryDataStore';
 import SettingsStore from '../stores/SettingsStore';
 
 const styles = theme => ({
-  /** Styles here */
+  row: {
+    height: '42px',
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: theme.spacing(1)
+  },
+  spacer: {
+    flexGrow: 1
+  },
 });
 
 class Main extends Component {  
@@ -72,45 +83,61 @@ class Main extends Component {
         <Navbar {...this.props} />
 
         <main style={{ padding: 20}}>
-          <Grid container spacing={3} alignItems="center">
-            <Grid item xs={9} lg={10}>
-              <form onSubmit={this._onQuerySubmit} className={classes.container} >
-                <TextField
-                  id="influxQuery"
-                  label="Query"
-                  autoFocus
-                  className={classes.textField}
-                  value={this.state.queryText}
-                  onChange={this._onQueryChange}
-                  margin="normal"
-                  fullWidth
-                />                               
-              </form>
-            </Grid>
-            
-            <Grid item xs={3} lg={2}>
-              <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
-                Query templates
-              </Button>
-              <Menu
-                id="simple-menu"
-                anchorEl={this.state.anchorEl}
-                keepMounted
-                open={Boolean(this.state.anchorEl)}
-                onClose={this.handleClose}
-              >
-                <MenuItem onClick={this.showDatabasesText}>Show databases</MenuItem>
-                <MenuItem onClick={this.createDatabaseText}>Create database</MenuItem>                
-                <MenuItem onClick={this.dropDatabasesText}>Drop database</MenuItem>
-                <hr />
-                <MenuItem onClick={this.showMeasurementsText}>Show measurements</MenuItem>
-                <MenuItem onClick={this.showTagKeysText}>Show tag keys</MenuItem>
-                <MenuItem onClick={this.showTagValuesText}>Show tag values</MenuItem>
-                <MenuItem onClick={this.showRetentionPolicyText}>Show retention policies</MenuItem>
-              </Menu>                
-            </Grid>          
-          </Grid>
           
+          <form onSubmit={this._onQuerySubmit} className={classes.container} >
+            <TextField
+              id="influxQuery"
+              label="Query"
+              autoFocus
+              className={classes.textField}
+              value={this.state.queryText}
+              onChange={this._onQueryChange}
+              margin="normal"
+              fullWidth
+            />                               
+          </form>
+          
+          <div className={classes.row}>
+            <span className={classes.spacer} />
+
+            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
+              Query templates <ArrowDropDownIcon />
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={this.state.anchorEl}
+              keepMounted
+              open={Boolean(this.state.anchorEl)}
+              onClose={this.handleClose}
+            >
+              <MenuItem onClick={this.showDatabasesText}>Show databases</MenuItem>
+              <MenuItem onClick={this.createDatabaseText}>Create database</MenuItem>                
+              <MenuItem onClick={this.dropDatabasesText}>Drop database</MenuItem>
+              <MenuItem onClick={this.showMeasurementsText}>Show measurements</MenuItem>
+              <hr />                
+              <MenuItem onClick={this.showTagKeysText}>Show tag keys</MenuItem>
+              <MenuItem onClick={this.showTagValuesText}>Show tag values</MenuItem>
+              <hr />
+              <MenuItem onClick={this.showRetentionPolicyText}>Show retention policies</MenuItem>
+              <MenuItem onClick={this.createRetentionPolicyText}>Create retention policy</MenuItem>
+              <MenuItem onClick={this.dropRetentionPolicyText}>Drop retention policy</MenuItem>
+              <hr />
+              <MenuItem onClick={this.showContinuousQueryText}>Show continuous queries</MenuItem>
+              <MenuItem onClick={this.createContinuousQueryText}>Create continuous query</MenuItem>
+              <MenuItem onClick={this.dropContinuousQueryText}>Drop continuous query</MenuItem>
+              <hr />
+              <MenuItem onClick={this.showUserText}>Show users</MenuItem>
+              <MenuItem onClick={this.createUserText}>Create user</MenuItem>
+              <MenuItem onClick={this.createAdminUserText}>Create admin user</MenuItem>
+              <MenuItem onClick={this.dropUserText}>Drop user</MenuItem>
+              <hr />
+              <MenuItem onClick={this.showStatsText}>Show stats</MenuItem>
+              <MenuItem onClick={this.showDiagnosticsText}>Show diagnostics</MenuItem>
+            </Menu>
+          </div>
+
+          
+            
           <div id="queryResults">
             <QueryErrorDisplay haserror={this.state.QueryHasError} error={this.state.QueryError} />
             <QueryResultList results={this.state.QueryResults} />
