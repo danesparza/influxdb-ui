@@ -16,10 +16,15 @@ import SettingsStore from '../stores/SettingsStore';
 //  Actions
 import SettingsAPI from '../utils/SettingsAPI';
 import InfluxAPI from '../utils/InfluxAPI';
+import { withTheme } from '@material-ui/styles';
 
 const styles = theme => ({
   toolbarTitle: {
     flex: 1,
+  },
+  navbutton: {
+    margin: theme.spacing(.5),
+    color: "#efefef"
   },
 });
 
@@ -58,16 +63,16 @@ class NavBar extends Component {
             <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
               InfluxDB UI
             </Typography>
-            <Button>
+            <Button className={classes.navbutton} href="/#/">
               Query
             </Button>
-            <Button>
+            <Button className={classes.navbutton} href="/#/history/">
               History
             </Button>
-            <Button>
+            <Button className={classes.navbutton} href="/#/settings/">
               Settings
             </Button>
-            <Button>
+            <Button className={classes.navbutton} href="https://docs.influxdata.com/influxdb/">
               Docs
             </Button>
           </Toolbar>

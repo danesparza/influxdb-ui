@@ -1,16 +1,24 @@
 //  React
 import React, { Component } from 'react';
 
+//  Material-UI
 import { withStyles } from '@material-ui/core/styles';
 import {
   CssBaseline, 
   TextField, 
   Button, 
   Menu, 
-  MenuItem
+  MenuItem,
+  Divider,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  Typography
 } from '@material-ui/core';
 
+//  Icons
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 //  Components
 import Navbar from './NavBar';
@@ -82,7 +90,7 @@ class Main extends Component {
         
         <Navbar {...this.props} />
 
-        <main style={{ padding: 20}}>
+        <main style={{ padding: 20}}>      
           
           <form onSubmit={this._onQuerySubmit} className={classes.container} >
             <TextField
@@ -112,25 +120,25 @@ class Main extends Component {
             >
               <MenuItem onClick={this.showDatabasesText}>Show databases</MenuItem>
               <MenuItem onClick={this.createDatabaseText}>Create database</MenuItem>                
-              <MenuItem onClick={this.dropDatabasesText}>Drop database</MenuItem>
+              <MenuItem onClick={this.dropDatabasesText}>Drop database</MenuItem>              
+              <Divider/>                
               <MenuItem onClick={this.showMeasurementsText}>Show measurements</MenuItem>
-              <hr />                
               <MenuItem onClick={this.showTagKeysText}>Show tag keys</MenuItem>
               <MenuItem onClick={this.showTagValuesText}>Show tag values</MenuItem>
-              <hr />
+              <Divider/>      
               <MenuItem onClick={this.showRetentionPolicyText}>Show retention policies</MenuItem>
               <MenuItem onClick={this.createRetentionPolicyText}>Create retention policy</MenuItem>
               <MenuItem onClick={this.dropRetentionPolicyText}>Drop retention policy</MenuItem>
-              <hr />
+              <Divider/>      
               <MenuItem onClick={this.showContinuousQueryText}>Show continuous queries</MenuItem>
               <MenuItem onClick={this.createContinuousQueryText}>Create continuous query</MenuItem>
               <MenuItem onClick={this.dropContinuousQueryText}>Drop continuous query</MenuItem>
-              <hr />
+              <Divider/>      
               <MenuItem onClick={this.showUserText}>Show users</MenuItem>
               <MenuItem onClick={this.createUserText}>Create user</MenuItem>
               <MenuItem onClick={this.createAdminUserText}>Create admin user</MenuItem>
               <MenuItem onClick={this.dropUserText}>Drop user</MenuItem>
-              <hr />
+              <Divider/>      
               <MenuItem onClick={this.showStatsText}>Show stats</MenuItem>
               <MenuItem onClick={this.showDiagnosticsText}>Show diagnostics</MenuItem>
             </Menu>
