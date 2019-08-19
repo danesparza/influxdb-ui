@@ -10,10 +10,9 @@ import {
   Menu, 
   MenuItem,
   Divider,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  Typography
+  FormControl,
+  InputLabel,
+  Select
 } from '@material-ui/core';
 
 //  Icons
@@ -51,6 +50,8 @@ class Main extends Component {
     super(props);
 
     this.state = {
+      server: 10,
+      database: 10,
       anchorEl: null,
       dropdownOpen: false,
       needCurrentServer: SettingsStore.needCurrentServer(),
@@ -91,6 +92,44 @@ class Main extends Component {
         <Navbar {...this.props} />
 
         <main style={{ padding: 20}}>      
+
+          <div className="classes.row">
+            <FormControl className={classes.formControl} style={{marginRight: 20}}>
+              <InputLabel htmlFor="age-native-simple">Server</InputLabel>
+              <Select
+                native
+                value={this.state.server}
+                onChange={this.handleServerSelect}
+                inputProps={{
+                  name: 'server',
+                  id: 'servername',
+                }}
+              >
+                <option value="" />
+                <option value={10}>Ten</option>
+                <option value={20}>Twenty</option>
+                <option value={30}>Thirty</option>
+              </Select>
+            </FormControl>
+
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="age-native-simple">Database</InputLabel>
+              <Select
+                native
+                value={this.state.database}
+                onChange={this.handleDatabaseSelect}
+                inputProps={{
+                  name: 'database',
+                  id: 'databasename',
+                }}
+              >
+                <option value="" />
+                <option value={10}>Ten</option>
+                <option value={20}>Twenty</option>
+                <option value={30}>Thirty</option>
+              </Select>
+            </FormControl>
+          </div>
           
           <form onSubmit={this._onQuerySubmit} className={classes.container} >
             <TextField
@@ -155,6 +194,18 @@ class Main extends Component {
       </React.Fragment>
     );
   }
+
+  handleServerSelect = (event) => {  
+    this.setState({
+      server: event.target.value
+    });    
+  };
+
+  handleDatabaseSelect = (event) => {  
+    this.setState({
+      database: event.target.value
+    });    
+  };
 
   handleClick = (event) => {
     this.setState({
