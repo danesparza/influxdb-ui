@@ -1,6 +1,26 @@
 //  React
 import React, { Component } from 'react';
 
+//  Material-UI
+import { withStyles } from '@material-ui/core/styles';
+import {
+  CssBaseline,
+  Paper, 
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  TextField, 
+  Button, 
+  Menu, 
+  MenuItem,
+  Divider,
+  FormControl,
+  InputLabel,
+  Select
+} from '@material-ui/core';
+
 //  Components
 import Navbar from './NavBar';
 
@@ -10,6 +30,29 @@ import InfluxAPI from '../utils/InfluxAPI';
 
 //  Stores
 import SettingsStore from '../stores/SettingsStore';
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing(3),
+    overflowX: 'auto',
+  },
+  row: {
+    height: '42px',
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: theme.spacing(1)
+  },
+  table: {
+    minWidth: 650,
+  },
+  spacer: {
+    flexGrow: 1
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+});
 
 class Settings extends Component {
 
@@ -34,41 +77,59 @@ class Settings extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     
     return (
-      <div>
+      <React.Fragment>
+        <CssBaseline />
+        
         <Navbar {...this.props} />
 
-        <div className="container">
-          <div className="row">
-            <div className="col">
-              
-                <p className="lead text-muted settings-header">Servers</p>
+        <main style={{ padding: 20}}>      
+
+          <div className="classes.row">
+                        
+                <h2>Servers</h2>
                 <div className="rounded settings-group">
 
                   <div className="settings-explanation">
                     This is a list of InfluxDB servers you can connect to. 
                   </div>
 
-                  <table className="table table-responsive">
-                    <thead className="thead-default">
-                      <tr>
-                        <th>Name</th>
-                        <th>Url</th>
-                        <th>Username</th>
-                        <th>Password</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.state.Servers.map(function(server, index) {
-                          return <tr key={index}><td>{server.name}</td><td>{server.url}</td><td>{server.username}</td><td>{server.password && "*"}</td><td><DeleteButton name={server.name} onDelete={this._onRemoveServerClick} /></td></tr>;
-                      }, this)}
-                    </tbody>
-                  </table>
+                  <Paper className={classes.root}>
+                    <Table className={classes.table}>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Name</TableCell>
+                          <TableCell>Url</TableCell>
+                          <TableCell>Username</TableCell>
+                          <TableCell>Password</TableCell>
+                          <TableCell align="right">Actions</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {this.state.Servers.map(server => (
+                          <TableRow key={server.name}>
+                            <TableCell component="th" scope="row">
+                              {server.name}
+                            </TableCell>
+                            <TableCell>{server.url}</TableCell>
+                            <TableCell>{server.username}</TableCell>
+                            <TableCell>{server.password}</TableCell>
+                            <TableCell align="right">
+                              <Button size="small" variant="contained" className={classes.button}>
+                                Remove
+                              </Button>             
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Paper>                  
 
-                  <h5>Add a server</h5>
+                  <h3>Add a server</h3>                  
                   <form onSubmit={this._onAddServerClick}>
+                    
                     <div className="form-row">
                       <div className="col">
                         <label className="sr-only" htmlFor="txtAddName">Server name</label>
@@ -94,6 +155,7 @@ class Settings extends Component {
                         <button type="submit" className="btn btn-secondary">Add</button>
                       </div>
                     </div>
+                    
                   </form>
 
                 </div>
@@ -101,9 +163,8 @@ class Settings extends Component {
               
 
             </div>
-          </div>
-        </div>
-      </div>
+          </main>
+        </React.Fragment>     
     );
   }
 
@@ -213,4 +274,4 @@ class DeleteButton extends Component {
   }
 }
 
-export default Settings;
+export default withStyles(styles)(Settings);
