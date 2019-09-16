@@ -11,7 +11,8 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  TextField, 
+  TextField,
+  Grid,   
   Button, 
   Menu, 
   MenuItem,
@@ -37,6 +38,12 @@ const styles = theme => ({
     marginTop: theme.spacing(3),
     overflowX: 'auto',
   },
+  addServerArea: {
+    width: '100%',
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(3),
+    overflowX: 'auto',
+  },
   row: {
     height: '42px',
     display: 'flex',
@@ -51,6 +58,14 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing(1),
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  addServerButton: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(1),
   },
 });
 
@@ -90,9 +105,8 @@ class Settings extends Component {
           <div className="classes.row">
                         
                 <h2>Servers</h2>
-                <div className="rounded settings-group">
 
-                  <div className="settings-explanation">
+                  <div>
                     This is a list of InfluxDB servers you can connect to. 
                   </div>
 
@@ -127,42 +141,82 @@ class Settings extends Component {
                     </Table>
                   </Paper>                  
 
-                  <h3>Add a server</h3>                  
+                  <h3>Add a server</h3>
+                                                      
                   <form onSubmit={this._onAddServerClick}>
-                    
-                    <div className="form-row">
-                      <div className="col">
-                        <label className="sr-only" htmlFor="txtAddName">Server name</label>
-                        <input type="text" autoFocus ref={(input) => { this.addName = input; }} className="form-control" id="txtAddName" value={this.state.AddServerName} onChange={this._onAddServerNameChange} placeholder="Dev server" required/>
-                      </div>
+
+                  <Paper className={classes.addServerArea}>               
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          required
+                          id="txtAddName"
+                          name="txtAddName"
+                          label="Server name"
+                          fullWidth
+                          autoFocus
+                          ref={(input) => { this.addName = input; }} 
+                          value={this.state.AddServerName} 
+                          onChange={this._onAddServerNameChange}
+                          placeholder="Dev server"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          required
+                          id="txtAddUrl"
+                          name="txtAddUrl"
+                          label="Server url"
+                          fullWidth
+                          value={this.state.AddServerUrl} 
+                          onChange={this._onAddServerUrlChange} 
+                          placeholder="http://dev.server:8086" 
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          id="txtAddUsername"
+                          name="txtAddUsername"
+                          label="Username"
+                          fullWidth
+                          value={this.state.AddServerUsername} 
+                          onChange={this._onAddServerUsernameChange} 
+                          placeholder="username" 
+                          autoComplete="off"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          id="txtAddPassword"
+                          name="txtAddPassword"
+                          label="Password"
+                          fullWidth
+                          value={this.state.AddServerPassword} 
+                          onChange={this._onAddServerPasswordChange} 
+                          placeholder="password" 
+                          autoComplete="off"
+                        />
+                      </Grid>
                       
-                      <div className="col">
-                        <label className="sr-only" htmlFor="txtAddUrl">Server url</label>
-                        <input type="url" className="form-control" id="txtAddUrl" value={this.state.AddServerUrl} onChange={this._onAddServerUrlChange} placeholder="http://dev.server:8086" required/>
-                      </div>
+                    </Grid>
 
-                      <div className="col">
-                        <label className="sr-only" htmlFor="txtAddUsername">Username</label>
-                        <input type="text" className="form-control" id="txtAddUsername" value={this.state.AddServerUsername} onChange={this._onAddServerUsernameChange} placeholder="username" autoComplete="off"/>
-                      </div>
-
-                      <div className="col">
-                        <label className="sr-only" htmlFor="txtAddPassword">Password</label>
-                        <input type="password" className="form-control" id="txtAddPassword" value={this.state.AddServerPassword} onChange={this._onAddServerPasswordChange} placeholder="password" autoComplete="off"/>
-                      </div>
-
-                      <div className="col">
-                        <button type="submit" className="btn btn-secondary">Add</button>
-                      </div>
+                    <div className={classes.buttons}>                      
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this._onAddServerClick}
+                        className={classes.addServerButton}
+                      >
+                        Add server
+                      </Button>
                     </div>
+                  </Paper>
                     
                   </form>
 
                 </div>
 
-              
-
-            </div>
           </main>
         </React.Fragment>     
     );
