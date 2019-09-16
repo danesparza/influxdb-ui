@@ -62,6 +62,7 @@ class Main extends Component {
       anchorEl: null,
       dropdownOpen: false,
       needCurrentServer: SettingsStore.needCurrentServer(),
+      Servers: SettingsStore.getServerList() || [],
       server: SettingsStore.getCurrentServer(),
       database: SettingsStore.getCurrentDatabase(),
       queryText: QueryDataStore.getQueryRequest(),
@@ -112,10 +113,9 @@ class Main extends Component {
                   id: 'servername',
                 }}
               >
-                <option value="" />
-                <option value={10}>Ten</option>
-                <option value={20}>Twenty</option>
-                <option value={30}>Thirty</option>
+                {this.state.Servers.map(server => (
+                  <option value="{server.name}">{server.name}</option>                    
+                ))}
               </Select>
             </FormControl>
 
