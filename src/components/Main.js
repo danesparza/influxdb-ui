@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import {
   CssBaseline, 
+  Paper, 
   TextField, 
   Button, 
   Menu, 
@@ -33,6 +34,12 @@ import QueryDataStore from '../stores/QueryDataStore';
 import SettingsStore from '../stores/SettingsStore';
 
 const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(3),
+    overflowX: 'auto',
+  },
   row: {
     height: '42px',
     display: 'flex',
@@ -131,58 +138,59 @@ class Main extends Component {
             </FormControl>
           </div>
           
-          <form onSubmit={this._onQuerySubmit} className={classes.container} >
-            <TextField
-              id="influxQuery"
-              label="Query"
-              autoFocus
-              className={classes.textField}
-              value={this.state.queryText}
-              onChange={this._onQueryChange}
-              margin="normal"
-              fullWidth
-            />                               
-          </form>
-          
-          <div className={classes.row}>
-            <span className={classes.spacer} />
+          <Paper className={classes.root}>
+            <form onSubmit={this._onQuerySubmit} className={classes.container} >
+              <TextField
+                id="influxQuery"
+                label="Query"
+                autoFocus
+                className={classes.textField}
+                value={this.state.queryText}
+                onChange={this._onQueryChange}
+                margin="normal"
+                fullWidth
+              />                               
+            </form>
+            
+            <div className={classes.row}>
+              <span className={classes.spacer} />
 
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
-              Query templates <ArrowDropDownIcon />
-            </Button>
-            <Menu
-              id="simple-menu"
-              anchorEl={this.state.anchorEl}
-              keepMounted
-              open={Boolean(this.state.anchorEl)}
-              onClose={this.handleClose}
-            >
-              <MenuItem onClick={this.showDatabasesText}>Show databases</MenuItem>
-              <MenuItem onClick={this.createDatabaseText}>Create database</MenuItem>                
-              <MenuItem onClick={this.dropDatabasesText}>Drop database</MenuItem>              
-              <Divider/>                
-              <MenuItem onClick={this.showMeasurementsText}>Show measurements</MenuItem>
-              <MenuItem onClick={this.showTagKeysText}>Show tag keys</MenuItem>
-              <MenuItem onClick={this.showTagValuesText}>Show tag values</MenuItem>
-              <Divider/>      
-              <MenuItem onClick={this.showRetentionPolicyText}>Show retention policies</MenuItem>
-              <MenuItem onClick={this.createRetentionPolicyText}>Create retention policy</MenuItem>
-              <MenuItem onClick={this.dropRetentionPolicyText}>Drop retention policy</MenuItem>
-              <Divider/>      
-              <MenuItem onClick={this.showContinuousQueryText}>Show continuous queries</MenuItem>
-              <MenuItem onClick={this.createContinuousQueryText}>Create continuous query</MenuItem>
-              <MenuItem onClick={this.dropContinuousQueryText}>Drop continuous query</MenuItem>
-              <Divider/>      
-              <MenuItem onClick={this.showUserText}>Show users</MenuItem>
-              <MenuItem onClick={this.createUserText}>Create user</MenuItem>
-              <MenuItem onClick={this.createAdminUserText}>Create admin user</MenuItem>
-              <MenuItem onClick={this.dropUserText}>Drop user</MenuItem>
-              <Divider/>      
-              <MenuItem onClick={this.showStatsText}>Show stats</MenuItem>
-              <MenuItem onClick={this.showDiagnosticsText}>Show diagnostics</MenuItem>
-            </Menu>
-          </div>
-
+              <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
+                Query templates <ArrowDropDownIcon />
+              </Button>
+              <Menu
+                id="simple-menu"
+                anchorEl={this.state.anchorEl}
+                keepMounted
+                open={Boolean(this.state.anchorEl)}
+                onClose={this.handleClose}
+              >
+                <MenuItem onClick={this.showDatabasesText}>Show databases</MenuItem>
+                <MenuItem onClick={this.createDatabaseText}>Create database</MenuItem>                
+                <MenuItem onClick={this.dropDatabasesText}>Drop database</MenuItem>              
+                <Divider/>                
+                <MenuItem onClick={this.showMeasurementsText}>Show measurements</MenuItem>
+                <MenuItem onClick={this.showTagKeysText}>Show tag keys</MenuItem>
+                <MenuItem onClick={this.showTagValuesText}>Show tag values</MenuItem>
+                <Divider/>      
+                <MenuItem onClick={this.showRetentionPolicyText}>Show retention policies</MenuItem>
+                <MenuItem onClick={this.createRetentionPolicyText}>Create retention policy</MenuItem>
+                <MenuItem onClick={this.dropRetentionPolicyText}>Drop retention policy</MenuItem>
+                <Divider/>      
+                <MenuItem onClick={this.showContinuousQueryText}>Show continuous queries</MenuItem>
+                <MenuItem onClick={this.createContinuousQueryText}>Create continuous query</MenuItem>
+                <MenuItem onClick={this.dropContinuousQueryText}>Drop continuous query</MenuItem>
+                <Divider/>      
+                <MenuItem onClick={this.showUserText}>Show users</MenuItem>
+                <MenuItem onClick={this.createUserText}>Create user</MenuItem>
+                <MenuItem onClick={this.createAdminUserText}>Create admin user</MenuItem>
+                <MenuItem onClick={this.dropUserText}>Drop user</MenuItem>
+                <Divider/>      
+                <MenuItem onClick={this.showStatsText}>Show stats</MenuItem>
+                <MenuItem onClick={this.showDiagnosticsText}>Show diagnostics</MenuItem>
+              </Menu>
+            </div>
+          </Paper>
           
             
           <div id="queryResults">

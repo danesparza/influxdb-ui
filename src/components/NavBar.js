@@ -16,7 +16,6 @@ import SettingsStore from '../stores/SettingsStore';
 //  Actions
 import SettingsAPI from '../utils/SettingsAPI';
 import InfluxAPI from '../utils/InfluxAPI';
-import { withTheme } from '@material-ui/styles';
 
 const styles = theme => ({
   toolbarTitle: {
