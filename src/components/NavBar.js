@@ -6,7 +6,8 @@ import {
   AppBar, 
   Toolbar, 
   Typography, 
-  Button
+  Button,
+  Link
 } from '@material-ui/core';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 
@@ -24,6 +25,9 @@ const styles = theme => ({
   navbutton: {
     margin: theme.spacing(.5),
     color: "#efefef"
+  },
+  mainicon: {
+    color: "#fff"
   },
 });
 
@@ -60,7 +64,9 @@ class NavBar extends Component {
           <Toolbar>
             <ReceiptIcon className={classes.icon} />
             <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-              InfluxDB UI
+              <Link href="/#/" className={classes.mainicon}>
+                InfluxDB UI
+              </Link>              
             </Typography>
             <Button className={classes.navbutton} href="/#/">
               Query
