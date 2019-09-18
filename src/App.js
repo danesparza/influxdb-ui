@@ -46,6 +46,9 @@ class App extends Component {
     return (
       <Router {...this.state}>
         <Route path="/" component={Main} />
+        <Route path="/query/:server" component={Main} />
+        <Route path="/query/:server/:database" component={Main} />
+        <Route path="/query/:server/:database/:expression" component={Main} />
         <Route path="/history" component={History} />
         <Route path="/settings" component={Settings} />
         <Route path="*" component={NotFound} />

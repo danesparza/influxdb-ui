@@ -56,13 +56,10 @@ class Main extends Component {
     super(props);
 
     this.state = {
-      SelectedServer: "",
-      SelectedDatabase: "",
-      needCurrentServer: SettingsStore.needCurrentServer(),
+      needCurrentServer: SettingsStore.needCurrentServer(),      
       Servers: SettingsStore.getServerList() || [],
+      CurrentServer: SettingsStore.getCurrentServer(),
       DatabaseList: SettingsStore.getDatabaseList() || [],
-      CurrentServer: SettingsStore.getCurrentServer() || "",
-      CurrentDatabase: SettingsStore.getCurrentDatabase() || "",
       queryText: QueryDataStore.getQueryRequest(),
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
@@ -83,7 +80,7 @@ class Main extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, params } = this.props;    
 
     //  If we need to setup a server, go to settings:
     if(this.state.needCurrentServer){
@@ -91,7 +88,12 @@ class Main extends Component {
       return null;
     }
 
-    return (
+    let selectedServer = params.server || this.state.CurrentServer;
+    let selectedDatabase = params.database || this.state.DatabaseList[0] || "";
+
+    //  We may need to select a default server and default database some other way
+
+    return (      
       <React.Fragment>        
         <CssBaseline />
         
@@ -101,35 +103,35 @@ class Main extends Component {
 
           <div className="classes.row">
             <FormControl className={classes.formControl} style={{marginRight: 20}}>
-              <InputLabel htmlFor="age-native-simple">Server</InputLabel>
+              <InputLabel htmlFor="selServer">Server</InputLabel>
               <Select
                 native
-                value={this.state.CurrentServer}
+                value={selectedServer}
                 onChange={this.handleServerSelect}
                 inputProps={{
-                  name: 'SelectedServer',
-                  id: 'servername',
+                  name: 'selServer',
+                  id: 'selServer',
                 }}
               >
                 {this.state.Servers.map(server => (
-                  <option key={server.name} value="{server.name}">{server.name}</option>                    
+                  <option key={server.url} value={server.url}>{server.name}</option>                    
                 ))}
               </Select>
             </FormControl>
 
             <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="age-native-simple">Database</InputLabel>
+              <InputLabel htmlFor="selDatabase">Database</InputLabel>              
               <Select
                 native
-                value={this.state.CurrentDatabase}
+                value={selectedDatabase}
                 onChange={this.handleDatabaseSelect}
                 inputProps={{
-                  name: 'SelectedDatabase',
-                  id: 'databasename',
+                  name: 'selDatabase',
+                  id: 'selDatabase',
                 }}
               >
                 {this.state.DatabaseList.map(database => (
-                  <option key={database} value="{database}">{database}</option>                    
+                  <option key={database} value={database}>{database}</option>                    
                 ))}
               </Select>
             </FormControl>
@@ -201,15 +203,26 @@ class Main extends Component {
   }
 
   handleServerSelect = (event) => {  
-    this.setState({
-      server: event.target.value
-    });    
+
+    //  Just switch the server:
+    window.location.hash = `#/query/${event.target.value}`;
+       
   };
 
   handleDatabaseSelect = (event) => {  
-    this.setState({
-      database: event.target.value
-    });    
+    const { params } = this.props;
+    let selectedServer = params.server || this.state.CurrentServer.name;
+
+    //  Change the url hash:
+    if(params.expression)
+    {
+      window.location.hash = `#/query/${selectedServer}/${event.target.value}/${params.expression}`;
+    }
+    else 
+    {
+      //  Just switch the database:
+      window.location.hash = `#/query/${selectedServer}/${event.target.value}`;
+    }    
   };
 
   handleClick = (event) => {
