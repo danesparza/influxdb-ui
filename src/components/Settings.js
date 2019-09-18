@@ -13,13 +13,7 @@ import {
   TableCell,
   TextField,
   Grid,   
-  Button, 
-  Menu, 
-  MenuItem,
-  Divider,
-  FormControl,
-  InputLabel,
-  Select
+  Button
 } from '@material-ui/core';
 
 //  Components
@@ -310,22 +304,6 @@ class Settings extends Component {
     });
   }
 
-}
-
-//  DeleteButton handles rendering of the server delete button and the associated click event
-//  See https://stackoverflow.com/a/29810951/19020 for why this is a good idea
-//  Also:  Notice the 'onDelete' prop is a function that will handle the delete
-class DeleteButton extends Component {
-  handleClick = (e) => {
-    e.preventDefault();
-    this.props.onDelete(this.props.name);
-  }
-
-  render() {
-    return (
-      <button className="btn btn-outline-danger btn-sm" onClick={this.handleClick}>Delete</button>
-    );
-  }
 }
 
 export default withStyles(styles)(Settings);

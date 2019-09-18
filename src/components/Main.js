@@ -18,7 +18,6 @@ import {
 
 //  Icons
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 //  Components
 import Navbar from './NavBar';
@@ -57,14 +56,13 @@ class Main extends Component {
     super(props);
 
     this.state = {
-      server: 10,
-      database: 10,
-      anchorEl: null,
-      dropdownOpen: false,
+      SelectedServer: "",
+      SelectedDatabase: "",
       needCurrentServer: SettingsStore.needCurrentServer(),
       Servers: SettingsStore.getServerList() || [],
-      server: SettingsStore.getCurrentServer(),
-      database: SettingsStore.getCurrentDatabase(),
+      DatabaseList: SettingsStore.getDatabaseList() || [],
+      CurrentServer: SettingsStore.getCurrentServer() || "",
+      CurrentDatabase: SettingsStore.getCurrentDatabase() || "",
       queryText: QueryDataStore.getQueryRequest(),
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
@@ -106,15 +104,15 @@ class Main extends Component {
               <InputLabel htmlFor="age-native-simple">Server</InputLabel>
               <Select
                 native
-                value={this.state.server}
+                value={this.state.CurrentServer}
                 onChange={this.handleServerSelect}
                 inputProps={{
-                  name: 'server',
+                  name: 'SelectedServer',
                   id: 'servername',
                 }}
               >
                 {this.state.Servers.map(server => (
-                  <option value="{server.name}">{server.name}</option>                    
+                  <option key={server.name} value="{server.name}">{server.name}</option>                    
                 ))}
               </Select>
             </FormControl>
@@ -123,17 +121,16 @@ class Main extends Component {
               <InputLabel htmlFor="age-native-simple">Database</InputLabel>
               <Select
                 native
-                value={this.state.database}
+                value={this.state.CurrentDatabase}
                 onChange={this.handleDatabaseSelect}
                 inputProps={{
-                  name: 'database',
+                  name: 'SelectedDatabase',
                   id: 'databasename',
                 }}
               >
-                <option value="" />
-                <option value={10}>Ten</option>
-                <option value={20}>Twenty</option>
-                <option value={30}>Thirty</option>
+                {this.state.DatabaseList.map(database => (
+                  <option key={database} value="{database}">{database}</option>                    
+                ))}
               </Select>
             </FormControl>
           </div>
@@ -401,8 +398,10 @@ class Main extends Component {
       QueryResults: QueryDataStore.getQueryResults(),
       QueryError: QueryDataStore.getQueryError(),
       needCurrentServer: SettingsStore.needCurrentServer(),
-      server: SettingsStore.getCurrentServer(),
-      database: SettingsStore.getCurrentDatabase()
+      Servers: SettingsStore.getServerList() || [],
+      DatabaseList: SettingsStore.getDatabaseList() || [],
+      CurrentServer: SettingsStore.getCurrentServer() || "",
+      CurrentDatabase: SettingsStore.getCurrentDatabase() || "",
     });
   }
 
