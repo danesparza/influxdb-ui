@@ -102,9 +102,9 @@ workflows:
   build_deploy:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
-      - release:
-          requires:
-            - build
+#      - deploy:
+#          requires:
+#            - build
+#      - release:
+#          requires:
+#            - build
