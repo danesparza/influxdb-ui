@@ -23,6 +23,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Navbar from './NavBar';
 import QueryResultList from './QueryResultList';
 import QueryErrorDisplay from './QueryErrorDisplay';
+import DatabaseSelector from './selectors/DatabaseSelector';
 
 //  Utilities
 import InfluxAPI from '../utils/InfluxAPI';
@@ -48,6 +49,18 @@ const styles = theme => ({
   spacer: {
     flexGrow: 1
   },
+  button: {
+    margin: theme.spacing(1),
+  },
+  leftIcon: {
+    marginRight: theme.spacing(1),
+  },
+  rightIcon: {
+    marginLeft: theme.spacing(1),
+  },
+  iconSmall: {
+    fontSize: 20,
+  },
 });
 
 class Main extends Component {  
@@ -58,8 +71,7 @@ class Main extends Component {
     this.state = {
       needCurrentServer: SettingsStore.needCurrentServer(),      
       Servers: SettingsStore.getServerList() || [],
-      CurrentServer: SettingsStore.getCurrentServer(),
-      DatabaseList: SettingsStore.getDatabaseList() || [],
+      CurrentServer: SettingsStore.getCurrentServer(),      
       queryText: QueryDataStore.getQueryRequest(),
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
@@ -89,9 +101,6 @@ class Main extends Component {
     }
 
     let selectedServer = params.server || this.state.CurrentServer;
-    let selectedDatabase = params.database || this.state.DatabaseList[0] || "";
-
-    //  We may need to select a default server and default database some other way
 
     return (      
       <React.Fragment>        
@@ -102,7 +111,7 @@ class Main extends Component {
         <main style={{ padding: 20}}>      
 
           <div className="classes.row">
-            <FormControl className={classes.formControl} style={{marginRight: 20}}>
+            <FormControl style={{marginRight: 20}}>
               <InputLabel htmlFor="selServer">Server</InputLabel>
               <Select
                 native
@@ -119,22 +128,8 @@ class Main extends Component {
               </Select>
             </FormControl>
 
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="selDatabase">Database</InputLabel>              
-              <Select
-                native
-                value={selectedDatabase}
-                onChange={this.handleDatabaseSelect}
-                inputProps={{
-                  name: 'selDatabase',
-                  id: 'selDatabase',
-                }}
-              >
-                {this.state.DatabaseList.map(database => (
-                  <option key={database} value={database}>{database}</option>                    
-                ))}
-              </Select>
-            </FormControl>
+            <DatabaseSelector params={params} />
+
           </div>
           
           <Paper className={classes.root}>
@@ -207,22 +202,6 @@ class Main extends Component {
     //  Just switch the server:
     window.location.hash = `#/query/${event.target.value}`;
        
-  };
-
-  handleDatabaseSelect = (event) => {  
-    const { params } = this.props;
-    let selectedServer = params.server || this.state.CurrentServer.name;
-
-    //  Change the url hash:
-    if(params.expression)
-    {
-      window.location.hash = `#/query/${selectedServer}/${event.target.value}/${params.expression}`;
-    }
-    else 
-    {
-      //  Just switch the database:
-      window.location.hash = `#/query/${selectedServer}/${event.target.value}`;
-    }    
   };
 
   handleClick = (event) => {
@@ -411,10 +390,8 @@ class Main extends Component {
       QueryResults: QueryDataStore.getQueryResults(),
       QueryError: QueryDataStore.getQueryError(),
       needCurrentServer: SettingsStore.needCurrentServer(),
-      Servers: SettingsStore.getServerList() || [],
-      DatabaseList: SettingsStore.getDatabaseList() || [],
-      CurrentServer: SettingsStore.getCurrentServer() || "",
-      CurrentDatabase: SettingsStore.getCurrentDatabase() || "",
+      Servers: SettingsStore.getServerList() || [],     
+      CurrentServer: SettingsStore.getCurrentServer() || "",     
     });
   }
 
