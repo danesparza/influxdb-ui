@@ -17,6 +17,9 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 //  Stores
 import SettingsStore from './../../stores/SettingsStore';
 
+//  Utilities
+import InfluxAPI from './../../utils/InfluxAPI';
+
 const styles = theme => ({    
     leftIcon: {
       marginRight: theme.spacing(1),
@@ -63,8 +66,8 @@ class DatabaseSelector extends Component {
         {
             return (
             <FormControl>No databases found.  
-                <Button size="small" variant="contained">
-                <RefreshIcon className={clsx(classes.leftIcon, classes.iconSmall)} /> Refresh
+                <Button size="small" variant="contained" onClick={this.refreshDatabases}>
+                    <RefreshIcon className={clsx(classes.leftIcon, classes.iconSmall)} /> Refresh
                 </Button>   
             </FormControl>
             );
@@ -109,6 +112,17 @@ class DatabaseSelector extends Component {
             window.location.hash = `#/query/${selectedServer}/${event.target.value}`;
         }    
     };
+
+    //  'Refresh' button clicked
+    refreshDatabases = (event) => {
+        
+        //  If we have a server, get the initial list of databases from it:
+        if(!SettingsStore.needCurrentServer()){
+            let currentServer = SettingsStore.getCurrentServer();
+            InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
+        }
+        
+    }
 
     //  Data changed:
     _onChange = () => {
