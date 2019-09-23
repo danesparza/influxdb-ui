@@ -200,7 +200,7 @@ class Main extends Component {
   handleServerSelect = (event) => {  
 
     //  Just switch the server:
-    window.location.hash = `#/query/${event.target.value}`;
+    window.location.hash = `#/query/${encodeURIComponent(event.target.value)}`;
        
   };
 

@@ -99,17 +99,17 @@ class DatabaseSelector extends Component {
     //  Database selection changed
     handleDatabaseSelect = (event) => {  
         const { params } = this.props;
-        let selectedServer = params.server || this.state.CurrentServer.name;
+        let selectedServer = params.server || this.state.CurrentServer.url;
 
         //  Change the url hash:
         if(params.expression)
         {
-            window.location.hash = `#/query/${selectedServer}/${event.target.value}/${params.expression}`;
+            window.location.hash = `#/query/${encodeURIComponent(selectedServer)}/${event.target.value}/${params.expression}`;
         }
         else 
         {
             //  Just switch the database:
-            window.location.hash = `#/query/${selectedServer}/${event.target.value}`;
+            window.location.hash = `#/query/${encodeURIComponent(selectedServer)}/${event.target.value}`;
         }    
     };
 

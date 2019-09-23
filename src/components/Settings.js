@@ -149,7 +149,7 @@ class Settings extends Component {
                           label="Server name"
                           fullWidth
                           autoFocus
-                          ref={(input) => { this.addName = input; }} 
+                          inputRef = {this.state.addNameInput} 
                           value={this.state.AddServerName} 
                           onChange={this._onAddServerNameChange}
                           placeholder="Dev server"
@@ -281,7 +281,8 @@ class Settings extends Component {
     );
 
     //  Set focus to the name again:
-    this.addName.focus();
+    //  We need to fix this -- it's not currently working
+    //  this.state.addNameInput.focus();
   }
 
   _onRemoveServerClick = (name) => {
