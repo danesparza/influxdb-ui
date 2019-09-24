@@ -65,6 +65,19 @@ class SettingsStore extends Store {
     return retval;
   }
 
+  //  Get the server information for the given url
+  getServer(serverUrl) {
+    let retval = {};
+
+    try{
+      retval = this.serverList.filter(obj => {
+        return obj.url === serverUrl
+      });
+    }catch(e) {/* No op */}
+
+    return retval;
+  }
+
   //  Get the current database
   getCurrentDatabase() {
     let retval = "";
