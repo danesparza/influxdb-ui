@@ -100,8 +100,6 @@ class Main extends Component {
       return null;
     }
 
-    let selectedServer = params.server || this.state.CurrentServer;
-
     return (      
       <React.Fragment>        
         <CssBaseline />
@@ -115,7 +113,7 @@ class Main extends Component {
               <InputLabel htmlFor="selServer">Server</InputLabel>
               <Select
                 native
-                value={selectedServer}
+                value={this.state.CurrentServer.url}
                 onChange={this.handleServerSelect}
                 inputProps={{
                   name: 'selServer',
@@ -199,7 +197,7 @@ class Main extends Component {
 
   handleServerSelect = (event) => {  
 
-    //  Just switch the server:
+    //  Switch the server through the url:
     window.location.hash = `#/query/${encodeURIComponent(event.target.value)}`;
        
   };

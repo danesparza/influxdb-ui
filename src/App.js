@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Router, Route} from 'react-enroute';
 
 //  Components
+import QueryContainer from './components/QueryContainer';
 import Main from './components/Main';
 import NotFound from './components/NotFound';
 import Settings from './components/Settings';
@@ -22,8 +23,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      location: getHash(window.location.hash),
-      systemState:{}
+      location: getHash(window.location.hash)
     };
 
     //  Bind our events: 
@@ -45,10 +45,13 @@ class App extends Component {
 
     return (
       <Router {...this.state}>
-        <Route path="/" component={Main} />
-        <Route path="/query/:server" component={Main} />
-        <Route path="/query/:server/:database" component={Main} />
-        <Route path="/query/:server/:database/:expression" component={Main} />
+        <Route path="" component={QueryContainer} >
+          <Route path="/" component={Main} />
+          <Route path="/query/:server" component={Main} />
+          <Route path="/query/:server/:database" component={Main} />
+          <Route path="/query/:server/:database/:expression" component={Main} />
+        </Route>        
+
         <Route path="/history" component={History} />
         <Route path="/settings" component={Settings} />
         <Route path="*" component={NotFound} />

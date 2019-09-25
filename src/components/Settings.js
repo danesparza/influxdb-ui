@@ -267,6 +267,7 @@ class Settings extends Component {
       let currentServer = SettingsStore.getCurrentServer();
 
       //  Reset the database list:
+      console.log("Settings page - server added, so refreshing datbase list");
       InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
     }
 
@@ -294,6 +295,7 @@ class Settings extends Component {
       let currentServer = SettingsStore.getCurrentServer();
 
       //  Reset the database list:
+      console.log("Settings page - server removed, so refreshing datbase list");
       InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
     }
   }

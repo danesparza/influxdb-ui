@@ -10,7 +10,7 @@ class SettingsAPI {
             let servers = store.get('servers');
             SettingsActions.receiveServerList(servers);
 
-            //  This should be changed to just use server name
+            //  This should be changed to just use server url
             let currentServer = store.get('currentserver') || "";
             SettingsActions.receiveCurrentServer(currentServer);
 
@@ -62,10 +62,10 @@ class SettingsAPI {
             SettingsActions.receiveCurrentDatabase(database);
         }
 
-        //  Set the current server (name)
-        setCurrentServer(serverName) {
-            store.set('currentserver', serverName);
-            SettingsActions.receiveCurrentServer(serverName);
+        //  Set the current server (url)
+        setCurrentServer(serverUrl) {
+            store.set('currentserver', serverUrl);
+            SettingsActions.receiveCurrentServer(serverUrl);
 
             // Clear the current database if we switch servers
             store.set('currentdatabase', "");   

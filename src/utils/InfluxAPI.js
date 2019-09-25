@@ -46,7 +46,7 @@ class InfluxAPI {
 
             if(!serverurl)
             {
-                console.log("Can't execute query: server is blank"); 
+                console.log("Can't execute query 'getDatabaseList': server is blank"); 
                 return; 
             }
 
@@ -59,6 +59,8 @@ class InfluxAPI {
             //  Encode and Interpolate the values
             let url = `${serverurl}/query?q=SHOW+DATABASES`+auth+`&db=`;
             url = url.replace(/%20/g, "+");
+
+            console.log("Fetching: ", url);
 
             fetch(url, 
             {
@@ -76,7 +78,7 @@ class InfluxAPI {
                 }
             )
             .catch(function (err) {
-                console.log('Fetch Error :-S', err);
+                console.log('getDatabaseList Fetch Error: ', err);
                 SettingsActions.receiveDatabaseList(serverurl, {});
             });
         }

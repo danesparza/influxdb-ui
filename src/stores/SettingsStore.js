@@ -96,11 +96,12 @@ class SettingsStore extends Store {
   }
 
   __onDispatch(action) {
+    console.log("Settings event: ", action);
+
     switch (action.actionType) {
       case ActionTypes.RECEIVE_SERVER_LIST:
         
-        this.serverList = action.servers || [];
-        console.log("Server list", this.serverList);
+        this.serverList = action.servers || [];        
 
         //  If this list is now blank, we should reset
         //  current database
@@ -123,11 +124,11 @@ class SettingsStore extends Store {
         try{
           //  Try to set the current server:
           this.currentServer = this.serverList.find(function(item){
-            return item.name === action.server || "";
+            return item.url === action.server || "";
           });
          } catch(e) { /* No op */ }
-
-        console.log("Current server: ", this.getCurrentServer());
+        
+         console.log("Current server set to: ", this.currentServer);
 
         this.__emitChange();
         break;
@@ -135,7 +136,6 @@ class SettingsStore extends Store {
       case ActionTypes.RECEIVE_CURRENT_DATABASE:
         
         this.currentDatabase = action.database;
-        console.log("Current database: ", this.currentDatabase);
 
         this.__emitChange();
         break;
@@ -144,9 +144,6 @@ class SettingsStore extends Store {
         
         //  Reset the internal state:
         this.currentServerDBList = [];
-
-        //  Log the action data:
-        console.log(action);
 
         //  Try to set the database list
         try{
