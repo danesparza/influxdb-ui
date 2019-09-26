@@ -8,6 +8,7 @@ import registerServiceWorker from './registerServiceWorker';
 import SettingsAPI from './utils/SettingsAPI';
 
 //  Load the settings
+console.log("Index - Calling getSettings to load all settings");
 SettingsAPI.getSettings();
 
 ReactDOM.render(<App />, document.getElementById('root'));

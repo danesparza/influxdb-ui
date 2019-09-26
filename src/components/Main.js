@@ -71,11 +71,12 @@ class Main extends Component {
     this.state = {
       needCurrentServer: SettingsStore.needCurrentServer(),      
       Servers: SettingsStore.getServerList() || [],
-      CurrentServer: SettingsStore.getCurrentServer(),      
+      CurrentServer: SettingsStore.getCurrentServer(),
+      CurrentDatabase: SettingsStore.getCurrentDatabase(),      
       queryText: QueryDataStore.getQueryRequest(),
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
-      QueryError: QueryDataStore.getQueryError()
+      QueryError: QueryDataStore.getQueryError(),      
     };
   }
 
@@ -126,7 +127,7 @@ class Main extends Component {
               </Select>
             </FormControl>
 
-            <DatabaseSelector params={params} />
+            <DatabaseSelector params={params} servers={this.state.Servers} currentServer={this.state.CurrentServer} currentDatabase={params.database || ""} />
 
           </div>
           
@@ -197,9 +198,11 @@ class Main extends Component {
 
   handleServerSelect = (event) => {  
 
+    console.log("Main - Adjusting URI to use the server url: ", event.target.value);
+
     //  Switch the server through the url:
     window.location.hash = `#/query/${encodeURIComponent(event.target.value)}`;
-       
+
   };
 
   handleClick = (event) => {

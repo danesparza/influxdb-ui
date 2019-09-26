@@ -16,7 +16,7 @@ class QueryContainer extends Component {
         this.state = {
           needCurrentServer: SettingsStore.needCurrentServer(),      
           Servers: SettingsStore.getServerList() || [],
-          CurrentServer: SettingsStore.getCurrentServer(),                
+          CurrentServer: SettingsStore.getCurrentServer(),        
         };
     }
 
@@ -29,6 +29,7 @@ class QueryContainer extends Component {
         //  Redirect to the settings screen
         //  If we need to setup a server, go to settings:
         if(this.state.needCurrentServer){
+            console.log("QueryContainer redirecting to settings - we don't have any servers");
             window.location.hash = "#/settings";
             return null;
         }
@@ -38,23 +39,30 @@ class QueryContainer extends Component {
         let serverUrlFromState = this.state.CurrentServer.url;
 
         //  If we don't have a server from the url, but we have one stored
-        //  as 'the current server' in state, then we need to redirect to a well-formed url
-        //  that indicates it's the current server:
+        //  as 'the current server' in state (like if we have picked a default server), 
+        //  then we need to redirect to a well-formed url that indicates it's the current server:
         if(!serverUrlParameter){
+            console.log("QueryContainer redirecting (default server?) to query url for server: ", serverUrlFromState);
             window.location.hash = `#/query/${encodeURIComponent(serverUrlFromState)}`;
+            return null;
         }
 
         //  If the server in the url parameter doesn't match the current state,
         //  the url parameter wins.  Set it to current state
         if(serverUrlParameter !== serverUrlFromState){         
-            console.log("QueryContainer refreshing server list");               
-            SettingsAPI.setCurrentServer(serverUrlParameter);
+            console.log("QueryContainer setting current server to: " + serverUrlParameter);               
+            SettingsAPI.setCurrentServer(serverUrlParameter);                         
         }
 
-        //  - Start fetching the databases for the given server
         let currentServer = SettingsStore.getCurrentServer();
-        console.log("QueryContainer refreshing database list");
-        InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
+
+        //  - Start fetching the databases for the given server if:
+        //  -- we don't have a list, or
+        //  -- the server just changed
+        if(serverUrlParameter !== serverUrlFromState || !currentServer.databases || currentServer.databases.length < 1){            
+            console.log("QueryContainer refreshing database list.  Missing databases for: ", serverUrlParameter);
+            InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
+        }   
 
         //  Render out the child elements
         return (

@@ -60,7 +60,7 @@ class InfluxAPI {
             let url = `${serverurl}/query?q=SHOW+DATABASES`+auth+`&db=`;
             url = url.replace(/%20/g, "+");
 
-            console.log("Fetching: ", url);
+            console.log("getDatabaseList fetching: ", url);
 
             fetch(url, 
             {
@@ -69,7 +69,7 @@ class InfluxAPI {
             })
             .then(
                 function (response) {
-                    console.log(response);
+                    console.log("getDatabaseList response: ", response);
                     // Receive system state
                     response.json().then(function (data) {
                         //  Pass data to the action

@@ -9,13 +9,6 @@ class SettingsAPI {
         getSettings(){
             let servers = store.get('servers');
             SettingsActions.receiveServerList(servers);
-
-            //  This should be changed to just use server url
-            let currentServer = store.get('currentserver') || "";
-            SettingsActions.receiveCurrentServer(currentServer);
-
-            let currentDatabase = store.get('currentdatabase') || "";
-            SettingsActions.receiveCurrentDatabase(currentDatabase);
         }
 
         //  Adds a server to the list
@@ -31,6 +24,7 @@ class SettingsAPI {
                 newServer.url = url;
                 newServer.username = username;
                 newServer.password = password;
+                newServer.databases = [];
                 servers.push(newServer);
             }
 

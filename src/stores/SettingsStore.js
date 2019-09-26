@@ -15,10 +15,10 @@ class SettingsStore extends Store {
 
     //  The server list
     this.serverList = [];
-
-    //  The database list for the current server
-    this.currentServerDBList = [];
     
+    //  Databases are now stored on the server 
+    //  object as a .databases string array property
+
     //  The current server
     this.currentServer = {};
 
@@ -41,14 +41,28 @@ class SettingsStore extends Store {
     return isEmpty(this.getCurrentServer()) === false;
   }
 
-  //  Get the database list
-  getDatabaseList() {
-    return this.currentServerDBList;
+  //  Get the database list for a given server url
+  getDatabaseListForServer(serverUrl) {
+    let retval = [];
+
+    try{
+      //  First, find the server
+      let foundServer = this.serverList.filter(obj => {
+        return obj.url === serverUrl
+      });
+
+      //  Return the databases found
+      retval = foundServer.databases;
+    }catch(e) {/* No op */}
+
+    return retval;
   }
 
   //  Get the current server
   getCurrentServer() {
     let retval = {};
+    retval.name = "Not available";
+    retval.url = "";
 
     //  If we have one explicitly set, use it
     if(!isEmpty(this.currentServer)){
@@ -57,7 +71,7 @@ class SettingsStore extends Store {
 
     //  If we don't have one explicitly set, use the first in the list:
     try{
-      if(isEmpty(retval) && this.serverList.length > 0) {
+      if(retval.url === "" && this.serverList.length > 0) {
         retval = this.serverList[0];
       }
     }catch(e) {/* No op */}
@@ -88,8 +102,8 @@ class SettingsStore extends Store {
     }
 
     //  If we don't have one explicitly set, default to the first in our list
-    if(this.currentDatabase === "" && this.currentServerDBList.length > 0){
-      retval = this.currentServerDBList[0];
+    if(this.currentDatabase === "" && this.currentServer && this.currentServer.databases && this.currentServer.databases.length > 0){
+      retval = this.currentServer.databases[0];
     }
 
     return retval;
@@ -143,18 +157,27 @@ class SettingsStore extends Store {
       case ActionTypes.RECEIVE_DATABASE_LIST:
         
         //  Reset the internal state:
-        this.currentServerDBList = [];
+        let serverDatabaseList = [];
 
         //  Try to set the database list
         try{
           if(action.databaselist.results[0].series[0].values) {
-            this.currentServerDBList = action.databaselist.results[0].series[0].values.map(function (item){
+            serverDatabaseList = action.databaselist.results[0].series[0].values.map(function (item){
                 return item[0];
             });
           }          
         } catch(e){/* No op */}
 
-        console.log("Databases for " + action.serverurl, this.currentServerDBList);
+        console.log("Databases for " + action.serverurl, serverDatabaseList);
+
+        //  Update the server list with the server object that contains its databases:
+        this.serverList = this.serverList.map(p =>
+          p.url === action.serverurl
+            ? { ...p, databases: serverDatabaseList }
+            : p
+        );
+        
+        console.log("Updated server list: ", this.serverList);        
 
         this.__emitChange();
         break;

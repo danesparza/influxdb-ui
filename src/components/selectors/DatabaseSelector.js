@@ -14,9 +14,6 @@ import {
 //  Icons
 import RefreshIcon from '@material-ui/icons/Refresh';
 
-//  Stores
-import SettingsStore from './../../stores/SettingsStore';
-
 //  Utilities
 import InfluxAPI from './../../utils/InfluxAPI';
 
@@ -32,37 +29,16 @@ const styles = theme => ({
     },
   });  
 
-class DatabaseSelector extends Component {  
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            needCurrentServer: SettingsStore.needCurrentServer(),      
-            Servers: SettingsStore.getServerList() || [],
-            CurrentServer: SettingsStore.getCurrentServer(),
-            DatabaseList: SettingsStore.getDatabaseList() || [],
-            CurrentDatabase: SettingsStore.getCurrentDatabase() || "",          
-        };
-    }
-
-    componentDidMount(){    
-        //  Add store listeners ... and notify ME of changes
-        this.settingsListener = SettingsStore.addListener(this._onChange);
-    }
-
-    componentWillUnmount() {
-        //  Remove store listeners
-        this.settingsListener.remove();
-    }
+class DatabaseSelector extends Component {      
 
     render() {
-        const { classes, params } = this.props;
+        const { classes, currentServer, currentDatabase } = this.props;
 
-        let selectedDatabase = params.database || this.state.DatabaseList[0] || "";
+        let selectedDatabase = currentDatabase || "";
+        let serverDatabases = currentServer.databases || [];
 
         //  If we have no databases, display a message and give the ability to refresh
-        if(this.state.DatabaseList.length < 1)
+        if(serverDatabases.length < 1)
         {
             return (
             <FormControl>No databases found.  
@@ -86,7 +62,7 @@ class DatabaseSelector extends Component {
                     id: 'selDatabase',
                 }}
                 >
-                {this.state.DatabaseList.map(database => (
+                {serverDatabases.map(database => (
                     <option key={database} value={database}>{database}</option>                    
                 ))}
                 </Select>
@@ -115,26 +91,13 @@ class DatabaseSelector extends Component {
 
     //  'Refresh' button clicked
     refreshDatabases = (event) => {
-        
-        //  If we have a server, get the initial list of databases from it:
-        if(!SettingsStore.needCurrentServer()){
-            let currentServer = SettingsStore.getCurrentServer();
-            InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
-        }
+                
+        let currentServer = this.props.currentServer;
+
+        console.log("Database selector refreshing database list for: ", currentServer);
+        InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
         
     }
-
-    //  Data changed:
-    _onChange = () => {
-        this.setState({
-        needCurrentServer: SettingsStore.needCurrentServer(),
-        Servers: SettingsStore.getServerList() || [],
-        CurrentServer: SettingsStore.getCurrentServer() || "",
-        DatabaseList: SettingsStore.getDatabaseList() || [],      
-        CurrentDatabase: SettingsStore.getCurrentDatabase() || "",
-        });
-    }
-
 }
 
 export default withStyles(styles)(DatabaseSelector);
