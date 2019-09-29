@@ -50,6 +50,11 @@ class DatabaseSelector extends Component {
         }
         else 
         {
+            //  If we have no selected database, select the first one:
+            if(selectedDatabase === ""){
+                selectedDatabase = serverDatabases[0];
+            }
+
             return (
             <FormControl>
                 <InputLabel htmlFor="selDatabase">Database</InputLabel>              
