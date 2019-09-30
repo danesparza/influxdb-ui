@@ -20,7 +20,13 @@ class SettingsStore extends Store {
     //  object as a .databases string array property
 
     //  The current server
-    this.currentServer = {};
+    this.currentServer = {
+      name: "",
+      url: "",
+      username: "",
+      password: "",
+      databases: [],
+    };
 
     //  The current database
     this.currentDatabase = "";
@@ -62,7 +68,10 @@ class SettingsStore extends Store {
   getCurrentServer() {
     let retval = {};
     retval.name = "Not available";
-    retval.url = "";
+    retval.url = "";    
+    retval.username = "";
+    retval.password = "";
+    retval.databases = [];
 
     //  If we have one explicitly set, use it
     if(!isEmpty(this.currentServer)){
@@ -102,7 +111,7 @@ class SettingsStore extends Store {
     }
 
     //  If we don't have one explicitly set, default to the first in our list
-    if(this.currentDatabase === "" && this.currentServer && this.currentServer.databases && this.currentServer.databases.length > 0){
+    if(this.currentDatabase === "" && this.currentServer && this.currentServer.databases.length > 0){
       retval = this.currentServer.databases[0];
     }
 
@@ -114,8 +123,18 @@ class SettingsStore extends Store {
 
     switch (action.actionType) {
       case ActionTypes.RECEIVE_SERVER_LIST:
-        
-        this.serverList = action.servers || [];        
+
+          action.servers = action.servers || [];
+
+          this.serverList = action.servers.map(server => (
+            {
+              url: server.url,
+              name: server.name,
+              username: server.username,
+              password: server.password,
+              databases: server.databases || [],
+            }
+          ));               
 
         //  If this list is now blank, we should reset
         //  current database

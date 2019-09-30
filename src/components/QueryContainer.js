@@ -9,17 +9,6 @@ import SettingsAPI from '../utils/SettingsAPI';
 import InfluxAPI from '../utils/InfluxAPI';
 
 class QueryContainer extends Component {  
-
-    constructor(props) {
-        super(props);
-    
-        this.state = {
-          needCurrentServer: SettingsStore.needCurrentServer(),      
-          Servers: SettingsStore.getServerList() || [],
-          CurrentServer: SettingsStore.getCurrentServer(),        
-        };
-    }
-
     render() {
         //  This loads the current route component
         //  See App.js for more information
@@ -28,7 +17,7 @@ class QueryContainer extends Component {
         //  First, make sure we have a list of servers.  If we don't...
         //  Redirect to the settings screen
         //  If we need to setup a server, go to settings:
-        if(this.state.needCurrentServer){
+        if(SettingsStore.needCurrentServer()){
             console.log("QueryContainer redirecting to settings - we don't have any servers");
             window.location.hash = "#/settings";
             return null;
@@ -36,7 +25,7 @@ class QueryContainer extends Component {
 
         //  Track the current server from the url.
         let serverUrlParameter = params.server;
-        let serverUrlFromState = this.state.CurrentServer.url;
+        let serverUrlFromState = SettingsStore.getCurrentServer().url;
 
         //  If we don't have a server from the url, but we have one stored
         //  as 'the current server' in state (like if we have picked a default server), 
@@ -59,7 +48,7 @@ class QueryContainer extends Component {
         //  - Start fetching the databases for the given server if:
         //  -- we don't have a list, or
         //  -- the server just changed
-        if(serverUrlParameter !== serverUrlFromState || !currentServer.databases || currentServer.databases.length < 1){            
+        if(serverUrlParameter !== serverUrlFromState || currentServer.databases.length < 1){            
             console.log("QueryContainer refreshing database list.  Missing databases for: ", serverUrlParameter);
             InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
         }   

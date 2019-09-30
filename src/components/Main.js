@@ -386,13 +386,14 @@ class Main extends Component {
   //  Data changed:
   _onChange = () => {
     this.setState({
+      needCurrentServer: SettingsStore.needCurrentServer(),      
+      Servers: SettingsStore.getServerList() || [],
+      CurrentServer: SettingsStore.getCurrentServer(),
+      CurrentDatabase: SettingsStore.getCurrentDatabase(),      
       queryText: QueryDataStore.getQueryRequest(),
-      QueryHasError: QueryDataStore.hasError(),
+      QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
-      QueryError: QueryDataStore.getQueryError(),
-      needCurrentServer: SettingsStore.needCurrentServer(),
-      Servers: SettingsStore.getServerList() || [],     
-      CurrentServer: SettingsStore.getCurrentServer() || "",     
+      QueryError: QueryDataStore.getQueryError(),          
     });
   }
 
