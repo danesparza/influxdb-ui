@@ -372,11 +372,15 @@ class Main extends Component {
     e.preventDefault();
 
     const query = this.state.queryText;
+    const server = this.state.CurrentServer;
+    const database = SettingsStore.getCurrentDatabase();
 
-    InfluxAPI.getQueryResults(this.state.server.url,this.state.server.username, this.state.server.password, this.state.database, query)
+    InfluxAPI.getQueryResults(server.url, server.username, server.password, database, query)
         .then(function () {
-          // Remember the request
+          
+          // Remember the request:
           HistoryAPI.rememberRequest(query);
+
         })
         .catch(function (err) {
           console.log('Fetch Error :-S', err);

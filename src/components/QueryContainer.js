@@ -26,6 +26,8 @@ class QueryContainer extends Component {
         //  Track the current server from the url.
         let serverUrlParameter = params.server;
         let serverUrlFromState = SettingsStore.getCurrentServer().url;
+        let databaseParameter = params.database;
+        let databaseFromState = SettingsStore.getCurrentDatabase();
 
         //  If we don't have a server from the url, but we have one stored
         //  as 'the current server' in state (like if we have picked a default server), 
@@ -41,6 +43,13 @@ class QueryContainer extends Component {
         if(serverUrlParameter !== serverUrlFromState){         
             console.log("QueryContainer setting current server to: " + serverUrlParameter);               
             SettingsAPI.setCurrentServer(serverUrlParameter);                         
+        }
+
+        //  If the database in the url parameter doesn't match the current state, 
+        //  the url parameter wins.  Set it to current state
+        if(databaseParameter !== databaseFromState){
+            console.log("QueryContainer setting current database to: " + databaseParameter);
+            SettingsAPI.setCurrentDatabase(databaseParameter);
         }
 
         let currentServer = SettingsStore.getCurrentServer();
