@@ -125,7 +125,7 @@ class Settings extends Component {
                             <TableCell>{server.username}</TableCell>
                             <TableCell>{server.password}</TableCell>
                             <TableCell align="right">
-                              <Button size="small" variant="contained" className={classes.button}>
+                              <Button size="small" variant="contained" className={classes.button} onClick={() => this._onRemoveServerClick(server.name)}>
                                 Remove
                               </Button>             
                             </TableCell>
@@ -280,14 +280,11 @@ class Settings extends Component {
         AddServerPassword: "",
       }
     );
-
-    //  Set focus to the name again:
-    //  We need to fix this -- it's not currently working
-    //  this.state.addNameInput.focus();
   }
 
-  _onRemoveServerClick = (name) => {
+  _onRemoveServerClick(name) {
     console.log("Removing server..." + name);
+
     SettingsAPI.removeServer(name);
 
     if(SettingsStore.haveCurrentServer()){
@@ -295,7 +292,7 @@ class Settings extends Component {
       let currentServer = SettingsStore.getCurrentServer();
 
       //  Reset the database list:
-      console.log("Settings page - server removed, so refreshing datbase list");
+      console.log("Settings page - server removed, so refreshing database list");
       InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
     }
   }
