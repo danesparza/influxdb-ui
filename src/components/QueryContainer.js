@@ -45,11 +45,9 @@ class QueryContainer extends Component {
 
         let currentServer = SettingsStore.getCurrentServer();
 
-        //  - Start fetching the databases for the given server if:
-        //  -- we don't have a list, or
-        //  -- the server just changed
-        if(serverUrlParameter !== serverUrlFromState || currentServer.databases.length < 1){            
-            console.log("QueryContainer refreshing database list.  Missing databases for: ", serverUrlParameter);
+        //  - Start fetching the databases for the given server if we don't have a list:
+        if(currentServer.databases.length < 1){            
+            console.log("QueryContainer refreshing database list.  Missing databases for: ", currentServer.url);
             InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
         }   
 
