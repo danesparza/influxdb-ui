@@ -65,7 +65,7 @@ class History extends Component {
             <React.Fragment>
                 <CssBaseline />
                 
-                <Navbar {...this.props} />
+                <Navbar />
 
                 <main style={{ padding: 20}}>      
 
