@@ -64,6 +64,20 @@ class SettingsStore extends Store {
     return retval;
   }
 
+  //  Get the default server url
+  getDefaultServerUrl() {
+    let retval = "";
+
+    //  Use the first in the list:
+    try{
+      if(this.serverList.length > 0) {
+        retval = this.serverList[0].url;
+      }
+    }catch(e) {/* No op */}
+
+    return retval;
+  }
+
   //  Get the current server
   getCurrentServer() {
     let retval = {};
@@ -98,7 +112,7 @@ class SettingsStore extends Store {
       });
     }catch(e) {/* No op */}
 
-    return retval;
+    return retval[0];
   }
 
   //  Get the current database
@@ -118,8 +132,22 @@ class SettingsStore extends Store {
     return retval;
   }
 
+  //  Get the default database for the given server
+  getDefaultDatabaseForServer(serverUrl) {
+    let retval = "";
+
+    let currentServer = this.getServer(serverUrl);
+    
+    //  Default to the first in our list
+    if(currentServer && currentServer.databases.length > 0){
+      retval = currentServer.databases[0];
+    }
+
+    return retval;
+  }
+
   __onDispatch(action) {
-    console.log("Settings event: ", action);
+    console.log("Store Event: ", action);
 
     switch (action.actionType) {
       case ActionTypes.RECEIVE_SERVER_LIST:

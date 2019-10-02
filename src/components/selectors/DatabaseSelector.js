@@ -17,6 +17,9 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 //  Utilities
 import InfluxAPI from './../../utils/InfluxAPI';
 
+//  Stores
+import SettingsStore from '../../stores/SettingsStore';
+
 const styles = theme => ({    
     leftIcon: {
       marginRight: theme.spacing(1),
@@ -34,8 +37,9 @@ class DatabaseSelector extends Component {
     render() {
         const { classes, currentServer, currentDatabase } = this.props;
 
-        let selectedDatabase = currentDatabase || "";
-        let serverDatabases = currentServer.databases || [];
+        //  Look up the current server:
+        let selectedServer =  SettingsStore.getServer(currentServer);
+        let serverDatabases = selectedServer.databases || [];
 
         //  If we have no databases, display a message and give the ability to refresh
         if(serverDatabases.length < 1)
@@ -50,17 +54,12 @@ class DatabaseSelector extends Component {
         }
         else 
         {
-            //  If we have no selected database, select the first one:
-            if(selectedDatabase === ""){
-                selectedDatabase = serverDatabases[0];
-            }
-
             return (
             <FormControl>
                 <InputLabel htmlFor="selDatabase">Database</InputLabel>              
                 <Select
                 native
-                value={selectedDatabase}
+                value={currentDatabase}
                 onChange={this.handleDatabaseSelect}
                 inputProps={{
                     name: 'selDatabase',
@@ -79,28 +78,22 @@ class DatabaseSelector extends Component {
 
     //  Database selection changed
     handleDatabaseSelect = (event) => {  
-        const { params } = this.props;
-        let selectedServer = params.server || this.state.CurrentServer.url;
+        const { currentServer } = this.props;
 
-        //  Change the url hash:
-        if(params.expression)
-        {
-            window.location.hash = `#/query/${encodeURIComponent(selectedServer)}/${event.target.value}/${params.expression}`;
-        }
-        else 
-        {
-            //  Just switch the database:
-            window.location.hash = `#/query/${encodeURIComponent(selectedServer)}/${event.target.value}`;
-        }    
+        //  Change the database in the url:
+        window.location.hash = `#/query/${encodeURIComponent(currentServer)}/${event.target.value}`; 
     };
 
     //  'Refresh' button clicked
     refreshDatabases = (event) => {
                 
-        let currentServer = this.props.currentServer;
+        const { currentServer } = this.props;
 
+        //  Look up the current server:
+        let selectedServer =  SettingsStore.getServer(currentServer);
+        
         console.log("Database selector refreshing database list for: ", currentServer);
-        InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
+        InfluxAPI.getDatabaseList(selectedServer.url, selectedServer.username, selectedServer.password);
         
     }
 }

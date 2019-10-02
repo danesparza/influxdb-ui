@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {Router, Route} from 'react-enroute';
 
+//  Actions
+import NavActions from './actions/NavActions';
+
 //  Components
 import QueryContainer from './components/QueryContainer';
-import Main from './components/Main';
 import NotFound from './components/NotFound';
 import Settings from './components/Settings';
 import History from './components/History';
@@ -24,16 +26,14 @@ class App extends Component {
     super();
     this.state = {
       location: getHash(window.location.hash)
-    };
-
-    //  Bind our events: 
-    this.hashChangeHandler = this.hashChangeHandler.bind(this);
+    };    
   }
 
-  hashChangeHandler(e) {
+  hashChangeHandler = (e) => {    
     this.setState({
         location: getHash(window.location.hash)
     });
+    NavActions.receiveCurrentLocation(window.location.hash);
   }
 
   componentDidMount(){    
@@ -41,16 +41,19 @@ class App extends Component {
     window.addEventListener("hashchange", this.hashChangeHandler);
   }
 
+  componentWillUnmount() {
+    //  Remove store listeners
+    window.removeEventListener("hashchange", this.hashChangeHandler);
+}
+
   render() {
 
     return (
       <Router {...this.state}>
-        <Route path="" component={QueryContainer} >
-          <Route path="/" component={Main} />
-          <Route path="/query/:server" component={Main} />
-          <Route path="/query/:server/:database" component={Main} />
-          <Route path="/query/:server/:database/:expression" component={Main} />
-        </Route>        
+        <Route path="/" component={QueryContainer} />
+        <Route path="/query/:server" component={QueryContainer} />
+        <Route path="/query/:server/:database" component={QueryContainer} />
+        <Route path="/query/:server/:database/:expression" component={QueryContainer} />
 
         <Route path="/history" component={History} />
         <Route path="/settings" component={Settings} />

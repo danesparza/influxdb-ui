@@ -69,10 +69,6 @@ class Main extends Component {
     super(props);
 
     this.state = {
-      needCurrentServer: SettingsStore.needCurrentServer(),      
-      Servers: SettingsStore.getServerList() || [],
-      CurrentServer: SettingsStore.getCurrentServer(),
-      CurrentDatabase: SettingsStore.getCurrentDatabase(),      
       queryText: QueryDataStore.getQueryRequest(),
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
@@ -83,23 +79,15 @@ class Main extends Component {
   componentDidMount(){    
       //  Add store listeners ... and notify ME of changes
       this.queryDataListener = QueryDataStore.addListener(this._onChange);
-      this.settingsListener = SettingsStore.addListener(this._onChange);
   }
 
   componentWillUnmount() {
       //  Remove store listeners
       this.queryDataListener.remove();
-      this.settingsListener.remove();
   }
 
   render() {
-    const { classes, params } = this.props;    
-
-    //  If we need to setup a server, go to settings:
-    if(this.state.needCurrentServer){
-      window.location.hash = "#/settings";
-      return null;
-    }
+    const { classes, servers, currentServer, currentDatabase } = this.props;    
 
     return (      
       <React.Fragment>        
@@ -114,20 +102,20 @@ class Main extends Component {
               <InputLabel htmlFor="selServer">Server</InputLabel>
               <Select
                 native
-                value={this.state.CurrentServer.url}
+                value={currentServer}
                 onChange={this.handleServerSelect}
                 inputProps={{
                   name: 'selServer',
                   id: 'selServer',
                 }}
               >
-                {this.state.Servers.map(server => (
+                {servers.map(server => (
                   <option key={server.url} value={server.url}>{server.name}</option>                    
                 ))}
               </Select>
             </FormControl>
 
-            <DatabaseSelector params={params} servers={this.state.Servers} currentServer={this.state.CurrentServer} currentDatabase={params.database || ""} />
+            <DatabaseSelector servers={servers} currentServer={currentServer} currentDatabase={currentDatabase} />
 
           </div>
           
@@ -372,10 +360,12 @@ class Main extends Component {
     e.preventDefault();
 
     const query = this.state.queryText;
-    const server = this.state.CurrentServer;
-    const database = SettingsStore.getCurrentDatabase();
+    const { currentServer, currentDatabase } = this.props;
 
-    InfluxAPI.getQueryResults(server.url, server.username, server.password, database, query)
+    //  Look up the current server:
+    let selectedServer =  SettingsStore.getServer(currentServer);
+
+    InfluxAPI.getQueryResults(currentServer, selectedServer.username, selectedServer.password, currentDatabase, query)
         .then(function () {
           
           // Remember the request:
@@ -390,10 +380,6 @@ class Main extends Component {
   //  Data changed:
   _onChange = () => {
     this.setState({
-      needCurrentServer: SettingsStore.needCurrentServer(),      
-      Servers: SettingsStore.getServerList() || [],
-      CurrentServer: SettingsStore.getCurrentServer(),
-      CurrentDatabase: SettingsStore.getCurrentDatabase(),      
       queryText: QueryDataStore.getQueryRequest(),
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
