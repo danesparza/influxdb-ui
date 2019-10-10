@@ -24,6 +24,7 @@ import Navbar from './NavBar';
 import QueryResultList from './QueryResultList';
 import QueryErrorDisplay from './QueryErrorDisplay';
 import DatabaseSelector from './selectors/DatabaseSelector';
+import ErrorBoundary from './ErrorBoundary';
 
 //  Utilities
 import InfluxAPI from '../utils/InfluxAPI';
@@ -115,7 +116,9 @@ class Main extends Component {
               </Select>
             </FormControl>
 
-            <DatabaseSelector servers={servers} currentServer={currentServer} currentDatabase={currentDatabase} />
+            <ErrorBoundary>
+              <DatabaseSelector servers={servers} currentServer={currentServer} currentDatabase={currentDatabase} />
+            </ErrorBoundary>            
 
           </div>
           
