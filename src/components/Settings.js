@@ -139,14 +139,13 @@ class Settings extends Component {
     let parser = document.createElement('a');
     parser.href = this.state.AddServerUrl;
 
-    let port = parser.port || "80";
     let protocol = parser.protocol || "http:";
     let path = ""
     if(parser.pathname !== "/" || parser.hash !== "" || parser.search !== ""){
       path = parser.pathname + parser.hash + parser.search;
     }
 
-    let serverUrl = `${protocol}//${parser.hostname}:${port}${path}`;
+    let serverUrl = `${protocol}//${parser.host}${path}`;
 
     //  Add the server
     console.log("Adding server..." + this.state.AddServerName);
