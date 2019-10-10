@@ -146,11 +146,10 @@ class SettingsStore extends Store {
     return retval;
   }
 
-  __onDispatch(action) {
-    console.log("Store Event: ", action);
-
+  __onDispatch(action) {    
     switch (action.actionType) {
       case ActionTypes.RECEIVE_SERVER_LIST:
+        console.log("Settings store event: ", action);
 
           action.servers = action.servers || [];
 
@@ -180,6 +179,7 @@ class SettingsStore extends Store {
         break;
 
       case ActionTypes.RECEIVE_CURRENT_SERVER:
+        console.log("Settings store event: ", action);
         
         //  Find the server name
         try{
@@ -195,13 +195,15 @@ class SettingsStore extends Store {
         break;
 
       case ActionTypes.RECEIVE_CURRENT_DATABASE:
-        
+        console.log("Settings store event: ", action);
+
         this.currentDatabase = action.database;
 
         this.__emitChange();
         break;
         
       case ActionTypes.RECEIVE_DATABASE_LIST:
+        console.log("Settings store event: ", action);
         
         //  Reset the internal state:
         let serverDatabaseList = [];

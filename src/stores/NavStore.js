@@ -21,6 +21,7 @@ class NavStore extends Store {
     
     switch (action.actionType) {
       case ActionTypes.RECEIVE_CURRENT_NAVLOCATION:
+        console.log("Nav store event: ", action);
         
         this.currentLocation = action.location;
 

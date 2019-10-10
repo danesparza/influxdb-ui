@@ -70,7 +70,7 @@ class Main extends Component {
     super(props);
 
     this.state = {
-      queryText: QueryDataStore.getQueryRequest(),
+      queryText: "",
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
       QueryError: QueryDataStore.getQueryError(),      
@@ -200,6 +200,7 @@ class Main extends Component {
     this.setState({
       anchorEl: event.currentTarget
     });
+    event.stopPropagation();
   }
 
   handleClose = () => {
@@ -212,155 +213,175 @@ class Main extends Component {
     this.setState({
       queryText: e.target.value
     });
+    e.stopPropagation();
   }
 
   //  Show databases
-  showDatabasesText = () => {
+  showDatabasesText = (e) => {
     this.setState({
       queryText: "SHOW DATABASES",
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Create database
-  createDatabaseText = () => {
+  createDatabaseText = (e) => {
     this.setState({
       queryText: `CREATE DATABASE "db_name"`,
       anchorEl: null
     });    
+    e.stopPropagation();
   };
 
   //  Drop database
-  dropDatabasesText = () => {
+  dropDatabasesText = (e) => {
     this.setState({
       queryText: `DROP DATABASE "db_name"`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Show measurements
-  showMeasurementsText = () => {
+  showMeasurementsText = (e) => {
     this.setState({
       queryText: "SHOW MEASUREMENTS",
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Show tag keys
-  showTagKeysText = () => {
+  showTagKeysText = (e) => {
     this.setState({
       queryText: `SHOW TAG KEYS FROM "measurement_name"`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Show tag values
-  showTagValuesText = () => {
+  showTagValuesText = (e) => {
     this.setState({
       queryText: `SHOW TAG VALUES FROM "measurement_name" WITH KEY = "tag_key"`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Show retention policies
-  showRetentionPolicyText = () => {
+  showRetentionPolicyText = (e) => {
     this.setState({
       queryText: `SHOW RETENTION POLICIES ON "db_name"`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Create retention policy
-  createRetentionPolicyText = () => {
+  createRetentionPolicyText = (e) => {
     this.setState({
       queryText: `CREATE RETENTION POLICY "rp_name" ON "db_name" DURATION 30d REPLICATION 1 DEFAULT`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Drop retention policy
-  dropRetentionPolicyText = () => {
+  dropRetentionPolicyText = (e) => {
     this.setState({
       queryText: `DROP RETENTION POLICY "rp_name" ON "db_name"`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Show continuous queries
-  showContinuousQueryText = () => {
+  showContinuousQueryText = (e) => {
     this.setState({
       queryText: `SHOW CONTINUOUS QUERIES`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Create continuous query
-  createContinuousQueryText = () => {
+  createContinuousQueryText = (e) => {
     this.setState({
       queryText: `CREATE CONTINUOUS QUERY "cq_name" ON "db_name" BEGIN SELECT min("field") INTO "target_measurement" FROM "current_measurement" GROUP BY time(30m) END`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Drop continuous query
-  dropContinuousQueryText = () => {
+  dropContinuousQueryText = (e) => {
     this.setState({
       queryText: `DROP CONTINUOUS QUERY "cq_name" ON "db_name"`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Show users
-  showUserText = () => {
+  showUserText = (e) => {
     this.setState({
       queryText: `SHOW USERS`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Create user
-  createUserText = () => {
+  createUserText = (e) => {
     this.setState({
       queryText: `CREATE USER "username" WITH PASSWORD 'password'`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Create admin user
-  createAdminUserText = () => {
+  createAdminUserText = (e) => {
     this.setState({
       queryText: `CREATE USER "username" WITH PASSWORD 'password' WITH ALL PRIVILEGES`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Drop user
-  dropUserText = () => {
+  dropUserText = (e) => {
     this.setState({
       queryText: `DROP USER "username"`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Show stats
-  showStatsText = () => {
+  showStatsText = (e) => {
     this.setState({
       queryText: `SHOW STATS`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Show diagnostics
-  showDiagnosticsText = () => {
+  showDiagnosticsText = (e) => {
     this.setState({
       queryText: `SHOW DIAGNOSTICS`,
       anchorEl: null
     });
+    e.stopPropagation();
   };
 
   //  Form submission (or 'enter' press in the query field)
   _onQuerySubmit= (e) => {
     e.preventDefault();
+    e.stopPropagation();
 
     const query = this.state.queryText;
     const { currentServer, currentDatabase } = this.props;
@@ -383,7 +404,6 @@ class Main extends Component {
   //  Data changed:
   _onChange = () => {
     this.setState({
-      queryText: QueryDataStore.getQueryRequest(),
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
       QueryError: QueryDataStore.getQueryError(),          
