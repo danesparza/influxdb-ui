@@ -15,21 +15,23 @@ class InfluxAPI {
 
             //  Set the request
             QueryActions.receiveQueryRequest(query, serverurl, database);
-            
-            // build auth query params
-            let auth = "";
-            if (username !== undefined && username !== "" && password !== undefined && username !== "") {
-                auth = "&u=" + username + "&p=" + password
-            }
 
             //  Encode and Interpolate the values
-            let url = `${serverurl}/query?q=${encodeURIComponent(query)}`+auth+`&db=${database}`;
+            let url = `${serverurl}/query?q=${encodeURIComponent(query)}&db=${database}`;
             url = url.replace(/%20/g, "+");
+
+            let headers = new Headers();
+
+            // Set basic authorization header if neccessary
+            if (username !== undefined && username !== "" && password !== undefined && username !== "") {
+                headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
+            }
 
             return fetch(url,
             {
                 mode: 'cors',
-                method: 'get'
+                method: 'get',
+                headers: headers
             })
                 .then(function (response) {
                     // Receive system state
@@ -49,23 +51,23 @@ class InfluxAPI {
                 console.log("Can't execute query 'getDatabaseList': server is blank"); 
                 return; 
             }
-
-            // build auth query params
-            let auth = ""
-            if(username !== undefined && password !== undefined){
-                auth = "&u="+username+"&p="+password
-            }
             
             //  Encode and Interpolate the values
-            let url = `${serverurl}/query?q=SHOW+DATABASES`+auth+`&db=`;
+            let url = `${serverurl}/query?q=SHOW+DATABASES&db=`;
             url = url.replace(/%20/g, "+");
 
-            console.log("getDatabaseList fetching: ", url);
+            let headers = new Headers();
+
+            // Set basic authorization header if neccessary
+            if (username !== undefined && username !== "" && password !== undefined && username !== "") {
+                headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
+            }
 
             fetch(url, 
             {
                 mode: 'cors',
-                method: 'get'
+                method: 'get',
+                headers: headers
             })
             .then(
                 function (response) {
