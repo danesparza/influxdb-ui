@@ -10,11 +10,17 @@ import TableRow from '@material-ui/core/TableRow';
 
 //  Components
 import QuerySeriesDataRow from './QuerySeriesDataRow';
+import { Paper } from '@material-ui/core';
 
 const styles = theme => ({
     table: {
-      minWidth: 650,
+       minWidth: 650,
     },
+    resultHeading: {
+       paddingTop: 5,
+       paddingBottom: 5,
+       paddingLeft: 15,
+    }
 });
 
 class QuerySeries extends Component {  
@@ -33,9 +39,9 @@ class QuerySeries extends Component {
 
     //  Display series information:
     return (
-        <div>
-            <h3>{this.props.series.name}</h3>
-            <Table className={classes.table}>
+        <Paper>
+            <h2 className={classes.resultHeading}>{this.props.series.name}</h2>
+            <Table className={classes.table} size="small">
                 <TableHead>
                     <TableRow>
                         {this.props.series.columns.map(function(col, index) {
@@ -49,7 +55,7 @@ class QuerySeries extends Component {
                     })}
                 </TableBody>
             </Table>            
-        </div>
+        </Paper>
     );
   }
 
