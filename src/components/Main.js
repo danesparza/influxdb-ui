@@ -210,10 +210,10 @@ class Main extends Component {
   }
 
   _onQueryChange = (e) => {
+    e.stopPropagation();
     this.setState({
       queryText: e.target.value
     });
-    e.stopPropagation();
   }
 
   //  Show databases
