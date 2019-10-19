@@ -48,8 +48,9 @@ class QuerySeries extends Component {
     let seriesName = this.props.series.name;
 
     //  Set column information if we have it:
+    let columns = this.props.series.columns;
     let datacolumns = [];
-    datacolumns = this.props.series.columns.map(function(col, index) {
+    datacolumns = columns.map(function(col, index) {
         return {
             label: col,
             dataKey: col,
@@ -62,12 +63,27 @@ class QuerySeries extends Component {
     //  to see if we can get an array of JSON objects (with properly formatted key names based on columns)
     let datarows = [];
     if(this.props.series.values){
-        datarows = this.props.series.values.map(function(item, index) {
-            return {id: index, ...item};
-        });
+
+        //  For each of the rows
+        datarows = this.props.series.values.map(function(row, rowindex) {
+
+            //  Create a new object
+            let obj = {};
+
+            //  Cycle through each column and update the object
+            for (let colindex = 0; colindex < columns.length; colindex++) {
+                
+                //  Get the actual column name to use as a property
+                let col = columns[colindex];        
+
+                //  Set the new object property to be the value of the appropriate row 'field'
+                obj[col] = row[colindex];                    
+            }
+
+            //  Add the object to datarows
+            return obj;
+        });        
     }
-
-
 
     //  Display series information:
     return (
@@ -75,39 +91,9 @@ class QuerySeries extends Component {
             <h2 className={classes.resultHeading}>{seriesName}</h2>
             
             <MuiVirtualizedTable 
-                rowCount={rows.length}
-                rowGetter={({ index }) => rows[index]}
-                columns={[
-                  {
-                    width: 200,
-                    label: 'Dessert',
-                    dataKey: 'dessert',
-                  },
-                  {
-                    width: 120,
-                    label: 'Calories\u00A0(g)',
-                    dataKey: 'calories',
-                    numeric: true,
-                  },
-                  {
-                    width: 120,
-                    label: 'Fat\u00A0(g)',
-                    dataKey: 'fat',
-                    numeric: true,
-                  },
-                  {
-                    width: 120,
-                    label: 'Carbs\u00A0(g)',
-                    dataKey: 'carbs',
-                    numeric: true,
-                  },
-                  {
-                    width: 120,
-                    label: 'Protein\u00A0(g)',
-                    dataKey: 'protein',
-                    numeric: true,
-                  },
-                ]}
+                rowCount={datarows.length}
+                rowGetter={({ index }) => datarows[index]}
+                columns={datacolumns}
             />
 
         </Paper>
