@@ -87,7 +87,7 @@ class QuerySeries extends Component {
 
     //  Display series information:
     return (
-        <Paper style={{ height: 600, width: '100%' }}>
+        <div style={{ minHeight: 600, width: '100%' }}>
             <h2 className={classes.resultHeading}>{seriesName}</h2>
             
             <MuiVirtualizedTable 
@@ -96,7 +96,7 @@ class QuerySeries extends Component {
                 columns={datacolumns}
             />
 
-        </Paper>
+        </div>
     );
   }
 
