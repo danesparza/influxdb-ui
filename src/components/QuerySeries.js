@@ -9,9 +9,6 @@ import MuiVirtualizedTable from './MuiVirtualizedTable';
 //  Styles
 
 const styles = theme => ({
-    table: {
-       minWidth: 650,
-    },
     resultHeading: {
        paddingTop: 5,
        paddingBottom: 5,
