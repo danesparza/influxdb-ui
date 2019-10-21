@@ -5,8 +5,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 //  Components
 import MuiVirtualizedTable from './MuiVirtualizedTable';
-import QuerySeriesDataRow from './QuerySeriesDataRow';
-import { Paper } from '@material-ui/core';
 
 const styles = theme => ({
     table: {
