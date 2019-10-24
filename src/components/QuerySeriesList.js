@@ -15,11 +15,11 @@ class QuerySeriesList extends Component {
 
     //  Otherwise, loop through our series and show them:
     return (
-        <div>
+        <React.Fragment>
             {this.props.serieslist.map(function(seriesItem, index) {
                 return <QuerySeries key={index} series={seriesItem}/>;
             })}
-        </div>
+        </React.Fragment>
     );
   }
 

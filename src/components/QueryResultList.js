@@ -14,11 +14,11 @@ class QueryResultList extends Component {
 
     //  Otherwise, loop through our results and show them:
     return (
-        <div>
+        <React.Fragment>
             {this.props.results.map(function(resultItem) {
                 return <QuerySeriesList key={resultItem.statement_id} serieslist={resultItem.series}/>;
             })}
-        </div>
+        </React.Fragment>
     );
   }
 
