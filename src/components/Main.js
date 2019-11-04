@@ -34,16 +34,7 @@ import HistoryAPI from '../utils/HistoryAPI';
 import QueryDataStore from '../stores/QueryDataStore';
 import SettingsStore from '../stores/SettingsStore';
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing(3),
-    padding: theme.spacing(3),
-    overflowX: 'auto',
-  },  
-  spacer: {
-    flexGrow: 1
-  },
+const styles = theme => ({  
   button: {
     margin: theme.spacing(1),
   },
@@ -116,7 +107,7 @@ class Main extends Component {
 
           </div>
           
-          <Paper className={classes.root}>
+          <Paper id="queryinputpaper">
             <form onSubmit={this._onQuerySubmit} className={classes.container} >
               <TextField
                 id="influxQuery"
@@ -131,7 +122,7 @@ class Main extends Component {
             </form>
             
             <div id="queryinput">
-              <span className={classes.spacer} />
+              <span className="spacer" />
 
               <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
                 Query templates <ArrowDropDownIcon />

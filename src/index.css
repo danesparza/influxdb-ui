@@ -4,6 +4,10 @@ html, body, #root, main {
 }
 
 body {
+  height: calc(100% - 64px);
+}
+
+body {
   background-color: #eee !important;  
   position: relative;
 }
@@ -20,6 +24,11 @@ main {
   align-items: center;
 }
 
+#queryinputpaper{
+  margin-top: 15px;
+  padding: 15px;
+}
+
 #queryinput {
   height: 42px;
   display: flex;
@@ -34,6 +43,9 @@ main {
   margin-top: 10px;
 }
 
+.spacer {
+  flex-grow: 1;
+}
+
 .queryresultrow {
-  flex: 1;
 }
