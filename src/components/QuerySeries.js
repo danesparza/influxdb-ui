@@ -64,16 +64,17 @@ class QuerySeries extends Component {
 
     //  Display series information:
     return (
-        <div style={{ minHeight: 600, width: '100%' }}>
+        <React.Fragment>
             <h2 className={classes.resultHeading}>{seriesName}</h2>
             
             <MuiVirtualizedTable 
                 rowCount={datarows.length}
                 rowGetter={({ index }) => datarows[index]}
                 columns={datacolumns}
+                className="queryresultrow"
             />
 
-        </div>
+        </React.Fragment>
     );
   }
 

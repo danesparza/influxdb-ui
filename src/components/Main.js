@@ -40,13 +40,7 @@ const styles = theme => ({
     marginTop: theme.spacing(3),
     padding: theme.spacing(3),
     overflowX: 'auto',
-  },
-  row: {
-    height: '42px',
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: theme.spacing(1)
-  },
+  },  
   spacer: {
     flexGrow: 1
   },
@@ -98,7 +92,7 @@ class Main extends Component {
 
         <main style={{ padding: 20}}>      
 
-          <div className="classes.row">
+          <div id="queryservers">
             <FormControl style={{marginRight: 20}}>
               <InputLabel htmlFor="selServer">Server</InputLabel>
               <Select
@@ -136,7 +130,7 @@ class Main extends Component {
               />                               
             </form>
             
-            <div className={classes.row}>
+            <div id="queryinput">
               <span className={classes.spacer} />
 
               <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
@@ -177,7 +171,7 @@ class Main extends Component {
           </Paper>
           
             
-          <div id="queryResults">
+          <div id="queryresults">
             <QueryErrorDisplay haserror={this.state.QueryHasError} error={this.state.QueryError} />
             <QueryResultList results={this.state.QueryResults} />
           </div>
