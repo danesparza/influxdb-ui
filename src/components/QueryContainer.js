@@ -23,6 +23,7 @@ class QueryContainer extends Component {
             Servers: SettingsStore.getServerList() || [],
             CurrentServer: params.server || SettingsStore.getDefaultServerUrl(),
             CurrentDatabase: params.database || SettingsStore.getDefaultDatabaseForServer(params.server || SettingsStore.getDefaultServerUrl()),
+            CurrentExpression: params.expression || "",
         };
     }
 
@@ -44,7 +45,7 @@ class QueryContainer extends Component {
         
         //  Render out the child element
         return (
-            <Main servers={this.state.Servers} currentServer={this.state.CurrentServer} currentDatabase={this.state.CurrentDatabase} />
+            <Main servers={this.state.Servers} currentServer={this.state.CurrentServer} currentDatabase={this.state.CurrentDatabase} currentExpression={this.state.CurrentExpression} />
         );
     }
 
@@ -65,7 +66,8 @@ class QueryContainer extends Component {
 
         this.setState({
             CurrentServer: params.server || SettingsStore.getDefaultServerUrl(),
-            CurrentDatabase: params.database || SettingsStore.getDefaultDatabaseForServer(params.server || SettingsStore.getDefaultServerUrl()),                             
+            CurrentDatabase: params.database || SettingsStore.getDefaultDatabaseForServer(params.server || SettingsStore.getDefaultServerUrl()),   
+            CurrentExpression: params.expression || "",                          
         });
     }
 
@@ -79,6 +81,7 @@ class QueryContainer extends Component {
         Servers: SettingsStore.getServerList() || [],
         CurrentServer: params.server || SettingsStore.getDefaultServerUrl(),
         CurrentDatabase: params.database || SettingsStore.getDefaultDatabaseForServer(params.server || SettingsStore.getDefaultServerUrl()),
+        CurrentExpression: params.expression || "",
     });
   }
 }

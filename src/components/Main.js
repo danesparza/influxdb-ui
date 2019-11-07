@@ -368,22 +368,29 @@ class Main extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    const query = this.state.queryText;
+    const expression = this.state.queryText;
     const { currentServer, currentDatabase } = this.props;
+
+    //  Format our new url:
+    let newUrl = `#/query/${encodeURIComponent(currentServer)}/${encodeURIComponent(currentDatabase)}/${encodeURIComponent(expression)}`;
 
     //  Look up the current server:
     let selectedServer =  SettingsStore.getServer(currentServer);
 
-    InfluxAPI.getQueryResults(currentServer, selectedServer.username, selectedServer.password, currentDatabase, query)
+    //  Start the ball rolling to get our results...
+    InfluxAPI.getQueryResults(currentServer, selectedServer.username, selectedServer.password, currentDatabase, expression)
         .then(function () {
           
-          // Remember the request:
-          HistoryAPI.rememberRequest(query);
+          // Remember the request (we should change this to remember the entire url):
+          HistoryAPI.rememberRequest(expression);
 
         })
         .catch(function (err) {
           console.log('Fetch Error :-S', err);
-        });
+        });    
+
+    //  Change our url
+    window.location.hash = newUrl;
   }
 
   //  Data changed:
