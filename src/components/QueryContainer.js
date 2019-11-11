@@ -61,8 +61,7 @@ class QueryContainer extends Component {
 
     //  Nav changed:
     _navChange = () => {    
-        const { params } = this.props;    
-        console.log("Navigating to: ", params.location)
+        const { params } = this.props;
 
         this.setState({
             CurrentServer: params.server || SettingsStore.getDefaultServerUrl(),

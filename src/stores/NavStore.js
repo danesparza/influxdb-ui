@@ -10,11 +10,16 @@ class NavStore extends Store {
 
     //  The current location
     this.currentLocation = "";
+    this.currentQueryLocation = "";
   }
 
   //  Get the location
   getLocation() {
     return this.currentLocation;
+  }
+
+  getQueryLocation() {
+    return this.currentQueryLocation;
   }
 
   __onDispatch(action) {
@@ -27,6 +32,13 @@ class NavStore extends Store {
 
         this.__emitChange();
         break;
+      case ActionTypes.RECEIVE_CURRENT_NAVQUERYLOCATION:
+          console.log("Nav query event: ", action);
+          
+          this.currentQueryLocation = action.location;
+  
+          this.__emitChange();
+          break;
       default:
       // no op
     }

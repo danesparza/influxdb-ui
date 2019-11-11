@@ -19,6 +19,9 @@ import {
 //  Icons
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
+//  Actions
+import NavActions from '../actions/NavActions';
+
 //  Components
 import Navbar from './NavBar';
 import QueryResultList from './QueryResultList';
@@ -372,7 +375,7 @@ class Main extends Component {
     const { currentServer, currentDatabase } = this.props;
 
     //  Format our new url:
-    let newUrl = `#/query/${encodeURIComponent(currentServer)}/${encodeURIComponent(currentDatabase)}/${encodeURIComponent(expression)}`;
+    let newUrl = `#/query/${encodeURIComponent(currentServer)}/${encodeURIComponent(currentDatabase)}/${encodeURIComponent(expression)}`;    
 
     //  Look up the current server:
     let selectedServer =  SettingsStore.getServer(currentServer);
@@ -388,6 +391,9 @@ class Main extends Component {
         .catch(function (err) {
           console.log('Fetch Error :-S', err);
         });    
+
+    //  Update the query location:
+    NavActions.receiveQueryLocation(newUrl);
 
     //  Change our url
     window.location.hash = newUrl;

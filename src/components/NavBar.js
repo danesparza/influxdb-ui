@@ -11,6 +11,9 @@ import {
 } from '@material-ui/core';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 
+//  Stores
+import NavStore from '../stores/NavStore';
+
 const styles = theme => ({
   toolbarTitle: {
     flex: 1,
@@ -26,6 +29,24 @@ const styles = theme => ({
 
 class NavBar extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      AppLink: NavStore.getQueryLocation() || "/#/",
+    };
+}
+
+  componentDidMount(){    
+    //  Add store listeners ... and notify ME of changes
+    this.navListener = NavStore.addListener(this._navChange);        
+  } 
+
+  componentWillUnmount() {
+      //  Remove store listeners
+      this.navListener.remove();        
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -36,7 +57,7 @@ class NavBar extends Component {
           <Toolbar>
             <ReceiptIcon className={classes.icon} />
             <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-              <Link href="/#/" className={classes.mainicon}>
+              <Link href={this.state.AppLink} className={classes.mainicon}>
                 InfluxDB UI
               </Link>              
             </Typography>
@@ -58,6 +79,13 @@ class NavBar extends Component {
       </React.Fragment>
     );
   }
+
+  //  Nav changed:
+  _navChange = () => {    
+    this.setState({
+        AppLink: NavStore.getQueryLocation(),                          
+    });
+}
 
 }
 
