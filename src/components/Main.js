@@ -55,7 +55,7 @@ class Main extends Component {
     super(props);
 
     this.state = {
-      queryText: "",
+      queryText: props.currentExpression || "",
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
       QueryError: QueryDataStore.getQueryError(),      
@@ -73,7 +73,7 @@ class Main extends Component {
   }
 
   render() {
-    const { classes, servers, currentServer, currentDatabase } = this.props;    
+    const { classes, servers, currentServer, currentDatabase } = this.props;
 
     return (      
       <React.Fragment>        
