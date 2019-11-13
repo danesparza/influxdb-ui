@@ -30,9 +30,10 @@ class QueryContainer extends Component {
     componentDidMount(){    
         //  Add store listeners ... and notify ME of changes
         this.settingsListener = SettingsStore.addListener(this._onChange);
-        this.navListener = NavStore.addListener(this._navChange);        
+        this.navListener = NavStore.addListener(this._navChange);      
 
-        this.ensureDatabasesHaveBeenLoaded();
+        let currentServer = SettingsStore.getCurrentServer();
+        this.ensureDatabasesHaveBeenLoaded(currentServer);
     } 
   
     componentWillUnmount() {
@@ -49,19 +50,22 @@ class QueryContainer extends Component {
         );
     }
 
-    ensureDatabasesHaveBeenLoaded = () => {
-        let currentServer = SettingsStore.getCurrentServer();
-
+    ensureDatabasesHaveBeenLoaded = (forServer) => {        
         //  - Start fetching the databases for the given server if we don't have a list:
-        if(currentServer.databases.length < 1){            
-            console.log("QueryContainer refreshing database list.  Missing databases for: ", currentServer.url);
-            InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
+        if(forServer.databases.length < 1){            
+            console.log("QueryContainer refreshing database list.  Missing databases for: ", forServer.url);
+            InfluxAPI.getDatabaseList(forServer.url, forServer.username, forServer.password);
         }
     }
 
     //  Nav changed:
     _navChange = () => {    
         const { params } = this.props;
+
+        if(params.server !== "") {
+            let navserver = SettingsStore.getServer(params.server);
+            this.ensureDatabasesHaveBeenLoaded(navserver);
+        }        
 
         this.setState({
             CurrentServer: params.server || SettingsStore.getDefaultServerUrl(),
