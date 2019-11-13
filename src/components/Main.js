@@ -385,7 +385,7 @@ class Main extends Component {
         .then(function () {
           
           // Remember the request (we should change this to remember the entire url):
-          HistoryAPI.rememberRequest(expression);
+          HistoryAPI.rememberRequest(newUrl, selectedServer, currentDatabase, expression);
 
         })
         .catch(function (err) {

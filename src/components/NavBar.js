@@ -61,7 +61,7 @@ class NavBar extends Component {
                 InfluxDB UI
               </Link>              
             </Typography>
-            <Button className={classes.navbutton} href="/#/">
+            <Button className={classes.navbutton} href={this.state.AppLink}>
               Query
             </Button>
             <Button className={classes.navbutton} href="/#/history/">

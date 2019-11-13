@@ -9,9 +9,7 @@ import {
 
 import Navbar from "./NavBar";
 
-import HistoryAPI from "../utils/HistoryAPI"
-import QueryActions from "../actions/QueryActions";
-import SettingsStore from "../stores/SettingsStore";
+import HistoryAPI from "../utils/HistoryAPI";
 
 const styles = theme => ({
     root: {
@@ -43,23 +41,14 @@ class History extends Component {
 
         this.state = {
             history: HistoryAPI.getRecentRequests(),
-            server: SettingsStore.getCurrentServer(),
-            database: SettingsStore.getCurrentDatabase(),
         };
-
-        this.makeOnClickHandler = this.makeOnClickHandler.bind(this);
-    }
-
-    makeOnClickHandler(query) {
-        return function () {
-            //  Set the request
-            QueryActions.receiveQueryRequest(query, this.state.serverurl, this.state.database);
-        }.bind(this)
     }
 
     render() {
         const { classes } = this.props;
-        const makeOnClickHandler = this.makeOnClickHandler;
+        
+        //  Make sure we're showing items from history 2.0 (we switched to using several fields, including url):
+        let historyitems = this.state.history.filter(item => item.hasOwnProperty('url'));
 
         return (
             <React.Fragment>
@@ -73,15 +62,15 @@ class History extends Component {
                         <h2>History</h2>
 
                         <Paper className={classes.root}>
-                            {this.state.history.length > 0
-                                ? this.state.history.map(function ({id, query}) {
+                            {historyitems.length > 0
+                                ? historyitems.map(function ({id, url, server, database, expression }) {
                                     return <p key={id} className="recent-request">
-                                        <a href="#/" onClick={makeOnClickHandler(query)}>{query}</a>
+                                        <a href={url}><b>{server.name} / {database}</b> - {expression}</a>
                                     </p>
                                 })
                                 : <p className="recent-request">
                                     No requests yet
-                                </p>}
+                                  </p>}
                         </Paper>
 
                     </div>
