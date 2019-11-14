@@ -9,13 +9,6 @@ class SettingsAPI {
         getSettings(){
             let servers = store.get('servers');
             SettingsActions.receiveServerList(servers);
-
-            //  This should be changed to just use server name
-            let currentServer = store.get('currentserver') || "";
-            SettingsActions.receiveCurrentServer(currentServer);
-
-            let currentDatabase = store.get('currentdatabase') || "";
-            SettingsActions.receiveCurrentDatabase(currentDatabase);
         }
 
         //  Adds a server to the list
@@ -31,6 +24,7 @@ class SettingsAPI {
                 newServer.url = url;
                 newServer.username = username;
                 newServer.password = password;
+                newServer.databases = [];
                 servers.push(newServer);
             }
 
@@ -62,10 +56,10 @@ class SettingsAPI {
             SettingsActions.receiveCurrentDatabase(database);
         }
 
-        //  Set the current server (name)
-        setCurrentServer(serverName) {
-            store.set('currentserver', serverName);
-            SettingsActions.receiveCurrentServer(serverName);
+        //  Set the current server (url)
+        setCurrentServer(serverUrl) {
+            store.set('currentserver', serverUrl);
+            SettingsActions.receiveCurrentServer(serverUrl);
 
             // Clear the current database if we switch servers
             store.set('currentdatabase', "");   

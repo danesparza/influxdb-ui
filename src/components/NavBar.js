@@ -1,28 +1,31 @@
 //  React and reactstrap
 import React, { Component } from 'react';
+
+import { withStyles } from '@material-ui/core/styles';
 import {
-  Collapse,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  Dropdown,
-  DropdownToggle,
-  DropdownItem,
-  DropdownMenu,
-} from 'reactstrap';
+  AppBar, 
+  Toolbar, 
+  Typography, 
+  Button,
+  Link
+} from '@material-ui/core';
+import ReceiptIcon from '@material-ui/icons/Receipt';
 
 //  Stores
-import SettingsStore from '../stores/SettingsStore';
+import NavStore from '../stores/NavStore';
 
-//  Actions
-import SettingsAPI from '../utils/SettingsAPI';
-import InfluxAPI from '../utils/InfluxAPI';
-
-//  Stylesheets & images
-import './../App.css';
-import 'bootstrap/dist/css/bootstrap.css';
+const styles = theme => ({
+  toolbarTitle: {
+    flex: 1,
+  },
+  navbutton: {
+    margin: theme.spacing(.5),
+    color: "#efefef"
+  },
+  mainicon: {
+    color: "#fff"
+  },
+});
 
 class NavBar extends Component {
 
@@ -30,166 +33,60 @@ class NavBar extends Component {
     super(props);
 
     this.state = {
-      navisOpen: false,
-      Servers: SettingsStore.getServerList() || [],
-      DatabaseList: SettingsStore.getDatabaseList() || [],
-      CurrentServer: SettingsStore.getCurrentServer(),
-      CurrentDatabase: SettingsStore.getCurrentDatabase(),
+      AppLink: NavStore.getQueryLocation() || "/#/",
     };
-  }
+}
 
-  navtoggle = () => {
-    this.setState({
-      navisOpen: !this.state.navisOpen
-    });
-  }
-
-  componentDidMount(){
+  componentDidMount(){    
     //  Add store listeners ... and notify ME of changes
-    this.settingsListener = SettingsStore.addListener(this._onChange);
-  }
+    this.navListener = NavStore.addListener(this._navChange);        
+  } 
 
   componentWillUnmount() {
       //  Remove store listeners
-      this.settingsListener.remove();
+      this.navListener.remove();        
   }
 
   render() {
+    const { classes } = this.props;
 
     return (
-      <nav className="navbar navbar-expand-sm navbar-light bg-light d-print-none">
-        <NavbarBrand href="#/">InfluxDB UI</NavbarBrand>
-        <NavbarToggler onClick={this.navtoggle} />
-        <Collapse isOpen={this.state.navisOpen} navbar>
-          <Nav navbar>
-            <NavServerList servers={this.state.Servers} currentserver={this.state.CurrentServer} />
-            <NavDatabaseList databases={this.state.DatabaseList} currentdatabase={this.state.CurrentDatabase} />
-          </Nav>
-          <Nav className="ml-auto" navbar>
-            <NavItem>
-              <NavLink href="#/">Query</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="#/history">Recent requests</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="#/settings">Settings</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="https://docs.influxdata.com/influxdb/">Docs</NavLink>
-            </NavItem>
-          </Nav>
-        </Collapse>
-      </nav>
+      <React.Fragment>
+
+        <AppBar position="relative">
+          <Toolbar>
+            <ReceiptIcon className={classes.icon} />
+            <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+              <Link href={this.state.AppLink} className={classes.mainicon}>
+                InfluxDB UI
+              </Link>              
+            </Typography>
+            <Button className={classes.navbutton} href={this.state.AppLink}>
+              Query
+            </Button>
+            <Button className={classes.navbutton} href="/#/history/">
+              History
+            </Button>
+            <Button className={classes.navbutton} href="/#/settings/">
+              Settings
+            </Button>
+            <Button className={classes.navbutton} href="https://docs.influxdata.com/influxdb/">
+              Docs
+            </Button>
+          </Toolbar>
+        </AppBar>
+          
+      </React.Fragment>
     );
   }
 
-  //  Data changed:
-  _onChange = () => {
+  //  Nav changed:
+  _navChange = () => {    
     this.setState({
-      Servers: SettingsStore.getServerList() || [],
-      DatabaseList: SettingsStore.getDatabaseList() || [],
-      CurrentServer: SettingsStore.getCurrentServer() || "",
-      CurrentDatabase: SettingsStore.getCurrentDatabase() || "",
+        AppLink: NavStore.getQueryLocation(),                          
     });
-  }
+}
 
 }
 
-//  NavServerList Displays the server list dropdown in the NavBar
-class NavServerList extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      serverdropdownisOpen: false,
-      databasedropdownisOpen: false,
-    };
-  }
-
-  render() {
-    //  If we don't have a list of servers, don't return anything:
-    if(this.props.servers.length <= 1) {
-      return null;
-    }
-
-    let currentServer = this.props.currentserver.name;
-
-    return (
-      <Dropdown isOpen={this.state.serverdropdownisOpen} toggle={this.serverdropdowntoggle}>
-        <DropdownToggle nav caret>
-          Server: {currentServer}
-        </DropdownToggle>
-        <DropdownMenu>
-          {this.props.servers.map(function(server, index) {
-              return <DropdownItem key={index} onClick={this.itemclick}>{server.name}</DropdownItem>;
-          }, this)}
-        </DropdownMenu>
-      </Dropdown>
-    );
-  }
-
-  serverdropdowntoggle = () => {
-    this.setState({
-      serverdropdownisOpen: !this.state.serverdropdownisOpen
-    });
-  }
-
-  itemclick = (e) => {
-    SettingsAPI.setCurrentServer(e.target.innerText);
-
-    //  Get the current server:
-    let currentServer = SettingsStore.getCurrentServer();
-    console.log(currentServer);
-
-    //  Reset the database list:
-    InfluxAPI.getDatabaseList(currentServer.url, currentServer.username, currentServer.password);
-  }
-}
-
-//  NavDatabaseList Displays the database list dropdown in the NavBar
-class NavDatabaseList extends Component {
-
-    constructor(props) {
-      super(props);
-
-      this.state = {
-        databasedropdownisOpen: false
-      };
-    }
-
-    render() {
-      //  If we don't have a list of databases, don't return anything:
-      if(this.props.databases.length <= 1) {
-        return null;
-      }
-
-      let currentDatabase = this.props.currentdatabase;
-
-      return (
-        <Dropdown isOpen={this.state.databasedropdownisOpen} toggle={this.dbdropdowntoggle}>
-          <DropdownToggle nav caret>
-            Database: {currentDatabase}
-          </DropdownToggle>
-          <DropdownMenu>
-            {this.props.databases.map(function(database, index) {
-                return <DropdownItem key={index} onClick={this.itemclick}>{database}</DropdownItem>;
-            }, this)}
-          </DropdownMenu>
-        </Dropdown>
-      );
-    }
-
-    dbdropdowntoggle = () => {
-      this.setState({
-        databasedropdownisOpen: !this.state.databasedropdownisOpen
-      });
-    }
-
-    itemclick = (e) => {
-      SettingsAPI.setCurrentDatabase(e.target.innerText);
-    }
-  }
-
-export default NavBar;
+export default withStyles(styles)(NavBar);

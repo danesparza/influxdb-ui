@@ -8,13 +8,16 @@ class HistoryAPI {
     }
 
     // Saves the request in the history store
-    rememberRequest(query) {
+    rememberRequest(url, server, database, expression) {
         let history = this.getRecentRequests() || [];
         const requestId = new Date().getTime().toString(16);
 
         history.unshift({
-            id: requestId,
-            query,
+            id: requestId,            
+            url,
+            server,
+            database,
+            expression,
         });
 
         if (history.length >= HistoryAPI.historySize) {

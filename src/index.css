@@ -1,3 +1,49 @@
+html, body, #root, main {
+  height: 100%;
+  margin: 0;
+}
+
+#root, main {
+  height: calc(100% - 64px);
+}
+
 body {
-  background-color: #eee !important;
+  background-color: #eee !important;  
+  position: relative;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+#queryservers {
+  height: 42px;
+  display: flex;
+  align-items: center;
+}
+
+#queryinputpaper{
+  margin-top: 15px;
+  padding: 15px;
+}
+
+#queryinput {
+  height: 42px;
+  display: flex;
+  align-items: center;
+}
+
+#queryresults {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.queryresultrow {
 }

@@ -1,10 +1,39 @@
 import React, {Component} from "react";
 
+//  Material-UI
+import { withStyles } from '@material-ui/core/styles';
+import {
+  CssBaseline,
+  Paper
+} from '@material-ui/core';
+
 import Navbar from "./NavBar";
 
-import HistoryAPI from "../utils/HistoryAPI"
-import QueryActions from "../actions/QueryActions";
-import SettingsStore from "../stores/SettingsStore";
+import HistoryAPI from "../utils/HistoryAPI";
+
+const styles = theme => ({
+    root: {
+      width: '100%',
+      marginTop: theme.spacing(3),
+      padding: theme.spacing(3),
+      overflowX: 'auto',
+    },
+    row: {
+      height: '42px',
+      display: 'flex',
+      alignItems: 'center',
+      marginTop: theme.spacing(1)
+    },
+    table: {
+      minWidth: 650,
+    },
+    spacer: {
+      flexGrow: 1
+    },
+    button: {
+      margin: theme.spacing(1),
+    },
+  });
 
 class History extends Component {
     constructor(props) {
@@ -12,48 +41,43 @@ class History extends Component {
 
         this.state = {
             history: HistoryAPI.getRecentRequests(),
-            server: SettingsStore.getCurrentServer(),
-            database: SettingsStore.getCurrentDatabase(),
         };
-
-        this.makeOnClickHandler = this.makeOnClickHandler.bind(this);
-    }
-
-    makeOnClickHandler(query) {
-        return function () {
-            //  Set the request
-            QueryActions.receiveQueryRequest(query, this.state.serverurl, this.state.database);
-        }.bind(this)
     }
 
     render() {
-        const makeOnClickHandler = this.makeOnClickHandler;
+        const { classes } = this.props;
+        
+        //  Make sure we're showing items from history 2.0 (we switched to using several fields, including url):
+        let historyitems = this.state.history.filter(item => item.hasOwnProperty('url'));
 
         return (
-            <div>
-                <Navbar {...this.props} />
+            <React.Fragment>
+                <CssBaseline />
+                
+                <Navbar />
 
-                <div className="container">
+                <main style={{ padding: 20}}>      
 
-                    <div className="col">
-                        <p className="lead text-muted settings-header">History</p>
+                <div className="classes.row">
+                        <h2>History</h2>
 
-                        <div className="rounded history-list">
-                            {this.state.history.length > 0
-                                ? this.state.history.map(function ({id, query}) {
+                        <Paper className={classes.root}>
+                            {historyitems.length > 0
+                                ? historyitems.map(function ({id, url, server, database, expression }) {
                                     return <p key={id} className="recent-request">
-                                        <a className="link" href="#/" onClick={makeOnClickHandler(query)}>{query}</a>
+                                        <a href={url}><b>{server.name} / {database}</b> - {expression}</a>
                                     </p>
                                 })
                                 : <p className="recent-request">
                                     No requests yet
-                                </p>}
-                        </div>
+                                  </p>}
+                        </Paper>
+
                     </div>
-                </div>
-            </div>
+                </main>
+            </React.Fragment>  
         )
     }
 }
 
-export default History;
+export default withStyles(styles)(History);

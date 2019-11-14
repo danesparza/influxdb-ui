@@ -48,6 +48,7 @@ class QueryDataStore extends Store {
 
     switch (action.actionType) {
       case ActionTypes.RECEIVE_QUERY_RESULTS:
+        console.log("Query store event: Receive results");
         
         //  Reset the internal state:
         this.error = null;
@@ -81,7 +82,7 @@ class QueryDataStore extends Store {
         break;
 
       case ActionTypes.RECEIVE_QUERY_REQUEST:
-        console.log(action);
+        console.log("Query store store event: ", action);
         
         this.request = action.queryrequest;
 
