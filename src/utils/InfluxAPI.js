@@ -1,3 +1,5 @@
+import humanizeDuration from 'humanize-duration';
+
 //  Actions
 import QueryActions from '../actions/QueryActions';
 import SettingsActions from '../actions/SettingsActions';
@@ -5,13 +7,15 @@ import SettingsActions from '../actions/SettingsActions';
 class InfluxAPI {
     
         // Executes a query and gets the results
-        getQueryResults(serverurl,username, password, database, query){
+        getQueryResults(serverurl,username, password, database, query){            
 
             if(serverurl === "" || database === "")
             {
                 console.log("Can't execute query: server or database is blank"); 
                 return Promise.resolve();
             }
+
+            let startTime, endTime;
 
             //  Set the request
             QueryActions.receiveQueryRequest(query, serverurl, database);
@@ -26,6 +30,8 @@ class InfluxAPI {
             if (username !== undefined && username !== "" && password !== undefined && username !== "") {
                 headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
             }
+            
+            startTime = new Date();
 
             return fetch(url,
             {
@@ -38,8 +44,11 @@ class InfluxAPI {
                     return response.json();
                 })
                 .then(function (data) {
+                    endTime = new Date();
+                    let  timeDiff = endTime - startTime; //in ms
+                    
                     //  Pass data to the action
-                    QueryActions.receiveQueryResults(data);
+                    QueryActions.receiveQueryResults(data, humanizeDuration(timeDiff));
                 });
         }
 

@@ -71,7 +71,7 @@ class QuerySeries extends Component {
     return (
         <React.Fragment>
             <h2 className={classes.resultHeading}>{seriesName} </h2>            
-            <div className={classes.resultMeta}> {datarows.length} results</div>
+            <div className={classes.resultMeta}> {datarows.length} results in 2.3s</div>
 
             <MuiVirtualizedTable 
                 rowCount={datarows.length}

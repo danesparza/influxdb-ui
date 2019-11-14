@@ -14,10 +14,11 @@ class QueryActions {
 	}
 
 	//	Updates the query store with the given results
-	receiveQueryResults(results) {
+	receiveQueryResults(results, elapsedtime) {
 		AppDispatcher.dispatch({
 		  actionType: ActionTypes.RECEIVE_QUERY_RESULTS,
-		  queryresults: results
+		  queryresults: results,
+		  elapsedtime: elapsedtime
 		});
 	}
 

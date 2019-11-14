@@ -16,6 +16,9 @@ class QueryDataStore extends Store {
 
     //  The query request
     this.request = "";
+
+    //  The elapsed time (formatted)
+    this.queryElapsedTime = "";
   }
 
   //  Get the query request
@@ -33,6 +36,11 @@ class QueryDataStore extends Store {
     return this.error;
   }
 
+  //  Get the elapsed time
+  getQueryElapsedTime() {
+    return this.queryElapsedTime;
+  }
+
   //  Return 'true' if there is an error:
   hasError() {
     let retval = false;
@@ -48,7 +56,7 @@ class QueryDataStore extends Store {
 
     switch (action.actionType) {
       case ActionTypes.RECEIVE_QUERY_RESULTS:
-        console.log("Query store event: Receive results");
+        console.log("Query store event: Received results in " + action.elapsedtime);
         
         //  Reset the internal state:
         this.error = null;
@@ -74,7 +82,11 @@ class QueryDataStore extends Store {
               //  Normal results will be set to results
               this.results = action.queryresults.results;
             }
-          }          
+          }
+
+          //  Set the formatted elapsed time:
+          this.queryElapsedTime = action.elapsedtime;
+
         } catch(e){/* No op */}
 
 
