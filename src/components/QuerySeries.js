@@ -11,8 +11,13 @@ import MuiVirtualizedTable from './MuiVirtualizedTable';
 const styles = theme => ({
     resultHeading: {
        paddingTop: 5,
-       paddingBottom: 5,
        paddingLeft: 15,
+       marginBottom: 0,
+    },
+    resultMeta: {
+        paddingLeft: 15,
+        paddingBottom: 5,
+        color: "silver",
     }
 });
 
@@ -65,8 +70,9 @@ class QuerySeries extends Component {
     //  Display series information:
     return (
         <React.Fragment>
-            <h2 className={classes.resultHeading}>{seriesName}</h2>
-            
+            <h2 className={classes.resultHeading}>{seriesName} </h2>            
+            <div className={classes.resultMeta}> {datarows.length} results</div>
+
             <MuiVirtualizedTable 
                 rowCount={datarows.length}
                 rowGetter={({ index }) => datarows[index]}
