@@ -12,11 +12,13 @@ class QueryResultList extends Component {
         return null;
     }
 
+    let resulttime = this.props.resulttime;
+
     //  Otherwise, loop through our results and show them:
     return (
         <React.Fragment>
             {this.props.results.map(function(resultItem) {
-                return <QuerySeriesList key={resultItem.statement_id} serieslist={resultItem.series}/>;
+                return <QuerySeriesList key={resultItem.statement_id} serieslist={resultItem.series} resulttime={resulttime}/>;
             })}
         </React.Fragment>
     );

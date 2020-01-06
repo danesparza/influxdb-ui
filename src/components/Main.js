@@ -61,6 +61,7 @@ class Main extends Component {
       queryText: props.currentExpression || "",
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
+      QueryTime: QueryDataStore.getQueryElapsedTime(),
       QueryError: QueryDataStore.getQueryError(),      
     };
   }
@@ -167,7 +168,7 @@ class Main extends Component {
             
           <div id="queryresults">
             <QueryErrorDisplay haserror={this.state.QueryHasError} error={this.state.QueryError} />
-            <QueryResultList results={this.state.QueryResults} />
+            <QueryResultList results={this.state.QueryResults} resulttime={this.state.QueryTime} />
           </div>
 
         </main>        
@@ -404,6 +405,7 @@ class Main extends Component {
     this.setState({
       QueryHasError: false,
       QueryResults: QueryDataStore.getQueryResults(),
+      QueryTime: QueryDataStore.getQueryElapsedTime(),
       QueryError: QueryDataStore.getQueryError(),          
     });
   }

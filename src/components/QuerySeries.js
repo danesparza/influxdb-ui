@@ -28,6 +28,7 @@ class QuerySeries extends Component {
     const { classes} = this.props;
 
     let seriesName = this.props.series.name;
+    let elapsedTime = this.props.resulttime;
 
     //  Set column information if we have it:
     let columns = this.props.series.columns;
@@ -71,7 +72,7 @@ class QuerySeries extends Component {
     return (
         <React.Fragment>
             <h2 className={classes.resultHeading}>{seriesName} </h2>            
-            <div className={classes.resultMeta}> {datarows.length} results in 2.3s</div>
+            <div className={classes.resultMeta}> {datarows.length} results in {elapsedTime}</div>
 
             <MuiVirtualizedTable 
                 rowCount={datarows.length}
