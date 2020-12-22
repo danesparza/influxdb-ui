@@ -39,7 +39,7 @@ class DatabaseSelector extends Component {
 
         //  Look up the current server:
         let selectedServer =  SettingsStore.getServer(currentServer);
-        let serverDatabases = selectedServer.databases || [];
+        let serverDatabases = selectedServer && selectedServer.databases || [];
 
         //  If we have no databases, display a message and give the ability to refresh
         if(serverDatabases.length < 1)
@@ -93,7 +93,10 @@ class DatabaseSelector extends Component {
         let selectedServer =  SettingsStore.getServer(currentServer);
         
         console.log("Database selector refreshing database list for: ", currentServer);
-        InfluxAPI.getDatabaseList(selectedServer.url, selectedServer.username, selectedServer.password);
+
+        if (selectedServer) {
+          InfluxAPI.getDatabaseList(selectedServer.url, selectedServer.username, selectedServer.password);
+        }
         
     }
 }
