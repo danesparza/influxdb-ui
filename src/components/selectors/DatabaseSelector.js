@@ -39,7 +39,7 @@ class DatabaseSelector extends Component {
 
         //  Look up the current server:
         let selectedServer =  SettingsStore.getServer(currentServer);
-        let serverDatabases = selectedServer && selectedServer.databases || [];
+        let serverDatabases = selectedServer.databases || [];
 
         //  If we have no databases, display a message and give the ability to refresh
         if(serverDatabases.length < 1)
