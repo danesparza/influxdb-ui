@@ -52,7 +52,7 @@ class QueryContainer extends Component {
 
     ensureDatabasesHaveBeenLoaded = (forServer) => {        
         //  - Start fetching the databases for the given server if we don't have a list:
-        if(forServer.databases.length < 1){            
+        if(forServer && forServer.databases.length < 1){
             console.log("QueryContainer refreshing database list.  Missing databases for: ", forServer.url);
             InfluxAPI.getDatabaseList(forServer.url, forServer.username, forServer.password);
         }
