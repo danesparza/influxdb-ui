@@ -7,12 +7,6 @@ Built entirely in [React](https://reactjs.org/)/[Flux](https://facebook.github.i
 
 ![Screenshot of influxui](influxui-screenshot.png?raw=true)
 
-## Just let me use it already
-
-The latest version of the app is [hosted on S3](http://influxui.s3-website-us-east-1.amazonaws.com/#/).  Don't worry.  We don't store any of your data on a remote server (and you can look at the source to verify).  Your server connections are stored in your browser as cookies/localstorage data.  
-
-Need SSL/TLS connections to your data?  Install it locally on a secure origin.
-
 ## Installing locally
 
 Just grab the [latest release](https://github.com/danesparza/influxdb-ui/releases/latest) and unzip to the webserver of your choice (or just upload to an S3 bucket and turn on [static website hosting](http://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html)).
